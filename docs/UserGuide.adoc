@@ -214,73 +214,6 @@ The `redo` command fails as there are no `undo` commands executed previously.
 `redo` (reapplies the `clear` command) +
 // end::undoredo[]
 
-=== Edit an activity: `activityEdit`
-Edits an existing activity in the activity list
-Format: `activityEdit ACTIVITY_INDEX [n/ACTIVITY_NAME] [d/DATE] [t/TAG] … `
-
-****
-* Edits the activity at the specified `ACTIVITY_INDEX` which refers to the index number shown in the displayed activity list.
-* The index *must be a positive integer* 1, 2, 3, ...
-* At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* When editing tags, the existing tags of the activity will be removed i.e adding of tags is not cumulative.
-* You can remove all the activity’s tags by typing `t/` without specifying any tags after it.
-
-****
-Examples:
-
-* `activityEdit 1 d/13022019` +
-Edits the date of the first activity to be 13 Feb 2019.
-* `activityEdit 2 t/` +
-Clears all existing tags of the second activity.
-
-=== Sort all activities by date `activitySort`
-Sorts all activities in the activity list according to the event date.
-Format: `activitySort`
-
-=== Add a member to activity `activityAddMember`
-Adds an existing member to an existing activity to indicate that they will be going for the activity.
-Format: `activityAddMember ACTIVITY_INDEX MATRIC_NO`
-
-****
-* Adds a member to the activity at the specified `ACTIVITY_INDEX` which refers to the index number shown in the displayed activity list.
-* The index *must be a positive integer* 1, 2, 3, ...
-* MATRIC_NO must be a currently existing entry in any existing member’s MATRIC_NO information column in the member list.
-****
-Examples:
-
-* `activityAddMember 1 A1234567N` +
-Adds the member with matric number `A1234567N` to the attending list for activity 1.
-
-=== Delete a member from activity `activityDeleteMember`
-Removes an existing member who has already indicated that he/she will be attending the activity from the attending list of the activity.
-Format: `activityDeleteMember ACTIVITY_INDEX MATRIC_NO`
-
-****
-* Removes a member from the attending list of the activity at the specified `ACTIVITY_INDEX` which refers to the index number shown in the displayed activity list.
-* The index *must be a positive integer* 1, 2, 3, ...
-* MATRIC_NO must be a currently existing entry in the specified activity’s attending list.
-****
-Examples:
-
-* `activityDeleteMember 1 A1234567N` +
-Removes the member with matric number A1234567N from activity 1’s attending list.
-
-
-=== Delete an activity `activityDelete`
-Deletes an existing activity in the activity list
-Format: `activityDelete ACTIVITY_INDEX`
-
-****
-* Deletes the activity at the specified `ACTIVITY_INDEX` which refers to the index number shown in the displayed activity list.
-* The index *must be a positive integer* 1, 2, 3, ...
-****
-
-Examples:
-
-* `activityDelete 1` +
-Deletes the first activity in the displayed activity list
-
 === Clearing all entries : `clear`
 
 Clears all entries from the address book. +
@@ -325,12 +258,3 @@ e.g.`select 2`
 * *History* : `history`
 * *Undo* : `undo`
 * *Redo* : `redo`
-* *Edit an activity* : `activityEdit ACTIVITY_INDEX [n/ACTIVITY_NAME] [d/DATE] [t/TAG] … ` +
-e.g. `activityEdit 1 d/13022019`
-* *Sort all activities by date* : `activitySort`
-* *Add a member to activity* : `activityAddMember ACTIVITY_INDEX MATRIC_NO` +
-e.g. `activityAddMember 1 A1234567N`
-* *Delete a member from activity* : `activityDeleteMember ACTIVITY_INDEX MATRIC_NO` +
-e.g. `activityDeleteMember 1 A1234567N`
-* *Delete an activity* : ``activityDelete ACTIVITY_INDEX`` +
-e.g. `activityDelete 1`
