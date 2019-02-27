@@ -20,7 +20,7 @@ import seedu.address.logic.commands.UndoCommand;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
 
-public class MemberDeleteCommandTest extends AddressBookSystemTest {
+public class MemberDeleteCommandSystemTest extends AddressBookSystemTest {
 
     private static final String MESSAGE_INVALID_DELETE_COMMAND_FORMAT =
             String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, MemberDeleteCommand.MESSAGE_USAGE);
