@@ -9,6 +9,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.exceptions.InvalidCommandModeException;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -102,7 +103,7 @@ public class CommandBox extends UiPart<Region> {
             initHistory();
             historySnapshot.next();
             commandTextField.setText("");
-        } catch (CommandException | ParseException e) {
+        } catch (CommandException | InvalidCommandModeException | ParseException e) {
             initHistory();
             setStyleToIndicateCommandFailure();
         }
@@ -148,7 +149,7 @@ public class CommandBox extends UiPart<Region> {
          *
          * @see seedu.address.logic.Logic#execute(String)
          */
-        CommandResult execute(String commandText) throws CommandException, ParseException;
+        CommandResult execute(String commandText) throws CommandException, ParseException, InvalidCommandModeException;
     }
 
 }
