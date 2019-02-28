@@ -29,6 +29,8 @@ public class ModelManager implements Model {
     private final FilteredList<Person> filteredPersons;
     private final SimpleObjectProperty<Person> selectedPerson = new SimpleObjectProperty<>();
 
+    private int mode;
+
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
@@ -37,7 +39,7 @@ public class ModelManager implements Model {
         requireAllNonNull(addressBook, userPrefs);
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
-
+        this.setMode(0);
         versionedAddressBook = new VersionedAddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(versionedAddressBook.getPersonList());
@@ -59,6 +61,16 @@ public class ModelManager implements Model {
     @Override
     public ReadOnlyUserPrefs getUserPrefs() {
         return userPrefs;
+    }
+
+    @Override
+    public int getMode() {
+        return this.mode;
+    }
+
+    @Override
+    public void setMode(int mode) {
+        this.mode = mode;
     }
 
     @Override

@@ -26,6 +26,16 @@ public interface Model {
     ReadOnlyUserPrefs getUserPrefs();
 
     /**
+     * Returns the mode of the app
+     */
+    int getMode();
+
+    /**
+     * Set the mode of the app
+     */
+    void setMode(int mode);
+
+    /**
      * Returns the user prefs' GUI settings.
      */
     GuiSettings getGuiSettings();
