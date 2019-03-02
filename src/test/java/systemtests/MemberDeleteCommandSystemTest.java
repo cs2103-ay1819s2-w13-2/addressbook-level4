@@ -127,7 +127,7 @@ public class MemberDeleteCommandSystemTest extends AddressBookSystemTest {
     /**
      * Deletes the person at {@code toDelete} by creating a default {@code MemberDeleteCommand} using {@code toDelete}
      * and performs the same verification as {@code assertCommandSuccess(String, Model, String)}.
-     * @see DeleteCommandSystemTest#assertCommandSuccess(String, Model, String)
+     * @see MemberDeleteCommandSystemTest#assertCommandSuccess(String, Model, String)
      */
     private void assertCommandSuccess(Index toDelete) {
         Model expectedModel = getModel();

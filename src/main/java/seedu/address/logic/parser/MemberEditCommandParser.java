@@ -22,7 +22,7 @@ import seedu.address.model.tag.Tag;
 /**
  * Parses input arguments and creates a new MemberEditCommand object
  */
-public class EditCommandParser implements Parser<MemberEditCommand> {
+public class MemberEditCommandParser implements Parser<MemberEditCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the MemberEditCommand
@@ -39,7 +39,8 @@ public class EditCommandParser implements Parser<MemberEditCommand> {
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
         } catch (ParseException pe) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MemberEditCommand.MESSAGE_USAGE), pe);
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    MemberEditCommand.MESSAGE_USAGE), pe);
         }
 
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
