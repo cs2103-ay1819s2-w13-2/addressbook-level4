@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
@@ -16,6 +17,7 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.Model;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -29,6 +31,7 @@ public class MainWindow extends UiPart<Stage> {
 
     private Stage primaryStage;
     private Logic logic;
+    private Model model;
 
     // Independent Ui parts residing in this Ui container
     private BrowserPanel browserPanel;
@@ -54,12 +57,16 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     private StackPane statusbarPlaceholder;
 
-    public MainWindow(Stage primaryStage, Logic logic) {
+    @FXML
+    private TextArea areaPlaceholder;
+
+    public MainWindow(Stage primaryStage, Logic logic, Model model) {
         super(FXML, primaryStage);
 
         // Set dependencies
         this.primaryStage = primaryStage;
         this.logic = logic;
+        this.model = model;
 
         // Configure the UI
         setWindowDefaultSize(logic.getGuiSettings());
@@ -126,7 +133,25 @@ public class MainWindow extends UiPart<Stage> {
 
         CommandBox commandBox = new CommandBox(this::executeCommand, logic.getHistory());
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+
+        TextArea area111Placeholder = new TextArea("111");
+        TextArea area222Placeholder = new TextArea("222");
+
+        this.setAreaPlaceholder(logic.getModel());
+
     }
+
+    public void setAreaPlaceholder(Model model) {
+        System.out.println("UI Set Area Placeholder Triggered, mode is " + model.getMode());
+        TextArea area111Placeholder = new TextArea("111");
+        TextArea area222Placeholder = new TextArea("222");
+        if(model.getMode() == 0){
+            this.areaPlaceholder.setText(area111Placeholder.getText());
+        }else{
+            this.areaPlaceholder.setText(area222Placeholder.getText());
+        }
+    }
+
 
     /**
      * Sets the default size based on {@code guiSettings}.
@@ -182,6 +207,15 @@ public class MainWindow extends UiPart<Stage> {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
+
+            // maybe can use boolean
+            if(model.getMode() == 0){
+                System.out.println("in mainwindow.executecommand, mode " + model.getMode());
+                this.setAreaPlaceholder(model);
+            }else{
+                System.out.println("in mainwindow.executecommand, mode " + model.getMode());
+                this.setAreaPlaceholder(model);
+            }
 
             if (commandResult.isShowHelp()) {
                 handleHelp();

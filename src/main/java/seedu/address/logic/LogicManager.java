@@ -105,4 +105,9 @@ public class LogicManager implements Logic {
     public void setSelectedPerson(Person person) {
         model.setSelectedPerson(person);
     }
+
+    @Override
+    public Model getModel(){
+        return model;
+    }
 }
