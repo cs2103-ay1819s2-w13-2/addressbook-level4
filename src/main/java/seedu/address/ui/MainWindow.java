@@ -60,6 +60,8 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     private TextArea areaPlaceholder;
 
+    private DemoListPanel demoListPanel;
+
     public MainWindow(Stage primaryStage, Logic logic, Model model) {
         super(FXML, primaryStage);
 
@@ -123,7 +125,9 @@ public class MainWindow extends UiPart<Stage> {
 
         personListPanel = new PersonListPanel(logic.getFilteredPersonList(), logic.selectedPersonProperty(),
                 logic::setSelectedPerson);
-        personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
+        demoListPanel = new DemoListPanel();
+        personListPanelPlaceholder.getChildren().add(demoListPanel.getRoot());
+        //personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
@@ -137,7 +141,7 @@ public class MainWindow extends UiPart<Stage> {
         TextArea area111Placeholder = new TextArea("111");
         TextArea area222Placeholder = new TextArea("222");
 
-        this.setAreaPlaceholder(logic.getModel());
+        //this.setAreaPlaceholder(logic.getModel());
 
     }
 
@@ -147,8 +151,16 @@ public class MainWindow extends UiPart<Stage> {
         TextArea area222Placeholder = new TextArea("222");
         if(model.getMode() == 0){
             this.areaPlaceholder.setText(area111Placeholder.getText());
+            //personListPanelPlaceholder.getChildren().removeAll(demoListPanel.getRoot());
+            //personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
+            personListPanelPlaceholder.getChildren().removeAll(personListPanel.getRoot());
+            personListPanelPlaceholder.getChildren().add(demoListPanel.getRoot());
         }else{
             this.areaPlaceholder.setText(area222Placeholder.getText());
+            //personListPanelPlaceholder.getChildren().removeAll(personListPanel.getRoot());
+            //personListPanelPlaceholder.getChildren().add(demoListPanel.getRoot());
+            personListPanelPlaceholder.getChildren().removeAll(demoListPanel.getRoot());
+            personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
         }
     }
 
