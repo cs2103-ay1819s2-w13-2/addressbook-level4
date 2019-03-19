@@ -1,4 +1,4 @@
-package seedu.address.logic.exportUtil;
+package seedu.address.logic.exportutil;
 
 import java.io.File;
 import java.io.FileWriter;
