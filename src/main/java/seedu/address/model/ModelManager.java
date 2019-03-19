@@ -176,6 +176,15 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public Person generateExportedPerson(Person person) {
+        if (person != null && !filteredPersons.contains(person)) {
+            throw new PersonNotFoundException();
+        }
+        setSelectedPerson(person);
+        return selectedPerson.get(); // this function returns a person
+    }
+
+    @Override
     public void setSelectedPerson(Person person) {
         if (person != null && !filteredPersons.contains(person)) {
             throw new PersonNotFoundException();
