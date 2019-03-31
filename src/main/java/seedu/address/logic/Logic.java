@@ -90,4 +90,21 @@ public interface Logic {
      * @see seedu.address.model.Model#setSelectedActivity(Activity)
      */
     void setSelectedActivity(Activity activity);
+
+    /**
+     * Reset all lists.
+     */
+    void callAllListFn();
+
+    /**
+     * Check if current mode is Member
+     * Assuming mode has changed
+     */
+    boolean modeHasChange_isCurrModeMember();
+
+    /**
+     * Check if current mode is Activity
+     * Assuming mode has changed
+     */
+    boolean modeHasChange_isCurrModeActivity();
 }

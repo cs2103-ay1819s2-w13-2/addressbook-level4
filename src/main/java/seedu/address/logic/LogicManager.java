@@ -134,4 +134,19 @@ public class LogicManager implements Logic {
     public void setSelectedActivity(Activity activity) {
         model.setSelectedActivity(activity);
     }
+
+    @Override
+    public void callAllListFn() {
+        model.resetLists();
+    }
+
+    @Override
+    public boolean modeHasChange_isCurrModeMember() {
+        return model.addressBookModeIsMember();
+    }
+
+    @Override
+    public boolean modeHasChange_isCurrModeActivity() {
+        return model.addressBookModeIsActivity();
+    }
 }

@@ -35,6 +35,8 @@ public class ActivityCard extends UiPart<Region> {
     private Label alocation;
     @FXML
     private Label description;
+    @FXML
+    private Label status;
 
     public ActivityCard(Activity activity, int displayedIndex) {
         super(FXML);
@@ -44,6 +46,7 @@ public class ActivityCard extends UiPart<Region> {
         time.setText(activity.getDateTime().fullDateTime);
         alocation.setText(activity.getLocation().value);
         description.setText(activity.getDescription().value);
+        status.setText(activity.getStatus().status.name());
     }
 
 }

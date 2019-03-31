@@ -6,6 +6,11 @@ import java.util.stream.Collectors;
 
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.activity.Activity;
+import seedu.address.model.activity.ActivityDateTime;
+import seedu.address.model.activity.ActivityDescription;
+import seedu.address.model.activity.ActivityLocation;
+import seedu.address.model.activity.ActivityName;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Gender;
@@ -49,10 +54,26 @@ public class SampleDataUtil {
         };
     }
 
+    public static Activity[] getSampleActivities() {
+        return new Activity[] {
+            new Activity(new ActivityName("CS2103 Help Session"), new ActivityDateTime("10/02/2019 1400"),
+                new ActivityLocation("Com1 02-06"), new ActivityDescription("Bring Laptop")),
+            new Activity(new ActivityName("Club Annual Meeting"), new ActivityDateTime("11/02/2019 1600"),
+                new ActivityLocation("Computer Club Room"), new ActivityDescription("Summary of past year activities")),
+            new Activity(new ActivityName("Avenger Movie Viewing"), new ActivityDateTime("10/05/2019 2000"),
+                new ActivityLocation("Cathay cinema"), new ActivityDescription("12 dollar per pax")),
+            new Activity(new ActivityName("Summer Hackerthon"), new ActivityDateTime("06/06/2019 0900"),
+                new ActivityLocation("Icube Auditorium"), new ActivityDescription())
+        };
+    }
+
     public static ReadOnlyAddressBook getSampleAddressBook() {
         AddressBook sampleAb = new AddressBook();
         for (Person samplePerson : getSamplePersons()) {
             sampleAb.addPerson(samplePerson);
+        }
+        for (Activity sampleActivity : getSampleActivities()) {
+            sampleAb.addActivity(sampleActivity);
         }
         return sampleAb;
     }

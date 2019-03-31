@@ -29,6 +29,7 @@
             <Label fx:id="time" styleClass="cell_small_label" text="\$time" />
             <Label fx:id="alocation" styleClass="cell_small_label" text="\$location" />
             <Label fx:id="description" styleClass="cell_small_label" text="\$description" />
+            <Label fx:id="status" styleClass="cell_small_label" text="\$status" />
         </VBox>
     </GridPane>
 </HBox>

@@ -185,6 +185,11 @@ public class ModelManager implements Model {
         versionedAddressBook.sortAddressBook(predicate);
     }
 
+    @Override
+    public void updateActivityList() {
+        versionedAddressBook.updateActivities();
+    }
+
     //=========== Filtered Person List Accessors =============================================================
 
     /**
@@ -227,6 +232,12 @@ public class ModelManager implements Model {
     @Override
     public void commitAddressBook() {
         versionedAddressBook.commit();
+    }
+
+    @Override
+    public void resetLists() {
+        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        updateFilteredActivityList(PREDICATE_SHOW_ALL_ACTIVITIES);
     }
 
     //=========== Selected person ===========================================================================
@@ -301,6 +312,7 @@ public class ModelManager implements Model {
     @Override
     public void updateFilteredActivityList(Predicate<Activity> predicate) {
         requireNonNull(predicate);
+        updateActivityList();
         filteredActivities.setPredicate(predicate);
     }
 

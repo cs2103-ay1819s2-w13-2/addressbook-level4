@@ -5,24 +5,26 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 import seedu.address.model.person.Person;
 
 
 /**
- * Represents an Acrivity in the address book.
+ * Represents an Activity in the address book.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
-public class Activity {
+public class Activity implements Comparable<Activity> {
     // Identity fields
     private final ActivityName name;
     private final ActivityDateTime dateTime;
     private final ActivityLocation location;
     private final ActivityDescription description;
+    private final ActivityStatus status;
 
     // Data fields
     private Person inCharge;
-    private final Map<Person, Boolean> attendance = new HashMap<>();
+    private Map<Person, Boolean> attendance = new HashMap<>();
 
     /**
      * Every field must be present and not null.
@@ -34,6 +36,7 @@ public class Activity {
         this.dateTime = dateTime;
         this.location = location;
         this.description = description;
+        this.status = setStatus(dateTime);
     }
 
     public Activity(ActivityName name, ActivityDateTime dateTime, ActivityLocation location) {
@@ -42,6 +45,19 @@ public class Activity {
         this.dateTime = dateTime;
         this.location = location;
         this.description = new ActivityDescription();
+        this.status = setStatus(dateTime);
+    }
+
+    public Activity(ActivityName name, ActivityDateTime dateTime, ActivityLocation location,
+        ActivityDescription description, Optional<Person> inCharge, Map<Person, Boolean> attendance) {
+        requireAllNonNull(name, dateTime, location, description);
+        this.name = name;
+        this.dateTime = dateTime;
+        this.location = location;
+        this.description = description;
+        this.status = setStatus(dateTime);
+        this.attendance = attendance;
+        inCharge.ifPresent(this::setInCharge);
     }
 
 
@@ -61,12 +77,20 @@ public class Activity {
         return description;
     }
 
-    public Person getInCharge() {
-        return inCharge;
+    public Optional<Person> getInCharge() {
+        return Optional.ofNullable(inCharge);
     }
 
     public Map<Person, Boolean> getAttendance() {
         return attendance;
+    }
+
+    public ActivityStatus getStatus() {
+        return status;
+    }
+
+    public ActivityStatus getCurrentStatus() {
+        return new ActivityStatus(ActivityDateTime.isPast(dateTime));
     }
 
     public void setInCharge(Person person) {
@@ -75,6 +99,13 @@ public class Activity {
 
     public int getNumberAttending() {
         return this.attendance.size();
+    }
+
+    /**
+     * Returns a activity status based on the ActivityDateTime input
+     */
+    private ActivityStatus setStatus(ActivityDateTime dateTime) {
+        return new ActivityStatus(ActivityDateTime.isPast(dateTime));
     }
 
     /**
@@ -90,6 +121,20 @@ public class Activity {
                 && otherActivity.getName().equals(getName())
                 && otherActivity.getDateTime().equals(getDateTime());
     }
+
+    /**
+     * Returns an updated activity with new Status
+     */
+    public Activity updateActivity() {
+        ActivityName name = this.getName();
+        ActivityDateTime dateTime = this.getDateTime();
+        ActivityLocation location = this.getLocation();
+        ActivityDescription description = this.getDescription();
+        Optional<Person> inCharge = this.getInCharge();
+        Map<Person, Boolean> attendance = this.getAttendance();
+        return new Activity(name, dateTime, location, description, inCharge, attendance);
+    }
+
 
     /**
      * Returns true if both persons have the same identity and data fields.
@@ -117,7 +162,7 @@ public class Activity {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, dateTime, inCharge, attendance);
+        return Objects.hash(name, dateTime, location, description, inCharge, attendance);
     }
 
     @Override
@@ -135,5 +180,19 @@ public class Activity {
                 .append(" Number Attending: ")
                 .append(getNumberAttending());
         return builder.toString();
+    }
+
+    @Override
+    public int compareTo(Activity other) {
+        //when both activity are ongoing or completed, compare by the time of the activity
+        if (this.getStatus().equals(other.getStatus())) {
+            return this.getDateTime().compareTo(other.getDateTime());
+        }
+        if (ActivityStatus.isCompleted(other.getStatus())) {
+            return -1;
+            //this activity is ongoing while the other is completed, this activity will come first in the list
+        }
+        return 1;
+        // this activity is completed while the other is ongoing, the other activity will come first in the list
     }
 }

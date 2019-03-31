@@ -328,7 +328,7 @@
     -fx-text-fill: white;
 }
 
-#filterField, #personListPanel, #personWebpage {
+#filterField, #personListPanel, #personWebpage, #activityListPanel {
     -fx-effect: innershadow(gaussian, black, 10, 0, 0, 0);
 }
 
@@ -349,4 +349,25 @@
     -fx-border-radius: 2;
     -fx-background-radius: 2;
     -fx-font-size: 11;
+}
+
+.topAnchorPaneContainer {
+    -fx-background-color: derive(#1d1d1d, 20%);
+}
+
+.labelMode {
+    -fx-background-color: #111111;
+    -fx-max-width: 150;
+    -fx-min-width: 150;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-padding: 0 0 0 20;
+}
+
+.labelMode-Member {
+    -fx-background-color: #00965E;
+}
+
+.labelMode-Activity {
+    -fx-background-color: #418FDE;
 }

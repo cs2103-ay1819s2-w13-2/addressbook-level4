@@ -3,6 +3,7 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import javafx.beans.InvalidationListener;
@@ -93,6 +94,19 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void setActivities(List<Activity> activities) {
         this.activities.setActivities(activities);
         indicateModified();
+    }
+
+    /**
+     * Update the status of the activities in the activity list
+     */
+    public void updateActivities() {
+        List<Activity> activityList = this.getActivityList();
+        for (Activity activity: activityList) {
+            if (!activity.getStatus().equals(activity.getCurrentStatus())) {
+                Activity updated = activity.updateActivity();
+                setActivity(activity, updated);
+            }
+        }
     }
 
     /**
@@ -193,7 +207,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     //// activity-level operations
 
     /**
-     * Returns true if a person with the same identity as {@code person} exists in the address book.
+     * Returns true if activity with the same identity as {@code activity} exists in the address book.
      */
     public boolean hasActivity(Activity activity) {
         requireNonNull(activity);
@@ -201,8 +215,8 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Adds a person to the address book.
-     * The person must not already exist in the address book.
+     * Adds an activity to the address book.
+     * The activity must not already exist in the address book.
      */
     public void addActivity(Activity a) {
         activities.add(a);
@@ -210,9 +224,10 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Replaces the given person {@code target} in the list with {@code editedPerson}.
+     * Replaces the given activity {@code target} in the list with {@code editedActivity}.
      * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
+     * The activity identity of {@code editedActivity} must not be the same as another existing activity in the
+     * address book.
      */
     public void setActivity(Activity target, Activity editedActivity) {
         requireNonNull(editedActivity);
@@ -258,11 +273,12 @@ public class AddressBook implements ReadOnlyAddressBook {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof AddressBook // instanceof handles nulls
-                && persons.equals(((AddressBook) other).persons));
+                && persons.equals(((AddressBook) other).persons)
+                && activities.equals(((AddressBook) other).activities));
     }
 
     @Override
     public int hashCode() {
-        return persons.hashCode();
+        return Objects.hash(persons, activities);
     }
 }

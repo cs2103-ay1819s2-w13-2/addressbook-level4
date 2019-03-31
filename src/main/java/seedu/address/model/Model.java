@@ -121,6 +121,11 @@ public interface Model {
     void updateFilteredPersonList(Predicate<Person> predicate);
 
     /**
+     * Updates the filter of the filtered person and activity list to NONE.
+     */
+    void resetLists();
+
+    /**
      * Returns true if the model has previous address book states to restore.
      */
     boolean canUndoAddressBook();
@@ -223,5 +228,10 @@ public interface Model {
      * Sets the selected person in the filtered person list.
      */
     void setSelectedActivity(Activity activity);
+
+    /**
+     * Update entire activity list
+     */
+    void updateActivityList();
 
 }

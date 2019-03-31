@@ -69,6 +69,14 @@ public class ActivityBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code ActivityDescription} of the {@code Activity} that we are building to the default value.
+     */
+    public ActivityBuilder withActivityDescription() {
+        this.description = new ActivityDescription();
+        return this;
+    }
+
     public Activity build() {
         return new Activity(name, dateTime, location, description);
     }

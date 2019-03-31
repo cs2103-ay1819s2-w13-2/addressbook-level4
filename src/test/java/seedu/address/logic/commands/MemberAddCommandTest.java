@@ -115,6 +115,11 @@ public class MemberAddCommandTest {
         }
 
         @Override
+        public void resetLists() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
             throw new AssertionError("This method should not be called.");
         }
@@ -240,6 +245,9 @@ public class MemberAddCommandTest {
         public void setSelectedActivity(Activity activity) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void updateActivityList() { throw new AssertionError("This method should not be called."); }
 
         @Override
         public boolean canUndoAddressBook() {

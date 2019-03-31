@@ -17,7 +17,11 @@ public class ActivityListCommand extends ActivityCommand {
     @Override
     public CommandResult execute(Model model, CommandHistory history) {
         requireNonNull(model);
+
         model.updateFilteredActivityList(PREDICATE_SHOW_ALL_ACTIVITIES);
+
+        model.commitAddressBook();
+
         return new CommandResult(MESSAGE_SUCCESS);
     }
 

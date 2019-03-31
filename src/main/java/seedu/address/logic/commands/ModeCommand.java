@@ -46,7 +46,9 @@ public class ModeCommand extends GeneralCommand {
             return new CommandResult(String.format("Mode is already: %s", modeText));
         } else {
             model.setAddressBookMode(modeToChange);
-            return new CommandResult(String.format("Mode changed to %s", model.getAddressBookMode().toString()));
+            return new CommandResult(String.format("Mode changed to %s",
+                    model.getAddressBookMode().toString()),
+                    false, false, true);
         }
     }
 }

@@ -17,6 +17,6 @@ public class HelpCommand extends GeneralCommand {
 
     @Override
     public CommandResult execute(Model model, CommandHistory history) {
-        return new CommandResult(SHOWING_HELP_MESSAGE, true, false);
+        return new CommandResult(SHOWING_HELP_MESSAGE, true, false, false);
     }
 }
