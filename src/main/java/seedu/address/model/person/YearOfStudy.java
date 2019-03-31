@@ -16,7 +16,7 @@ public class YearOfStudy {
      * The first character of the yearOfStudy must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String VALIDATION_REGEX = "[\\p{Alpha}][\\p{Digit} ]*";
+    public static final String VALIDATION_REGEX = "^[Yy]" + "ear " + "\\d[1-4 ]{1}";
 
     public final String value;
 
