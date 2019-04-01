@@ -38,7 +38,6 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.activity.Activity;
 import seedu.address.model.activity.ActivityContainsKeywordsPredicate;
 //import seedu.address.model.activity.ActivityDateTimeAfterPredicate;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.ActivityBuilder;
 import seedu.address.testutil.ActivityUtil;
