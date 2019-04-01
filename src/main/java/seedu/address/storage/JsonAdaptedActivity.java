@@ -25,7 +25,6 @@ public class JsonAdaptedActivity {
     private final String time;
     private final String location;
     private final String description;
-    private final Map<Person,Boolean> attendance;
 
     /**
      * Constructs a {@code JsonAdaptedActivity} with the given person details.
@@ -33,13 +32,11 @@ public class JsonAdaptedActivity {
     @JsonCreator
     public JsonAdaptedActivity(@JsonProperty("name") String name, @JsonProperty("time") String time,
                                @JsonProperty("location") String location,
-                               @JsonProperty("description") String description,
-                               @JsonProperty("attendance") Map attendance) {
+                               @JsonProperty("description") String description) {
         this.name = name;
         this.time = time;
         this.location = location;
         this.description = description;
-        this.attendance = attendance;
     }
 
     /**
@@ -50,7 +47,6 @@ public class JsonAdaptedActivity {
         time = source.getDateTime().fullDateTime;
         location = source.getLocation().value;
         description = source.getDescription().value;
-        attendance = source.getAttendance();
     }
 
     /**
@@ -98,12 +94,7 @@ public class JsonAdaptedActivity {
 
         final ActivityDescription modelDescription = new ActivityDescription(description);
 
-        final Map<Person,Boolean> modelAttendance = new HashMap<>();
-        if (attendance != null) {
-            for (Person p : attendance.keySet()) {
-                modelAttendance.put(p, attendance.get(p));
-            }
-        }
-        return new Activity(modelName, modelDateTime, modelLocation, modelDescription, modelAttendance);
+        return new Activity(modelName, modelDateTime, modelLocation, modelDescription);
     }
+
 }
