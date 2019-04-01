@@ -93,7 +93,8 @@ public class AddressBookParserTest {
         MemberFindCommand command = (MemberFindCommand) parser.parseCommand(
                 MemberFindCommand.COMMAND_WORD + " " + keywords.stream().collect(Collectors.joining(
                         " ")));
-        assertEquals(new MemberFindCommand(new NameContainsKeywordsPredicate(keywords)), command);
+        assertEquals(new MemberFindCommand(new FindCriteriaContainsKeywordPredicate(("name "
+                + keywords.toString()))), command);
     }
 
     @Test
