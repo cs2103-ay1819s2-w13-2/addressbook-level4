@@ -134,7 +134,7 @@ public class TypicalPersons {
             .withYearOfStudy(VALID_YEAROFSTUDY_BOB).withMajor(VALID_MAJOR_BOB)
             .withTags(VALID_TAG_RUNNING, VALID_TAG_SWIMMING).build();
 
-    public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER
+    public static final String KEYWORD_MATCHING_MEIER = "name Meier"; // A keyword that matches MEIER
 
     private TypicalPersons() {} // prevents instantiation
 

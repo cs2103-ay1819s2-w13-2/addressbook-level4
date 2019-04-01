@@ -22,6 +22,7 @@ public class MemberSortCommandParser implements Parser<MemberSortCommand> {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, MemberSortCommand.MESSAGE_USAGE));
         }
+
         return new MemberSortCommand(new SortCriteriaContainsKeywordPredicate(trimmedArgs));
     }
 }

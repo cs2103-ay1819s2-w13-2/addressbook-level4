@@ -58,8 +58,8 @@ public class AddressBookParser {
 
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
-        switch (commandWord) {
 
+        switch (commandWord) {
         case ModeCommand.COMMAND_WORD:
             return new ModeCommandParser().parse(arguments);
 
