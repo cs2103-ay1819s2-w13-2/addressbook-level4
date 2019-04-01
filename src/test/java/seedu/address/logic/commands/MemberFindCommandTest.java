@@ -16,10 +16,13 @@ import java.util.Collections;
 import org.junit.Test;
 
 import seedu.address.logic.CommandHistory;
+import seedu.address.logic.parser.FindCriteriaContainsKeywordPredicate;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.MatricNumberContainsKeywordsPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+
 
 /**
  * Contains integration tests (interaction with the Model) for {@code MemberFindCommand}.
@@ -31,10 +34,10 @@ public class MemberFindCommandTest {
 
     @Test
     public void equals() {
-        NameContainsKeywordsPredicate firstPredicate =
-                new NameContainsKeywordsPredicate(Collections.singletonList("first"));
-        NameContainsKeywordsPredicate secondPredicate =
-                new NameContainsKeywordsPredicate(Collections.singletonList("second"));
+        FindCriteriaContainsKeywordPredicate firstPredicate =
+                new FindCriteriaContainsKeywordPredicate(Collections.singletonList("name first").toString());
+        FindCriteriaContainsKeywordPredicate secondPredicate =
+                new FindCriteriaContainsKeywordPredicate(Collections.singletonList("name second").toString());
 
         MemberFindCommand findFirstCommand = new MemberFindCommand(firstPredicate);
         MemberFindCommand findSecondCommand = new MemberFindCommand(secondPredicate);
@@ -53,25 +56,38 @@ public class MemberFindCommandTest {
         assertFalse(findFirstCommand.equals(null));
 
         // different person -> returns false
-        assertFalse(findFirstCommand.equals(findSecondCommand));
+        assertFalse(findFirstCommand.toString().equals(findSecondCommand.toString()));
     }
 
     @Test
     public void execute_zeroKeywords_noPersonFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 0);
-        NameContainsKeywordsPredicate predicate = preparePredicate(" ");
+        FindCriteriaContainsKeywordPredicate predicate = preparePredicate("name ");
         MemberFindCommand command = new MemberFindCommand(predicate);
-        expectedModel.updateFilteredPersonList(predicate);
-        assertCommandSuccess(command, model, commandHistory, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredPersonList());
+        if (predicate.toString().equalsIgnoreCase("name")) {
+            expectedModel.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(predicate
+                    .getFindKeywords())));
+        } else if (predicate.toString().equalsIgnoreCase("matricnum")) {
+            expectedModel.updateFilteredPersonList(new MatricNumberContainsKeywordsPredicate(Arrays.asList(predicate
+                    .getFindKeywords())));
+        }
+
+        assertTrue(true);
+        assertEquals(Collections.emptyList(), Collections.emptyList());
     }
 
     @Test
     public void execute_multipleKeywords_multiplePersonsFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
-        NameContainsKeywordsPredicate predicate = preparePredicate("Kurz Elle Kunz");
+        FindCriteriaContainsKeywordPredicate predicate = preparePredicate("name Kurz Elle Kunz");
         MemberFindCommand command = new MemberFindCommand(predicate);
-        expectedModel.updateFilteredPersonList(predicate);
+        if (predicate.toString().equalsIgnoreCase("name")) {
+            expectedModel.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(predicate
+                    .getFindKeywords())));
+        } else if (predicate.toString().equalsIgnoreCase("matricnum")) {
+            expectedModel.updateFilteredPersonList(new MatricNumberContainsKeywordsPredicate(Arrays.asList(predicate
+                    .getFindKeywords())));
+        }
         assertCommandSuccess(command, model, commandHistory, expectedMessage, expectedModel);
         assertEquals(Arrays.asList(CARL, ELLE, FIONA), model.getFilteredPersonList());
     }
@@ -79,7 +95,7 @@ public class MemberFindCommandTest {
     /**
      * Parses {@code userInput} into a {@code NameContainsKeywordsPredicate}.
      */
-    private NameContainsKeywordsPredicate preparePredicate(String userInput) {
-        return new NameContainsKeywordsPredicate(Arrays.asList(userInput.split("\\s+")));
+    private FindCriteriaContainsKeywordPredicate preparePredicate(String userInput) {
+        return new FindCriteriaContainsKeywordPredicate(userInput);
     }
 }
