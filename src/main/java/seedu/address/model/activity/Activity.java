@@ -90,7 +90,7 @@ public class Activity implements Comparable<Activity> {
     }
 
     public ActivityStatus getCurrentStatus() {
-        return new ActivityStatus(ActivityDateTime.isPast(dateTime));
+        return new ActivityStatus(dateTime.isPast());
     }
 
     public void setInCharge(Person person) {
@@ -105,11 +105,11 @@ public class Activity implements Comparable<Activity> {
      * Returns a activity status based on the ActivityDateTime input
      */
     private ActivityStatus setStatus(ActivityDateTime dateTime) {
-        return new ActivityStatus(ActivityDateTime.isPast(dateTime));
+        return new ActivityStatus(dateTime.isPast());
     }
 
     /**
-     * Returns true if both activities of the same name have the same date.
+     * Returns true if both activities are of the same name have the same date.
      * This defines a weaker notion of equality between two activities.
      */
     public boolean isSameActivity(Activity otherActivity) {
@@ -120,6 +120,20 @@ public class Activity implements Comparable<Activity> {
         return otherActivity != null
                 && otherActivity.getName().equals(getName())
                 && otherActivity.getDateTime().equals(getDateTime());
+    }
+
+    /**
+     * Returns true if both activities have the same datetime and location.
+     * This is to check if there are clashes in location.
+     */
+    public boolean hasClashInTimeLocation(Activity otherActivity) {
+        if (otherActivity == this) {
+            return true;
+        }
+
+        return otherActivity != null
+                && otherActivity.getDateTime().equals(getDateTime())
+                && otherActivity.getLocation().equals(getLocation());
     }
 
     /**
@@ -188,7 +202,7 @@ public class Activity implements Comparable<Activity> {
         if (this.getStatus().equals(other.getStatus())) {
             return this.getDateTime().compareTo(other.getDateTime());
         }
-        if (ActivityStatus.isCompleted(other.getStatus())) {
+        if (other.getStatus().isCompleted()) {
             return -1;
             //this activity is ongoing while the other is completed, this activity will come first in the list
         }

@@ -47,6 +47,11 @@ public class ActivityCard extends UiPart<Region> {
         alocation.setText(activity.getLocation().value);
         description.setText(activity.getDescription().value);
         status.setText(activity.getStatus().status.name());
+        if (activity.getStatus().isCompleted()) {
+            status.setStyle("-fx-background-color: #112d4e");
+        } else {
+            status.setStyle("-fx-background-color: #11999e");
+        }
     }
 
 }

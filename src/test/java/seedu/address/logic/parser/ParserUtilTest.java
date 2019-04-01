@@ -18,6 +18,7 @@ import org.junit.rules.ExpectedException;
 import seedu.address.logic.parser.exceptions.ParseException;
 //import seedu.address.model.activity.Activity;
 //import seedu.address.model.activity.ActivityDateTime;
+import seedu.address.model.activity.ActivityDateTime;
 import seedu.address.model.activity.ActivityName;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
@@ -33,6 +34,7 @@ public class ParserUtilTest {
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
     private static final String INVALID_ACTIVITYNAME = "L@Tex Workshop";
+    private static final String INVALID_ACTIVITYDATETIME = "20.20.03 2030";
 
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_PHONE = "123456";
@@ -41,6 +43,7 @@ public class ParserUtilTest {
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
     private static final String VALID_ACTIVITY_NAME = "CSS Workshop";
+    private static final String VALID_ACTIVITY_DATETIME = "03/03/2019 2000";
 
     private static final String WHITESPACE = " \t\r\n";
 
@@ -104,8 +107,8 @@ public class ParserUtilTest {
 
     @Test
     public void parseActivityName_validValueWithoutWhitespace_returnsName() throws Exception {
-        ActivityName expectedName = new ActivityName(VALID_NAME);
-        assertEquals(expectedName, ParserUtil.parseActivityName(VALID_NAME));
+        ActivityName expectedName = new ActivityName(VALID_ACTIVITY_NAME);
+        assertEquals(expectedName, ParserUtil.parseActivityName(VALID_ACTIVITY_NAME));
     }
 
     @Test
@@ -122,17 +125,21 @@ public class ParserUtilTest {
 
     @Test
     public void parseActivityDateTime_invalidValue_throwsParseException() {
-        // To be updated
+        Assert.assertThrows(ParseException.class, () -> ParserUtil.parseActivityDateTime(INVALID_ACTIVITYDATETIME));
     }
 
     @Test
     public void parseActivityDateTime_validValueWithoutWhitespace_returnsDateTime() throws Exception {
-        // To be updated
+        ActivityDateTime expectedDateTime = new ActivityDateTime(VALID_ACTIVITY_DATETIME);
+        assertEquals(expectedDateTime, ParserUtil.parseActivityDateTime(VALID_ACTIVITY_DATETIME));
+
     }
 
     @Test
     public void parseActivityDateTime_validValueWithWhitespace_returnsDateTime() throws Exception {
-        // To be updated
+        String timeWithWhiteSpace = WHITESPACE + VALID_ACTIVITY_DATETIME + WHITESPACE;
+        ActivityDateTime expectedDateTime = new ActivityDateTime(VALID_ACTIVITY_DATETIME);
+        assertEquals(expectedDateTime, ParserUtil.parseActivityDateTime(timeWithWhiteSpace));
     }
 
     @Test

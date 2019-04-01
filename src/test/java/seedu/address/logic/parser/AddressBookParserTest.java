@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_ACTIVITY;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import java.util.Arrays;
@@ -14,6 +15,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import seedu.address.logic.commands.ActivityAddCommand;
+import seedu.address.logic.commands.ActivityDeleteCommand;
+//import seedu.address.logic.commands.ActivityFilterCommand;
+import seedu.address.logic.commands.ActivityFindCommand;
+import seedu.address.logic.commands.ActivityListCommand;
+import seedu.address.logic.commands.ActivitySelectCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.HelpCommand;
@@ -28,8 +35,13 @@ import seedu.address.logic.commands.MemberSelectCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.activity.Activity;
+import seedu.address.model.activity.ActivityContainsKeywordsPredicate;
+//import seedu.address.model.activity.ActivityDateTimeAfterPredicate;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.testutil.ActivityBuilder;
+import seedu.address.testutil.ActivityUtil;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
@@ -83,6 +95,43 @@ public class AddressBookParserTest {
                         " ")));
         assertEquals(new MemberFindCommand(new NameContainsKeywordsPredicate(keywords)), command);
     }
+
+    @Test
+    public void parseCommand_activityAdd() throws Exception {
+        Activity activity = new ActivityBuilder().build();
+        ActivityAddCommand command =
+                (ActivityAddCommand) parser.parseCommand(ActivityUtil.getActivityAddCommand(activity));
+        assertEquals(new ActivityAddCommand(activity), command);
+    }
+
+    @Test
+    public void parseCommand_activityFind() throws Exception {
+        List<String> keywords = Arrays.asList("foo", "bar", "baz");
+        ActivityFindCommand command = (ActivityFindCommand) parser.parseCommand(
+                ActivityFindCommand.COMMAND_WORD + " a/" + keywords.stream().collect(Collectors.joining(
+                        " ")));
+        assertEquals(new ActivityFindCommand(new ActivityContainsKeywordsPredicate(keywords)), command);
+    }
+
+    @Test
+    public void parseCommand_activityDelete() throws Exception {
+        ActivityDeleteCommand command = (ActivityDeleteCommand) parser.parseCommand(
+                ActivityDeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_ACTIVITY.getOneBased());
+        assertEquals(new ActivityDeleteCommand(INDEX_FIRST_ACTIVITY), command);
+    }
+
+    @Test
+    public void parseCommand_activityList() throws Exception {
+        assertTrue(parser.parseCommand(ActivityListCommand.COMMAND_WORD) instanceof ActivityListCommand);
+        assertTrue(parser.parseCommand(ActivityListCommand.COMMAND_WORD + " 3") instanceof ActivityListCommand);
+    }
+    @Test
+    public void parseCommand_activitySelect() throws Exception {
+        ActivitySelectCommand command = (ActivitySelectCommand) parser.parseCommand(
+                ActivitySelectCommand.COMMAND_WORD + " " + INDEX_FIRST_ACTIVITY.getOneBased());
+        assertEquals(new ActivitySelectCommand(INDEX_FIRST_ACTIVITY), command);
+    }
+
 
     @Test
     public void parseCommand_help() throws Exception {

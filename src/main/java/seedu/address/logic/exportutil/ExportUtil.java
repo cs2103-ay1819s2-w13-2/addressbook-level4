@@ -7,8 +7,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
+import java.util.Set;
 
 import seedu.address.model.person.Person;
+import seedu.address.model.tag.Tag;
 
 /**
  * File handling utility functions for exporting data
@@ -32,8 +34,23 @@ public class ExportUtil {
             file.createNewFile();
             FileWriter writer = new FileWriter(file);
             String formatExport = "Name : " + person.getName().toString() + System.lineSeparator();
-            formatExport += "Email : " + person.getEmail().toString() + System.lineSeparator();
+            formatExport += "Matric Number : " + person.getMatricNumber().toString() + System.lineSeparator();
             formatExport += "Phone : " + person.getPhone().toString() + System.lineSeparator();
+            formatExport += "Email : " + person.getEmail().toString() + System.lineSeparator();
+            formatExport += "Address : " + person.getAddress().toString() + System.lineSeparator();
+            formatExport += "Gender : " + person.getGender().toString() + System.lineSeparator();
+            formatExport += "Year of Study : " + person.getYearOfStudy().toString() + System.lineSeparator();
+            formatExport += "Major : " + person.getMajor().toString() + System.lineSeparator();
+
+            Set<Tag> tagSet = person.getTags();
+
+            if (!tagSet.isEmpty()) {
+                formatExport += "Tag : " + System.lineSeparator();
+                for (Tag t : tagSet) {
+                    formatExport += "   " + t.toString() + System.lineSeparator();
+                }
+            }
+
 
             writer.write(formatExport);
             writer.close();

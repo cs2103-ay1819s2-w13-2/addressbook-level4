@@ -31,7 +31,7 @@ started. Enjoy!
 .  Copy the file to the folder you want to use as the home folder for your ClubManager.
 .  Double-click the file to start the app. The GUI should appear in a few seconds.
 +
-image::UiUpdate.png[width="790"]
+image::Ui.png[width="790"]
 +
 .  Type the command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
@@ -58,6 +58,40 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 ====
 
 === General Features
+
+==== Get / Set the mode of ClubManager: `mode`
+
+ClubManager operates in 2 modes. This function allows user to check the mode and change the mode +
+[width="100%",cols="25%,55%, <20%",options="header",]
+|=======================================================================
+|Mode| Definition | Example of allowed commands
+|`member`| Member Management Mode
+
+This mode allows the user to manage members in ClubManager
+ | memberAdd,
+ |`activity`| Activity Management Mode
+
+ This mode allows the user to manage members in ClubManager
+  | activityAdd, activityEdit, activitySelect
+|=======================================================================
+
+*Format:*
+
+* `mode [MODE_CHOICE]`
+
+[NOTE]
+====
+If MODE_CHOICE is left blank, returns current mode
+====
+
+*Examples:*
+
+* `mode`
+Returns current management mode of ClubManager
+* `mode activity`
+Changes current management mode of ClubManager to Activity
+* `mode member`
+Changes current management mode of ClubManager to Member
 
 ==== Clearing all entries : `clear`
 
@@ -317,21 +351,70 @@ Sorts the list by year of study.
 
 image::MemberSortCommand_sortby_yearofstudy.png[width="790"]
 
+==== Exporting details of a member : `memberExport`
+
+Export the details of the member identified by the index number used in the displayed member list. +
+Format: `memberExport INDEX`
+
+****
+* Exports the details of member at the specified `INDEX`.
+* The index refers to the index number shown in the displayed member list.
+* The index *must be a positive integer* `1, 2, 3, ...`
+****
+
+Examples:
+
+* `list` +
+`memberExport 2` +
+Export the details of the 2nd person in the address book.
+* `find Betsy` +
+`memberExport 1` +
+Export the details of the 1st member in the results of the `find` command.
+
+[NOTE]
+====
+The exported file will be stored in the same directory where ClubManager is installed in.
+
+File name with the following format:
+YYYYMMDD_HHMMSS_xxxxx_NameOfPerson.txt
+====
+
 === Activity Management Features
 
 ==== Adding an activity : `activityAdd`
-Adds a new activity to the activity list
-Format: `activityAdd n/ACTIVITYNAME d/DATETIME l/LOCATION [de/DESCRIPTION] [ic/INCHARGEMATRIC] ...`
+Adds a new activity to the activity list +
+[width="100%",cols="30%,<50%, <50%",options="header",]
+|=======================================================================
+|Information of Activity| Definition | Example
+|`ActivityName`| ACTIVITYNAME refers to the name of the activity.
+
+ Only alphabets are accepted. | Sentosa Outing
+|`ActivityDateTime`| DATETIME refers to the date and time of the activity
+
+Activity Date and time should be in "dd/MM/YYYY HHMM" format, where dd, MM, YYYY refers
+to day of month, month and year respectively. HH refers to the hour in 24 hour format (
+0-23). | 28/02/2019 2359
+|`ActivityLocation`| LOCATION refers to the location of an activity|Kent Ridge MRT
+|`ActivityDescription`| DESCRIPTION refers to the detailed description of the activity
+|Meeting at MRT before leaving together.
+|=======================================================================
+Format: `activityAdd n/ACTIVITYNAME d/DATETIME l/LOCATION [de/DESCRIPTION] ...`
 
 ****
-* The fields of description and IC Matric are optional.
-* The added activity will be displayed at the sorted position according to its time.
+* Inputing description is optional. If no description is found, the default description
+will be "More details to be added."
+* The added activity will be displayed at the sorted position according to its time. +
+The ongoing activities will be display on top while the completed activity will be at
+the bottom of the list.
 ****
 
 Example:
 
 * `activityAdd n/Sentosa Outing d/16022019 1000 l/Harbour Front MRT de/Bring swim suits.`
 * `activityAdd n/HTML workshop d/1402019 l/ICube Auditorium ic/A0123456Z`
+
+image::ActivityAddCommand.png[width="790"]
+Adding activity to the correct position based on the time.
 
 ==== Add a member to activity `activityAddMember`
 Adds an existing member to an existing activity to indicate that they will be going for the activity.
@@ -395,30 +478,54 @@ Edits the date of the first activity to be 13 Feb 2019.
 * `activityEdit 2 t/` +
 Clears all existing tags of the second activity.
 
-==== Finding activities by name: `activityFind`
+==== Filtering activities by date: `activityFilter`
 
-Finds activities whose names contain any of the given keywords. +
-Format: `activityFind KEYWORD [MORE_KEYWORDS]`
+Filters the activities that is the given number of days away from today (inclusive)
+and displays them as a list with index numbers.
+Format: `activityFilter CONDITION NUMBEROFDAYS`
+
+****
+* The filter condition must be specified. `+` is to filter future activities and `-` is to filter activities.
+* `NUMBEROFDAYS` refers to the range of days from the current date.
+* `NUMBEROFDAYS` *must be a postive integer* `1 2 3`
+****
+
+
+==== Finding activities by criteria: `activityFind`
+
+Finds all activities whose attribute contain any of the specified keywords
+(case-insensitive) and displays them as a list with index numbers. +
+Format: `activityFind [a/] [n/] [de/] [l/] KEYWORD [MORE_KEYWORDS]`
 
 ****
 * The search is case insensitive. e.g `workshop` will match `Workshop`
 * The order of the keywords does not matter. e.g. `Talk Seminar` will match `Seminar Talk`
-* Only the name is searched.
+* The search parameter is determined by the prefix. `a/` is to search all descriptive fields (ActivityName,
+ActivityLocation, ActivityDescription); `n/` searches for match in ActivityName; `l/` searches for match in
+ActivityLocation; `de/` searches for matches in ActivityDescription.
+* There can be one and only one prefix.
 * Only full words will be matched e.g. `CS` will not match `CSS`
 * Activities matching at least one keyword will be returned (i.e. `OR` search). e.g. `HTML workshop` will return `HTML camp`, `CSS workshop`
 ****
 
 Examples:
 
-* `activityFind Workshop` +
-Returns `HTML workshop` and `CSS workshop`
-* `find HTML CSS Javascript` +
+* `activityFind l/ Hall` +
+Returns activities with location `University Hall` and `Eusoff Hall`
+* `activityFind n/ HTML CSS Javascript` +
 Returns any activity having names `HTML`, `CSS`, or `Javascript`
 
 ==== Listing all activities : `activityList`
 
 Shows a list of all activities in the activity list. +
 Format: `activityList`
+
+****
+If the status of some activities have changed from `ONGOING` to `COMPLETED`, the
+`activityList` command will automatically update the status of these activities.
+****
+
+image::ActivityListCommand.png[width="790"]
 
 ==== Selecting an activity : `activitySelect`
 
@@ -440,9 +547,6 @@ Selects the 2nd person in the displayed activity list.
 `activitySelect 1` +
 Selects the 1st activity in the results of the `find` command.
 
-==== Sort all activities by date `activitySort`
-Sorts all activities in the activity list according to the event date.
-Format: `activitySort`
 
 === Saving the data
 
@@ -499,12 +603,13 @@ e.g. `activityDelete 1`
 e.g. `activityDeleteMember 1 A1234567N`
 * *Edit an activity* : `activityEdit ACTIVITY_INDEX [n/ACTIVITY_NAME] [d/DATE] [t/TAG] … ` +
 e.g. `activityEdit 1 d/13022019`
-* *Find an activity* : `activityFind KEYWORD [MORE_KEYWORDS]` +
-e.g. `activityFind Workshop`
+* *Find an activity* : `activityFind [a/] [n/] [de/] [l/] KEYWORD [MORE_KEYWORDS]` +
+e.g. `activityFind n/ Workshop`
+* *Filtering activities* : `activityFilter CONDITION NUMBEROFDAYS` +
+e.g. `activityFilter + 30`
 * *List all the activities* : `activityList`
 * *Select an activity* : `activitySelect ACTIVITY_INDEX` +
 e.g. `activitySelect 2`
-* *Sort all activities by date* : `activitySort`
 
 
 

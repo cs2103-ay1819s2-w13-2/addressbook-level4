@@ -104,10 +104,32 @@ public class ActivityDateTime implements Comparable<ActivityDateTime> {
     /**
      * Returns true if a given time is before the current date and time
      */
-    public static boolean isPast(ActivityDateTime toCompare) {
-        Calendar activityTime = toCompare.calendarDateTime;
+    public boolean isPast() {
         Calendar now = Calendar.getInstance(new Locale("en", "SG"));
-        return activityTime.before(now);
+        return calendarDateTime.before(now);
+    }
+
+    /**
+     * Returns true if the time is before the given date
+     */
+    public boolean isBefore(Calendar toCompare) {
+        return calendarDateTime.before(toCompare);
+    }
+
+    /**
+     * Returns true if the time is after the given date
+     */
+    public boolean isAfter(Calendar toCompare) {
+        return calendarDateTime.after(toCompare);
+    }
+
+    /**
+     * Returns true if the time is on the same day
+     */
+    public boolean isSameDay(Calendar toCompare) {
+        return (calendarDateTime.get(Calendar.ERA) == toCompare.get(Calendar.ERA)
+                && calendarDateTime.get(Calendar.YEAR) == toCompare.get(Calendar.YEAR)
+                && calendarDateTime.get(Calendar.DAY_OF_YEAR) == toCompare.get(Calendar.DAY_OF_YEAR));
     }
 
 

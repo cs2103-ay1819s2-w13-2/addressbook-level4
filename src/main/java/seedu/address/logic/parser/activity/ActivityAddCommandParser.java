@@ -4,7 +4,6 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ACTIVITYNAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATETIME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_IC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LOCATION;
 
 import java.util.stream.Stream;
@@ -23,6 +22,7 @@ import seedu.address.model.activity.ActivityDescription;
 import seedu.address.model.activity.ActivityLocation;
 import seedu.address.model.activity.ActivityName;
 
+
 /**
  * Parses input arguments and creates a new ActivityAddCommand object
  */
@@ -36,7 +36,7 @@ public class ActivityAddCommandParser implements Parser<ActivityAddCommand> {
     public ActivityAddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_ACTIVITYNAME, PREFIX_DATETIME, PREFIX_LOCATION,
-                        PREFIX_ADESCRIPTION, PREFIX_IC);
+                        PREFIX_ADESCRIPTION);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_ACTIVITYNAME, PREFIX_DATETIME, PREFIX_LOCATION)
                 || !argMultimap.getPreamble().isEmpty()) {

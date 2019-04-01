@@ -40,6 +40,14 @@ public class UniqueActivityList implements Iterable<Activity> {
     }
 
     /**
+     * Returns true if the list contains an activity at the same location and same datetime.
+     */
+    public boolean containsActivityWithLocationClash(Activity toCheck) {
+        requireNonNull(toCheck);
+        return internalList.stream().anyMatch(toCheck::hasClashInTimeLocation);
+    }
+
+    /**
      * Adds an activity to the list.
      * The person must not already exist in the list.
      */

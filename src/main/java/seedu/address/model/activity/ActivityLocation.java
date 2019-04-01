@@ -46,7 +46,7 @@ public class ActivityLocation {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof ActivityLocation // instanceof handles nulls
-                && value.equals(((ActivityLocation) other).value)); // state check
+                && value.equalsIgnoreCase(((ActivityLocation) other).value)); // state check
     }
 
     @Override

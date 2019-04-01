@@ -193,6 +193,11 @@ public interface Model {
     boolean hasActivity(Activity activity);
 
     /**
+     * Returns true if an activity at the same time and location as {@code activity} exists in the address book.
+     */
+    boolean hasActivityClashInLocation(Activity activity);
+
+    /**
      * Deletes the given activity.
      * The activity must exist in the address book.
      */

@@ -221,6 +221,11 @@ public class MemberAddCommandTest {
         }
 
         @Override
+        public boolean hasActivityClashInLocation(Activity activity) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void deleteActivity(Activity activity) {
             throw new AssertionError("This method should not be called.");
         }

@@ -341,6 +341,48 @@ image::MemberExportCommand_LogicComponentSequenceDiagram.png[width="800"]
 * For future implementation, the `memberExport` command will export the members details in a formatted html page
 // end::memberexport[]
 
+
+//tag::activity_list[]
+
+=== Activity List Feature
+
+One basic feature of `ClubManager` is to display and manage either a list of all the activities or some particular
+activities that the club has. `activityAdd` , `activityList` , `activityFilter` , `activityFind` and
+`activityDelete` commands contribute to this feature.
+
+==== Current Implementation
+
+[discrete]
+===== Updated Model Component to Store Activity List
+.Structure of the Activity Model Component
+image::ModelComponentWithActivityList.png[width="800"]
+
+*API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
+
+The updated `Model`,
+
+* stores a `UserPref` object that represents the user's preferences.
+* stores the Address Book data.
+* exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* exposes an unmodifiable `ObservableList<Activity>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* Each activity can have a HashMap of `Person` Object for attendance.
+
+[discrete]
+===== Activity Add Command
+The `activityAdd` command enables users to create a new activity with name, datetime, location. User could
+also provide additional description.
+
+[discrete]
+===== Activity List Command
+
+==== Design Considerations
+This section describes the pros and cons of the current implementation of the activity list
+feature.
+
+==== Future Implementation
+
+// end::activity_list[]
+
 === Logging
 
 We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
@@ -362,25 +404,6 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 Certain properties of the application can be controlled (e.g user prefs file location, logging level) through the configuration file (default: `config.json`).
 
 // end::implementationconfiguration[]
-
-[[Implementation-Activity Model]]
-
-=== Activity Model
-
-.Structure of the Activity Model Component
-image::ModelComponentWithActivityList.png[width="800"]
-
-*API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
-
-The updated `Model`,
-
-* stores a `UserPref` object that represents the user's preferences.
-* stores the Address Book data.
-* exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* exposes an unmodifiable `ObservableList<Activity>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* Each activity can have a HashMap of `Person` Object for attendance.
-
-
 
 == Documentation
 
@@ -1083,6 +1106,7 @@ Use case ends.
 +
 Use case resumes at step 1.
 
+[discrete]
 === Use case: Add Activity
 
 *Main Success Scenario (MSS)*

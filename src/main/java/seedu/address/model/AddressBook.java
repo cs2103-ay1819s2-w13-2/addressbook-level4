@@ -215,6 +215,14 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Returns true if activity that clash in location and time as {@code activity} exists in the address book.
+     */
+    public boolean hasActivityClashInLocation(Activity activity) {
+        requireNonNull(activity);
+        return activities.containsActivityWithLocationClash(activity);
+    }
+
+    /**
      * Adds an activity to the address book.
      * The activity must not already exist in the address book.
      */

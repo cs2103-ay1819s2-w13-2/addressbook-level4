@@ -21,4 +21,8 @@ public class CliSyntax {
     public static final Prefix PREFIX_LOCATION = new Prefix("l/");
     public static final Prefix PREFIX_ADESCRIPTION = new Prefix("de/");
     public static final Prefix PREFIX_IC = new Prefix("ic/");
+    public static final Prefix PREFIX_ALL = new Prefix("a/");
+
+    public static final String CONDITION_POSITIVE = "+";
+    public static final String CONDITION_NEGATIVE = "-";
 }

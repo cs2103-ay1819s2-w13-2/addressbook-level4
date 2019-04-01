@@ -29,8 +29,8 @@ public class ActivityStatus {
     /**
      * Returns true if the status is completed
      */
-    public static boolean isCompleted(ActivityStatus toCheck) {
-        return (toCheck.status == Status.COMPLETED);
+    public boolean isCompleted() {
+        return (this.status == Status.COMPLETED);
     }
 
     @Override

@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ACTIVITYNAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DATETIME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_IC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LOCATION;
 
 import seedu.address.logic.CommandHistory;
@@ -24,17 +23,17 @@ public class ActivityAddCommand extends ActivityCommand {
             + PREFIX_ACTIVITYNAME + "ACTIVITY_NAME "
             + PREFIX_DATETIME + "ACTIVITY_DATETIME "
             + PREFIX_LOCATION + "ACTIVITY_LOCATION "
-            + "[" + PREFIX_ADESCRIPTION + "ACTIVITY_DESCRIPTION] "
-            + "[" + PREFIX_IC + "ACTIVITY_IC_MATRICNO]\n"
+            + "[" + PREFIX_ADESCRIPTION + "ACTIVITY_DESCRIPTION]\n "
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_ACTIVITYNAME + "CSS Workshop "
             + PREFIX_DATETIME + "12/03/2019 1900 "
             + PREFIX_LOCATION + "Com1 02-07 "
-            + PREFIX_ADESCRIPTION + "Learn to write beautifully designed webapp. Bring Laptop. "
-            + PREFIX_IC + "A0111111Z";
+            + PREFIX_ADESCRIPTION + "Learn to write beautifully designed webapp. Bring Laptop. ";
 
     public static final String MESSAGE_SUCCESS = "New activity added: %1$s";
     public static final String MESSAGE_DUPLICATE_ACTIVITY = "This activity already exists in Club Manager";
+    public static final String MESSAGE_ACTIVITY_LOCATION_CLASH = "Another activity is scheduled"
+            + " at the same time and location. Please reschedule to avoid clash.";
 
 
     private final Activity toAdd;
@@ -53,6 +52,10 @@ public class ActivityAddCommand extends ActivityCommand {
 
         if (model.hasActivity(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_ACTIVITY);
+        }
+
+        if (model.hasActivityClashInLocation(toAdd)) {
+            throw new CommandException(MESSAGE_ACTIVITY_LOCATION_CLASH);
         }
 
         model.addActivity(toAdd);
