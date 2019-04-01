@@ -73,7 +73,7 @@ public class TypicalPersons {
 
     public static final Person ELLE = new PersonBuilder().withName("Elle Meyer")
             .withMatricNumber("A0555555E")
-            .withPhone("9482224")
+            .withPhone("94822248")
             .withEmail("werner@example.com")
             .withAddress("michegan ave")
             .withGender("Female")
@@ -104,7 +104,7 @@ public class TypicalPersons {
     // Manually added
     public static final Person HOON = new PersonBuilder().withName("Hoon Meier")
             .withMatricNumber("A0999999P")
-            .withPhone("8482424")
+            .withPhone("84824224")
             .withEmail("stefan@example.com")
             .withAddress("little india")
             .withGender("Female")
@@ -114,7 +114,7 @@ public class TypicalPersons {
 
     public static final Person IDA = new PersonBuilder().withName("Ida Mueller")
             .withMatricNumber("A0321654S")
-            .withPhone("8482131")
+            .withPhone("84821312")
             .withEmail("hans@example.com")
             .withAddress("chicago ave")
             .withGender("female")
