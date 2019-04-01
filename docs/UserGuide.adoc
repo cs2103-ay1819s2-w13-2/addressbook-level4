@@ -118,7 +118,7 @@ Format: `history`
 Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and next input respectively in the command box.
 ====
 
-// tag::redoundo[]
+// tag::undoredo[]
 ==== Redoing the previously undone command : `redo`
 
 Reverses the most recent `undo` command. +
@@ -166,7 +166,7 @@ The `undo` command fails as there are no undoable commands executed previously.
 `clear` +
 `undo` (reverses the `clear` command) +
 `undo` (reverses the `delete 1` command) +
-// end::redoundo[]
+// end::undoredo[]
 
 === Member Management Features
 

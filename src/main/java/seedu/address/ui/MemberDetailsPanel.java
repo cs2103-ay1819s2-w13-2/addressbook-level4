@@ -1,19 +1,21 @@
 package seedu.address.ui;
 
+import static java.util.Objects.requireNonNull;
+
+import java.net.URL;
+
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
-
 import javafx.scene.web.WebView;
 import seedu.address.MainApp;
 import seedu.address.model.person.Person;
 
-import java.net.URL;
 
-import static java.util.Objects.requireNonNull;
+
 
 
 /**
@@ -84,6 +86,10 @@ public class MemberDetailsPanel extends UiPart<Region> {
         major.setText("Major: " + member.getMajor().toString());
     }
 
+    /**
+     * Load the selected person's page with its relevant details.
+     * @param member
+     */
     private void loadPersonPage(Person member) {
         String url = FXML + member.getName().fullName;
         Platform.runLater(() -> {
