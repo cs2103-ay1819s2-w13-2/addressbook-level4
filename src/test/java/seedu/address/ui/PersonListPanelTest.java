@@ -85,7 +85,7 @@ public class PersonListPanelTest extends GuiUnitTest {
         for (int i = 0; i < personCount; i++) {
             Name name = new Name(i + "a");
             MatricNumber matricNumber = new MatricNumber("A0111111Z");
-            Phone phone = new Phone("000");
+            Phone phone = new Phone("00012345");
             Email email = new Email("a@aa");
             Address address = new Address("a");
             Gender gender = new Gender("male");
