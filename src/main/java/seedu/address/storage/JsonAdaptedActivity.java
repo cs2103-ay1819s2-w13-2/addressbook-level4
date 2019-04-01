@@ -1,8 +1,5 @@
 package seedu.address.storage;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -12,8 +9,6 @@ import seedu.address.model.activity.ActivityDateTime;
 import seedu.address.model.activity.ActivityDescription;
 import seedu.address.model.activity.ActivityLocation;
 import seedu.address.model.activity.ActivityName;
-import seedu.address.model.person.Person;
-
 
 /**
  * Jackson-friendly version of {@link Activity}.

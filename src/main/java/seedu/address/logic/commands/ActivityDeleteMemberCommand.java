@@ -50,7 +50,7 @@ public class ActivityDeleteMemberCommand extends ActivityCommand {
         model.setSelectedActivity(filteredActivityList.get(targetIndex.getZeroBased()));
         Activity selectedActivity = model.getSelectedActivity();
         Person selectedPerson = model.getPersonWithMatricNumber(targetMatric);
-        if(!model.hasMatricNumber(targetMatric)) {
+        if (!model.hasMatricNumber(targetMatric)) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_MATRIC_NUMBER);
         } else if (!selectedActivity.hasPersonInAttendance(selectedPerson)) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_IN_ACTIVITY);

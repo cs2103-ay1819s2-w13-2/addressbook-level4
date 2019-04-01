@@ -24,7 +24,9 @@ public class ActivityFilterCommand extends ActivityCommand {
 
     public final ActivityDateTimePredicate predicate;
 
-    public ActivityFilterCommand(ActivityDateTimePredicate predicate) { this.predicate = predicate; }
+    public ActivityFilterCommand(ActivityDateTimePredicate predicate) {
+        this.predicate = predicate;
+    }
 
     @Override
     public CommandResult execute(Model model, CommandHistory history) {
