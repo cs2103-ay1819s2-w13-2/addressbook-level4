@@ -371,3 +371,14 @@
 .labelMode-Activity {
     -fx-background-color: #418FDE;
 }
+
+.member-details-title {
+      -fx-font-size: 48px;
+      -fx-font-style: italic;
+      -fx-fill: white;
+}
+
+.member-details-text {
+      -fx-font-size: 24px;
+      -fx-fill: white;
+}

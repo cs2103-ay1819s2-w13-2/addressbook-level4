@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.StackPane?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.121">
+    <VBox alignment="TOP_LEFT" spacing="20.0">
+        <padding>
+            <Insets top="16" right="16" bottom="16" left="16"/>
+        </padding>
+        <Text fx:id="name" styleClass="member-details-title"/>
+        <Text fx:id="matricNumber" styleClass="member-details-text"/>
+        <Text fx:id="phone" styleClass="member-details-text"/>
+        <Text fx:id="email" styleClass="member-details-text"/>
+        <Text fx:id="address" styleClass="member-details-text"/>
+        <Text fx:id="gender" styleClass="member-details-text"/>
+        <Text fx:id="yearOfStudy" styleClass="member-details-text"/>
+        <Text fx:id="major" styleClass="member-details-text"/>
+    </VBox>
+</StackPane>
