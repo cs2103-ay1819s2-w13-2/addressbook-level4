@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+import seedu.address.model.person.MatricNumber;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
@@ -25,7 +26,7 @@ public class Activity implements Comparable<Activity> {
 
     // Data fields
     private Person inCharge;
-    private Map<Person, Boolean> attendance = new HashMap<>();
+    private Map<MatricNumber, Boolean> attendance = new HashMap<>();
 
     /**
      * Every field must be present and not null.
@@ -50,7 +51,7 @@ public class Activity implements Comparable<Activity> {
     }
 
     public Activity(ActivityName name, ActivityDateTime dateTime, ActivityLocation location,
-                    ActivityDescription description, Map<Person, Boolean> attendance) {
+                    ActivityDescription description, Map<MatricNumber, Boolean> attendance) {
         requireAllNonNull(name, dateTime, location, description);
         this.name = name;
         this.dateTime = dateTime;
@@ -61,7 +62,7 @@ public class Activity implements Comparable<Activity> {
     }
 
     public Activity(ActivityName name, ActivityDateTime dateTime, ActivityLocation location,
-        ActivityDescription description, Optional<Person> inCharge, Map<Person, Boolean> attendance) {
+        ActivityDescription description, Optional<Person> inCharge, Map<MatricNumber, Boolean> attendance) {
         requireAllNonNull(name, dateTime, location, description);
         this.name = name;
         this.dateTime = dateTime;
@@ -93,7 +94,7 @@ public class Activity implements Comparable<Activity> {
         return Optional.ofNullable(inCharge);
     }
 
-    public Map<Person, Boolean> getAttendance() {
+    public Map<MatricNumber, Boolean> getAttendance() {
         return attendance;
     }
 
@@ -106,7 +107,7 @@ public class Activity implements Comparable<Activity> {
     }
 
     public void addMemberToActivity(Person person) {
-        attendance.put(person, false);
+        attendance.put(person.getMatricNumber(), false);
     }
 
     /**
@@ -176,7 +177,7 @@ public class Activity implements Comparable<Activity> {
         ActivityLocation location = this.getLocation();
         ActivityDescription description = this.getDescription();
         Optional<Person> inCharge = this.getInCharge();
-        Map<Person, Boolean> attendance = this.getAttendance();
+        Map<MatricNumber, Boolean> attendance = this.getAttendance();
         return new Activity(name, dateTime, location, description, inCharge, attendance);
     }
 
