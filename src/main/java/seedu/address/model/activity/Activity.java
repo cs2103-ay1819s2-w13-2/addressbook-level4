@@ -50,6 +50,17 @@ public class Activity implements Comparable<Activity> {
     }
 
     public Activity(ActivityName name, ActivityDateTime dateTime, ActivityLocation location,
+                    ActivityDescription description, Map<Person, Boolean> attendance) {
+        requireAllNonNull(name, dateTime, location, description);
+        this.name = name;
+        this.dateTime = dateTime;
+        this.location = location;
+        this.description = description;
+        this.status = setStatus(dateTime);
+        this.attendance = attendance;
+    }
+
+    public Activity(ActivityName name, ActivityDateTime dateTime, ActivityLocation location,
         ActivityDescription description, Optional<Person> inCharge, Map<Person, Boolean> attendance) {
         requireAllNonNull(name, dateTime, location, description);
         this.name = name;

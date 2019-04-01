@@ -56,7 +56,7 @@ public class ActivityDeleteMemberCommand extends ActivityCommand {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_IN_ACTIVITY);
         }
         selectedActivity.removeMemberFromActivity(selectedPerson);
-
+        model.commitAddressBook();
         return new CommandResult(String.format(MESSAGE_ACTIVITY_ADD_MEMBER_SUCCESS, targetIndex.getOneBased()));
 
     }

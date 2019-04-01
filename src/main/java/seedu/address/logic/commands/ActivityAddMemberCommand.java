@@ -57,6 +57,7 @@ public class ActivityAddMemberCommand extends ActivityCommand {
         } else {
             selectedActivity.addMemberToActivity(selectedPerson);
         }
+        model.commitAddressBook();
         return new CommandResult(String.format(MESSAGE_ACTIVITY_ADD_MEMBER_SUCCESS, targetIndex.getOneBased()));
 
     }
