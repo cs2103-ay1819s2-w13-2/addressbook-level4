@@ -3,6 +3,7 @@ package seedu.address.ui;
 import static java.util.Objects.requireNonNull;
 
 import java.net.URL;
+import java.util.logging.Logger;
 
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
@@ -12,11 +13,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import javafx.scene.web.WebView;
 import seedu.address.MainApp;
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.Person;
-
-
-
-
 
 /**
  * A UI for displaying member details.
@@ -24,7 +22,9 @@ import seedu.address.model.person.Person;
 public class MemberDetailsPanel extends UiPart<Region> {
     public static final URL DEFAULT_PAGE =
             requireNonNull(MainApp.class.getResource(FXML_FILE_FOLDER + "default.html"));
-    private static final String FXML = "MemberDetailsPanel.fxml";
+    public static final String FXML = "MemberDetailsPanel.fxml";
+
+    private final Logger logger = LogsCenter.getLogger(getClass());
 
     @FXML
     private WebView browser;
@@ -67,8 +67,7 @@ public class MemberDetailsPanel extends UiPart<Region> {
             }
             loadPersonPage(newValue);
         });
-
-        loadDefaultPage();
+            loadDefaultPage();
     }
 
     /**
@@ -92,16 +91,19 @@ public class MemberDetailsPanel extends UiPart<Region> {
      */
     private void loadPersonPage(Person member) {
         String url = FXML + member.getName().fullName;
-        Platform.runLater(() -> {
-            setUpMemberDetails(member);
-            browser.getEngine().load(url);
-        });
+        setUpMemberDetails(member);
+        loadPage(url);
+    }
+
+
+    public void loadPage(String url) {
+        Platform.runLater(() -> browser.getEngine().load(url));
     }
 
     /**
      * Loads a default HTML file with a background that matches the general theme.
      */
     private void loadDefaultPage() {
-        Platform.runLater(() -> browser.getEngine().load(DEFAULT_PAGE.toExternalForm()));
+        loadPage(DEFAULT_PAGE.toExternalForm());
     }
 }

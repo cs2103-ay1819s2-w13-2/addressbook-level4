@@ -5,6 +5,8 @@ import java.net.URL;
 
 import guitests.GuiRobot;
 import javafx.scene.web.WebView;
+import seedu.address.ui.BrowserPanel;
+import seedu.address.ui.MemberDetailsPanel;
 
 /**
  * Helper methods for dealing with {@code WebView}.
@@ -20,6 +22,13 @@ public class WebViewUtil {
         } catch (MalformedURLException mue) {
             throw new AssertionError("webView should not be displaying an invalid URL.", mue);
         }
+    }
+
+    /**
+     * If the {@code browserPanelHandle}'s {@code WebView} is loading, sleeps the thread till it is successfully loaded.
+     */
+    public static void waitUntilBrowserLoaded(MemberDetailsPanelHandle memberDetailsPanelHandle) {
+        new GuiRobot().waitForEvent(memberDetailsPanelHandle::isLoaded);
     }
 
     /**

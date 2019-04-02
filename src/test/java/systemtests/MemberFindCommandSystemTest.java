@@ -41,6 +41,7 @@ public class MemberFindCommandSystemTest extends AddressBookSystemTest {
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
+
         /* Case: find person where person list is not displaying the person we are finding -> 1 person found */
         command = MemberFindCommand.COMMAND_WORD + " name Carl";
         ModelHelper.setFilteredList(expectedModel, CARL);
