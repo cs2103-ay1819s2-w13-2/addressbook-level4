@@ -34,15 +34,16 @@ public class MainWindow extends UiPart<Stage> {
     private Logic logic;
 
     // Independent Ui parts residing in this Ui container
-    private BrowserPanel browserPanel;
+    private MemberDetailsPanel memberDetailsPanel;
     private PersonListPanel personListPanel;
     //private PersonListPanel personNotInActivityListPanel;
     private ActivityListPanel activityListPanel;
+
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
 
     @FXML
-    private StackPane browserPlaceholder;
+    private StackPane memberPlaceholder;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -122,8 +123,8 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        browserPanel = new BrowserPanel(logic.selectedPersonProperty());
-        browserPlaceholder.getChildren().add(browserPanel.getRoot());
+        memberDetailsPanel = new MemberDetailsPanel(logic.selectedPersonProperty());
+        memberPlaceholder.getChildren().add(memberDetailsPanel.getRoot());
 
         personListPanel = new PersonListPanel(logic.getFilteredPersonList(), logic.selectedPersonProperty(),
                 logic::setSelectedPerson);
@@ -142,6 +143,7 @@ public class MainWindow extends UiPart<Stage> {
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
         setModeLabel(logic.getAddressBook().getCurrMode());
+
     }
 
     /**
