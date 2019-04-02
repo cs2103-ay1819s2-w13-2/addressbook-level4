@@ -67,7 +67,7 @@ public class MemberDetailsPanel extends UiPart<Region> {
             }
             loadPersonPage(newValue);
         });
-            loadDefaultPage();
+        loadDefaultPage();
     }
 
     /**
