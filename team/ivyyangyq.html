@@ -1,0 +1,435 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]--><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Asciidoctor 1.5.6.1"><title>Yang Yiqing - Project Portfolio</title><link rel="stylesheet" href="../stylesheets/gh-pages.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../stylesheets/coderay-asciidoctor.css"></head><body class="article"><div id="seedu-header"><nav class="navbar navbar-lg navbar-light bg-lighter"><div class="container"><a class="navbar-brand" href="https://se-edu.github.io/"><img src="../images/SeEduLogo.png" alt="SE-EDU"></a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level1">AB-1</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level2">AB-2</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level3">AB-3</a></li><li class="nav-item"><a class="nav-link active" href="../index.html">AB-4</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/collate">Collate</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/se-book">Book</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/learningresources">Resources</a></li></ul></div></nav></div><div id="site-header"><nav class="navbar navbar-light bg-light"><div class="container"><a class="navbar-brand" href="../index.html">Club-Manager</a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="../UserGuide.html">User Guide</a></li><li class="nav-item"><a class="nav-link" href="../DeveloperGuide.html">Developer Guide</a></li><li class="nav-item"><a class="nav-link" href="../LearningOutcomes.html">LOs</a></li><li class="nav-item"><a class="nav-link active" href="../AboutUs.html">About Us</a></li><li class="nav-item"><a class="nav-link" href="../ContactUs.html">Contact Us</a></li><li class="navitem"><a class="nav-link" href="https://github.com/cs2103-ay1819s2-w13-2/main"><span class="fa fa-github fa-lg" aria-hidden="true"></span>&nbsp;View on GitHub</a></li></ul></div></nav></div><div id="header"><h1>Yang Yiqing - Project Portfolio</h1></div><div id="content"><div class="sect1">
+<h2 id="project-clubmanager"><a class="link" href="#project-clubmanager">1. PROJECT: ClubManager</a></h2>
+<div class="sectionbody">
+<hr>
+<div class="sect2">
+<h3 id="overview"><a class="link" href="#overview">1.1. Overview</a></h3>
+<div class="paragraph">
+<p>This portfolio documents the features and enhancements that I have made to the project and the contributions I have made to
+the User and Developer guide.</p>
+</div>
+<div class="paragraph">
+<p>ClubManager is a desktop application for CCA management. It comes with a GUI but most of the user interactions
+takes place on the CLI (Command Line Interface) provided.</p>
+</div>
+<div class="paragraph">
+<p>ClubManager is specially designed for <strong>CCA main committee members</strong> to manage their CCA data. It is the g
+o-to application for CCA leaders who are looking for a software that allows them to <strong>manage their members and activities</strong>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="summary-of-contributions"><a class="link" href="#summary-of-contributions">1.2. Summary of contributions</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Major enhancement</strong>: added <strong>Activity List Management feature</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>What it does: Manages the list of activities that a club has. This feacture includes functions such as:<br></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Adding activities to (<code>activityAdd</code>) and removing activities from (<code>activityDelete</code>) from the activity list.</p>
+</li>
+<li>
+<p>Finding activities that match some given criteria (<code>activityFind</code>) and filtering the activities based on the how recent
+the activities are (<code>activityFilter</code>).</p>
+</li>
+<li>
+<p>Listing all activities (<code>activityList</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Justification: This feature improves the product significantly because in addition to manage members in the club,
+the app can manage another common aspect in club affairs - the activities.</p>
+</li>
+<li>
+<p>Highlights: This enhancement involves all commands that manages the activity list, including <code>activityAdd</code>, <code>activityDelete</code>,
+ <code>activityList</code>, <code>activityFind</code> and <code>activityFilter</code>.
+The implementation of the activity list is automatically sorted and ordered based on completion status and time.
+The order is from Ongoing to Completed, within the same status the activities are ordered by the earliest to the latest.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Update UI display for activity list and activity details.</p>
+</li>
+<li>
+<p>Update Storage for storing attendance in activity.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Code contributed</strong>: [<a href="https://github.com/CS2103-AY1819S2-W13-2/main/commits?author=ivyyangyq">Functional code</a>] [<a href="https://nus-cs2103-ay1819s2.github.io/cs2103-dashboard/#search=ivyyangyq&amp;sort=displayName&amp;since=2019-02-10&amp;until=2019-04-2&amp;timeframe=day&amp;reverse=false&amp;repoSort=true">RepoSense</a>]</p>
+</li>
+<li>
+<p><strong>Other contributions</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Project management:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Managed releases <code>v1.1</code> - <code>v1.4</code> (4 releases) on GitHub</p>
+</li>
+<li>
+<p>Tagged releases, compiled binary (JAR) files and published releases on GitHub</p>
+</li>
+<li>
+<p>Managed milestones <code>v1.1</code> - <code>v1.4</code></p>
+</li>
+<li>
+<p>Setting up issue tracker, contributed to issues (<a href="https://github.com/cs2103-ay1819s2-w13-2/main/issues?utf8=✓&amp;q=is%3Aissue+author%3Aivyyangyq+label%3Atype.Task">Issues</a>)
+and 6 user stories (<a href="https://github.com/cs2103-ay1819s2-w13-2/main/issues?utf8=✓&amp;q=is%3Aissue+author%3Aivyyangyq+label%3Atype.Story">User Stories</a>).</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Community:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Reviewed PRs of other team members (with non-trivial comments): <a href="https://github.com/cs2103-ay1819s2-w13-2/main/pull/99">#99</a>,
+<a href="https://github.com/cs2103-ay1819s2-w13-2/main/pull/102">#102</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contributions-to-the-user-guide"><a class="link" href="#contributions-to-the-user-guide">2. Contributions to the User Guide</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users.</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect3">
+<h4 id="adding-an-activity-code-activityadd-code"><a class="link" href="#adding-an-activity-code-activityadd-code">2.1. Adding an activity : <code>activityAdd</code></a></h4>
+<div class="paragraph">
+<p>Adds a new activity to the activity list<br></p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 23.0769%;">
+<col style="width: 38.4615%;">
+<col style="width: 38.4616%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Information of Activity</th>
+<th class="tableblock halign-left valign-top">Definition</th>
+<th class="tableblock halign-left valign-top">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ActivityName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ACTIVITYNAME refers to the name of the activity.</p>
+<p class="tableblock"> Only alphabets are accepted.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sentosa Outing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ActivityDateTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DATETIME refers to the date and time of the activity</p>
+<p class="tableblock">Activity Date and time should be in "dd/MM/YYYY HHMM" format, where dd, MM, YYYY refers
+to day of month, month and year respectively. HH refers to the hour in 24 hour format (
+0-23).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">28/02/2019 2359</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ActivityLocation</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LOCATION refers to the location of an activity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kent Ridge MRT</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ActivityDescription</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DESCRIPTION refers to the detailed description of the activity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Meeting at MRT before leaving together.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Format: <code>activityAdd n/ACTIVITYNAME d/DATETIME l/LOCATION [de/DESCRIPTION] &#8230;&#8203;</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Inputing description is optional. If no description is found, the default description
+will be "More details to be added."</p>
+</li>
+<li>
+<p>The added activity will be displayed at the sorted position according to its time.<br>
+The ongoing activities will be display on top while the completed activity will be at
+the bottom of the list.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>activityAdd n/Sentosa Outing d/16022019 1000 l/Harbour Front MRT de/Bring swim suits.</code></p>
+</li>
+<li>
+<p><code>activityAdd n/HTML workshop d/1402019 l/ICube Auditorium ic/A0123456Z</code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ActivityAddCommand.png" alt="ActivityAddCommand" width="790">
+</div>
+</div>
+<div class="paragraph">
+<p>Adding activity to the correct position based on the time.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="filtering-activities-by-date-code-activityfilter-code"><a class="link" href="#filtering-activities-by-date-code-activityfilter-code">2.2. Filtering activities by date: <code>activityFilter</code></a></h4>
+<div class="paragraph">
+<p>Filters the activities that is the given number of days away from today (inclusive)
+and displays them as a list with index numbers.
+Format: <code>activityFilter CONDITION NUMBEROFDAYS</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>The filter condition must be specified. <code>+</code> is to filter future activities and <code>-</code> is to filter activities.</p>
+</li>
+<li>
+<p><code>NUMBEROFDAYS</code> refers to the range of days from the current date.</p>
+</li>
+<li>
+<p><code>NUMBEROFDAYS</code> <strong>must be a postive integer</strong> <code>1 2 3</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="finding-activities-by-criteria-code-activityfind-code"><a class="link" href="#finding-activities-by-criteria-code-activityfind-code">2.3. Finding activities by criteria: <code>activityFind</code></a></h4>
+<div class="paragraph">
+<p>Finds all activities whose attribute contain any of the specified keywords
+(case-insensitive) and displays them as a list with index numbers.<br>
+Format: <code>activityFind [a/] [n/] [de/] [l/] KEYWORD [MORE_KEYWORDS]</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>The search is case insensitive. e.g <code>workshop</code> will match <code>Workshop</code></p>
+</li>
+<li>
+<p>The order of the keywords does not matter. e.g. <code>Talk Seminar</code> will match <code>Seminar Talk</code></p>
+</li>
+<li>
+<p>The search parameter is determined by the prefix. <code>a/</code> is to search all descriptive fields (ActivityName,
+ActivityLocation, ActivityDescription); <code>n/</code> searches for match in ActivityName; <code>l/</code> searches for match in
+ActivityLocation; <code>de/</code> searches for matches in ActivityDescription.</p>
+</li>
+<li>
+<p>There can be one and only one prefix.</p>
+</li>
+<li>
+<p>Only full words will be matched e.g. <code>CS</code> will not match <code>CSS</code></p>
+</li>
+<li>
+<p>Activities matching at least one keyword will be returned (i.e. <code>OR</code> search). e.g. <code>HTML workshop</code> will return <code>HTML camp</code>, <code>CSS workshop</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>activityFind l/ Hall</code><br>
+Returns activities with location <code>University Hall</code> and <code>Eusoff Hall</code></p>
+</li>
+<li>
+<p><code>activityFind n/ HTML CSS Javascript</code><br>
+Returns any activity having names <code>HTML</code>, <code>CSS</code>, or <code>Javascript</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="listing-all-activities-code-activitylist-code"><a class="link" href="#listing-all-activities-code-activitylist-code">2.4. Listing all activities : <code>activityList</code></a></h4>
+<div class="paragraph">
+<p>Shows a list of all activities in the activity list.<br>
+Format: <code>activityList</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph">
+<p>If the status of some activities have changed from <code>ONGOING</code> to <code>COMPLETED</code>, the
+<code>activityList</code> command will automatically update the status of these activities.</p>
+</div>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ActivityListCommand.png" alt="ActivityListCommand" width="790">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="selecting-an-activity-code-activityselect-code"><a class="link" href="#selecting-an-activity-code-activityselect-code">2.5. Selecting an activity : <code>activitySelect</code></a></h4>
+<div class="paragraph">
+<p>Selects the activity identified by the index number used in the displayed activity list.<br>
+Format: <code>activitySelect ACTIVITY_INDEX</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Selects the activity and displays the specific details of the activity at the specified <code>ACTIVITY_INDEX</code>.</p>
+</li>
+<li>
+<p>The index refers to the index number shown in the displayed activity list.</p>
+</li>
+<li>
+<p>The index <strong>must be a positive integer</strong> <code>1, 2, 3, &#8230;&#8203;</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>activityList</code><br>
+<code>activitySelect 2</code><br>
+Selects the 2nd person in the displayed activity list.</p>
+</li>
+<li>
+<p><code>activityFind workshop</code><br>
+<code>activitySelect 1</code><br>
+Selects the 1st activity in the results of the <code>find</code> command.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contributions-to-the-developer-guide"><a class="link" href="#contributions-to-the-developer-guide">3. Contributions to the Developer Guide</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project.</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="activity-list-feature"><a class="link" href="#activity-list-feature">3.1. Activity List Feature</a></h3>
+<div class="paragraph">
+<p>One basic feature of <code>ClubManager</code> is to display and manage either a list of all the activities or some particular
+activities that the club has. <code>activityAdd</code> , <code>activityList</code> , <code>activityFilter</code> , <code>activityFind</code> and
+<code>activityDelete</code> commands contribute to this feature.</p>
+</div>
+<div class="sect3">
+<h4 id="current-implementation"><a class="link" href="#current-implementation">3.1.1. Current Implementation</a></h4>
+<h5 id="updated-model-component-to-store-activity-list" class="discrete">Updated Model Component to Store Activity List</h5>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ModelComponentWithActivityList.png" alt="ModelComponentWithActivityList" width="800">
+</div>
+<div class="title">Figure 1. Structure of the Activity Model Component</div>
+</div>
+<div class="paragraph">
+<p><strong>API</strong> : <a href="{repoURL}/src/main/java/seedu/address/model/Model.java"><code>Model.java</code></a></p>
+</div>
+<div class="paragraph">
+<p>The updated <code>Model</code>,</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>stores a <code>UserPref</code> object that represents the user&#8217;s preferences.</p>
+</li>
+<li>
+<p>stores the Address Book data.</p>
+</li>
+<li>
+<p>exposes an unmodifiable <code>ObservableList&lt;Person&gt;</code> that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.</p>
+</li>
+<li>
+<p>exposes an unmodifiable <code>ObservableList&lt;Activity&gt;</code> that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.</p>
+</li>
+<li>
+<p>Each activity can have a HashMap of <code>Person</code> Object for attendance.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>to be completed</strong></p>
+</div>
+<h5 id="activity-add-command" class="discrete">Activity Add Command</h5>
+<div class="paragraph">
+<p>The <code>activityAdd</code> command enables users to create a new activity with name, datetime, location. User could
+also provide additional description.</p>
+</div>
+<h5 id="activity-list-command" class="discrete">Activity List Command</h5>
+</div>
+<div class="sect3">
+<h4 id="design-considerations"><a class="link" href="#design-considerations">3.1.2. Design Considerations</a></h4>
+<div class="paragraph">
+<p>This section describes the pros and cons of the current implementation of the activity list
+feature.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="future-implementation"><a class="link" href="#future-implementation">3.1.3. Future Implementation</a></h4>
+
+</div>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-02 14:17:21 UTC</div></div></div></body></html>
