@@ -1,0 +1,412 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]--><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Asciidoctor 1.5.6.1"><title>Minern Chan - Project Portfolio</title><link rel="stylesheet" href="../stylesheets/gh-pages.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../stylesheets/coderay-asciidoctor.css"></head><body class="article"><div id="seedu-header"><nav class="navbar navbar-lg navbar-light bg-lighter"><div class="container"><a class="navbar-brand" href="https://se-edu.github.io/"><img src="../images/SeEduLogo.png" alt="SE-EDU"></a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level1">AB-1</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level2">AB-2</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level3">AB-3</a></li><li class="nav-item"><a class="nav-link active" href="../index.html">AB-4</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/collate">Collate</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/se-book">Book</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/learningresources">Resources</a></li></ul></div></nav></div><div id="site-header"><nav class="navbar navbar-light bg-light"><div class="container"><a class="navbar-brand" href="../index.html">Club-Manager</a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="../UserGuide.html">User Guide</a></li><li class="nav-item"><a class="nav-link" href="../DeveloperGuide.html">Developer Guide</a></li><li class="nav-item"><a class="nav-link" href="../LearningOutcomes.html">LOs</a></li><li class="nav-item"><a class="nav-link active" href="../AboutUs.html">About Us</a></li><li class="nav-item"><a class="nav-link" href="../ContactUs.html">Contact Us</a></li><li class="navitem"><a class="nav-link" href="https://github.com/cs2103-ay1819s2-w13-2/main"><span class="fa fa-github fa-lg" aria-hidden="true"></span>&nbsp;View on GitHub</a></li></ul></div></nav></div><div id="header"><h1>Minern Chan - Project Portfolio</h1></div><div id="content"><div class="sect1">
+<h2 id="project-addressbook-level-4"><a class="link" href="#project-addressbook-level-4">PROJECT: AddressBook - Level 4</a></h2>
+<div class="sectionbody">
+<hr>
+</div>
+</div>
+<div class="sect1">
+<h2 id="overview"><a class="link" href="#overview">Overview</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Club Manager is a desktop CCA management application used for managing CCA members. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="summary-of-contributions"><a class="link" href="#summary-of-contributions">Summary of contributions</a></h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Major enhancement</strong>: Helped in creation of the activity list functionalities and added the ability to place members in the attendance lists of activities.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>What it does: Allow users to store records of the Club activities, and keep track of members who are attending/attended particular activities.</p>
+</li>
+<li>
+<p>Justification: This feature improves the product significantly because instead of looking at two separate lists without any meaning, there is now a relation between the members and activities (who is attending which activity).</p>
+</li>
+<li>
+<p>Highlights: This enhancement affects existing commands and commands to be added in the future. Our team spent a considerable amount of time planning the design of the Activity Class, and how it should interact with the Member object. The implementation was tedious as it required a lot of new commands and functions, in addition to the editing of existing functions.</p>
+</li>
+<li>
+<p>Credits: [<a href="https://github.com/nus-cs2103-AY1819S2/addressbook-level4">Existing AddressBook-Level4 code</a>]</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>: Implemented the ActivityDeleteCommand, to permanently remove records of an existing activity from the database.</p>
+</li>
+<li>
+<p><strong>Code contributed</strong>: [<a href="https://github.com">Functional code</a>] [<a href="https://github.com">Test code</a>] <em>{give links to collated code files}</em></p>
+</li>
+<li>
+<p><strong>Other contributions</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Project management:</p>
+</li>
+<li>
+<p>Enhancements to existing features:</p>
+</li>
+<li>
+<p>Documentation:</p>
+</li>
+<li>
+<p>Community:</p>
+</li>
+<li>
+<p>Tools:</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contributions-to-the-user-guide"><a class="link" href="#contributions-to-the-user-guide">Contributions to the User Guide</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users.</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect3">
+<h4 id="delete-an-activity-code-activitydelete-code"><a class="link" href="#delete-an-activity-code-activitydelete-code">Delete an activity <code>activityDelete</code></a></h4>
+<div class="paragraph">
+<p>Deletes an existing activity in the activity list
+Format: <code>activityDelete ACTIVITY_INDEX</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Deletes the activity at the specified <code>ACTIVITY_INDEX</code> which refers to the index number shown in the displayed activity list.</p>
+</li>
+<li>
+<p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>activityDelete 1</code><br>
+Deletes the first activity in the displayed activity list</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="add-a-member-to-activity-code-activityaddmember-code"><a class="link" href="#add-a-member-to-activity-code-activityaddmember-code">Add a member to activity <code>activityAddMember</code></a></h4>
+<div class="paragraph">
+<p>Adds an existing member to an existing activity to indicate that they will be going for the activity.
+Format: <code>activityAddMember ACTIVITY_INDEX MATRIC_NO</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Adds a member to the activity at the specified <code>ACTIVITY_INDEX</code> which refers to the index number shown in the displayed activity list.</p>
+</li>
+<li>
+<p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+</li>
+<li>
+<p>MATRIC_NO must be a currently existing entry in any existing member’s MATRIC_NO information column in the member list.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>activityAddMember 1 A1234567N</code><br>
+Adds the member with matric number <code>A1234567N</code> to the attending list for activity 1.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="delete-a-member-from-activity-code-activitydeletemember-code"><a class="link" href="#delete-a-member-from-activity-code-activitydeletemember-code">Delete a member from activity <code>activityDeleteMember</code></a></h4>
+<div class="paragraph">
+<p>Removes an existing member who has already indicated that he/she will be attending the activity from the attending list of the activity.
+Format: <code>activityDeleteMember ACTIVITY_INDEX MATRIC_NO</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Removes a member from the attending list of the activity at the specified <code>ACTIVITY_INDEX</code> which refers to the index number shown in the displayed activity list.</p>
+</li>
+<li>
+<p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+</li>
+<li>
+<p>MATRIC_NO must be a currently existing entry in the specified activity’s attending list.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>activityDeleteMember 1 A1234567N</code><br>
+Removes the member with matric number A1234567N from activity 1’s attending list.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contributions-to-the-developer-guide"><a class="link" href="#contributions-to-the-developer-guide">Contributions to the Developer Guide</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project.</em></p></td>
+</tr>
+</tbody>
+</table>
+<h3 id="use-case-delete-activity" class="discrete">Use case: Delete Activity</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to list activities</p>
+</li>
+<li>
+<p>Club Manager shows a list of activities</p>
+</li>
+<li>
+<p>User requests to permanently delete an activity from the activity list</p>
+</li>
+<li>
+<p>Club Manager deletes the activity.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+<li>
+<p>3a. The given activity index is invalid</p>
+<div class="ulist">
+<ul>
+<li>
+<p>3a1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-add-member-to-activity" class="discrete">Use case: Add Member to Activity</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to list activities</p>
+</li>
+<li>
+<p>Club Manager shows a list of activities</p>
+</li>
+<li>
+<p>User requests to add a member to the attendance list of an activity</p>
+</li>
+<li>
+<p>Club Manager adds the member to the activity&#8217;s attendance list</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+<li>
+<p>3a. The given activity index is invalid</p>
+<div class="ulist">
+<ul>
+<li>
+<p>3a1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>3b. The specified member does not exist.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>3b1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>3c. The specified member is already in the attendance list.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>3c1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-remove-member-from-activity" class="discrete">Use case: Remove Member from Activity</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to list activities</p>
+</li>
+<li>
+<p>Club Manager shows a list of activities</p>
+</li>
+<li>
+<p>User requests to remove a member from the attendance list of an activity</p>
+</li>
+<li>
+<p>Club Manager removes the member to the activity&#8217;s attendance list</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+<li>
+<p>3a. The given activity index is invalid</p>
+<div class="ulist">
+<ul>
+<li>
+<p>3a1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>3b. The specified member does not exist.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>3b1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>3c. The specified member is not in the attendance list.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>3c1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="project"><a class="link" href="#project">PROJECT:</a></h2>
+<div class="sectionbody">
+<hr>
+<div class="paragraph">
+<p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-02 15:54:38 UTC</div></div></div></body></html>
