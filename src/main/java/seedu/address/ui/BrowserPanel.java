@@ -45,7 +45,6 @@ public class BrowserPanel extends UiPart<Region> {
             }
             loadPersonPage(newValue);
         });
-
         loadDefaultPage();
     }
 
