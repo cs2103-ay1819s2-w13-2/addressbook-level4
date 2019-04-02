@@ -5,8 +5,6 @@ import java.net.URL;
 
 import guitests.GuiRobot;
 import javafx.scene.web.WebView;
-import seedu.address.ui.BrowserPanel;
-import seedu.address.ui.MemberDetailsPanel;
 
 /**
  * Helper methods for dealing with {@code WebView}.
