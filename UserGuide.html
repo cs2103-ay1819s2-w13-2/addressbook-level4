@@ -85,7 +85,7 @@ e.g. typing <strong><code>help</code></strong> and pressing <kbd>Enter</kbd> wil
 <div class="ulist">
 <ul>
 <li>
-<p><strong><code>memberlist</code></strong> : lists all members</p>
+<p><strong><code>memberlist</code></strong> : lists all members (only in member mode)</p>
 </li>
 <li>
 <p>*<code>memberAdd n/James Ong mn/A0123456Y p/98765432 e/jamesong@example.com a/123, Jurong West Ave 6, #08-111 g/male y/2 m/mathematics</code></p>
@@ -338,21 +338,28 @@ Changes current management mode of ClubManager to Member</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">4.1.2. Exiting the program : <code>exit</code></a></h4>
+<h4 id="clearing-all-entries-code-clear-code"><a class="link" href="#clearing-all-entries-code-clear-code">4.1.2. Clearing all entries : <code>clear</code></a></h4>
+<div class="paragraph">
+<p>Clears all entries from the Club Manager.<br>
+Format: <code>clear</code></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="exiting-the-program-code-exit-code"><a class="link" href="#exiting-the-program-code-exit-code">4.1.3. Exiting the program : <code>exit</code></a></h4>
 <div class="paragraph">
 <p>Exits the program.<br>
 Format: <code>exit</code></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="viewing-help-code-help-code"><a class="link" href="#viewing-help-code-help-code">4.1.3. Viewing help : <code>help</code></a></h4>
+<h4 id="viewing-help-code-help-code"><a class="link" href="#viewing-help-code-help-code">4.1.4. Viewing help : <code>help</code></a></h4>
 <div class="paragraph">
 <p>Displays a list of commands and the help messages to guide the user.
 Format: <code>help</code></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="listing-entered-commands-code-history-code"><a class="link" href="#listing-entered-commands-code-history-code">4.1.4. Listing entered commands : <code>history</code></a></h4>
+<h4 id="listing-entered-commands-code-history-code"><a class="link" href="#listing-entered-commands-code-history-code">4.1.5. Listing entered commands : <code>history</code></a></h4>
 <div class="paragraph">
 <p>Lists all the commands that you have entered in reverse chronological order.<br>
 Format: <code>history</code></p>
@@ -460,14 +467,8 @@ in which the member is currently studying.</p>
 </tbody>
 </table>
 <div class="paragraph">
-<p><strong>Format:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>memberAdd n/NAME mn/MATRIC_NUMBER p/PHONE_NUMBER e/EMAIL a/ADDRESS g/GENDER y/YEAR_OF_STUDY m/MAJOR [t/TAG]&#8230;&#8203;</code></p>
-</li>
-</ul>
+<p><strong>Format:</strong>
+* <code>memberAdd n/NAME mn/MATRIC_NUMBER p/PHONE_NUMBER e/EMAIL a/ADDRESS g/GENDER y/YEAR_OF_STUDY m/MAJOR [t/TAG]&#8230;&#8203;</code></p>
 </div>
 <div class="paragraph">
 <p><strong>Examples:</strong></p>
@@ -517,7 +518,7 @@ Format: <code>memberDelete INDEX</code></p>
 Deletes the 2nd member in ClubManager.</p>
 </li>
 <li>
-<p><code>memberFind Betsy</code><br>
+<p><code>memberFind name Betsy</code><br>
 <code>memberDelete 1</code><br>
 Deletes the 1st member in the results of the <code>find</code> command.</p>
 </li>
@@ -528,7 +529,7 @@ Deletes the 1st member in the results of the <code>find</code> command.</p>
 <h4 id="editing-a-member-code-memberedit-code"><a class="link" href="#editing-a-member-code-memberedit-code">4.2.3. Editing a member : <code>memberEdit</code></a></h4>
 <div class="paragraph">
 <p>Edits an existing member in ClubManager.<br>
-Format: <code>memberEdit INDEX n/NAME Mn/MATRIC_NUMBER p/PHONE_NUMBER e/EMAIL yos/YEAR_OF_STUDY m/MAJOR [t/TAG]</code></p>
+Format: <code>memberEdit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [g/GENDER] [yos/YEAR_OF_STUDY] [m/MAJOR] [t/TAG]&#8230;&#8203;</code></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -543,6 +544,9 @@ The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p
 </li>
 <li>
 <p>Existing values will be updated to the input values.</p>
+</li>
+<li>
+<p>NOTE: Matriculation Number cannot be edited</p>
 </li>
 <li>
 <p>You can remove all the member&#8217;s tags by typing <code>t/</code> without specifying any tags after it.</p>
@@ -571,7 +575,7 @@ Edits the name of the 2nd member to be <code>Betsy Crower</code> and clears all 
 <h4 id="locating-members-by-name-code-memberfind-code"><a class="link" href="#locating-members-by-name-code-memberfind-code">4.2.4. Locating members by name: <code>memberFind</code></a></h4>
 <div class="paragraph">
 <p>Finds members whose names contain any of the given keywords.<br>
-Format: <code>memberFind CONDITION KEYWORD [MORE_KEYWORDS]</code></p>
+Format: <code>memberFind CRITERIA KEYWORD [MORE_KEYWORDS]</code></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -584,16 +588,13 @@ Format: <code>memberFind CONDITION KEYWORD [MORE_KEYWORDS]</code></p>
 <p>The order of the keywords does not matter. e.g. <code>Hans Bo</code> will match <code>Bo Hans</code></p>
 </li>
 <li>
-<p>Only the name is searched.</p>
-</li>
-<li>
-<p>Only full words will be matched e.g. <code>Han</code> will not match <code>Hans</code></p>
+<p>Partial or full words will be matched e.g. <code>Han</code> will match <code>Hans</code></p>
 </li>
 <li>
 <p>members matching at least one keyword will be returned (i.e. <code>OR</code> search). e.g. <code>Hans Bo</code> will return <code>Hans Gruber</code>, <code>Bo Yang</code></p>
 </li>
 <li>
-<p>CONDITION could be "name" or "matricnum" (case insensitive).</p>
+<p>CRITERIA could be "name" or "matricnum" only (case insensitive)</p>
 </li>
 </ul>
 </div>
@@ -611,6 +612,10 @@ Returns <code>john</code> and <code>John Doe</code></p>
 <li>
 <p><code>memberFind name Betsy Tim John</code><br>
 Returns any member having names <code>Betsy</code>, <code>Tim</code>, or <code>John</code></p>
+</li>
+<li>
+<p><code>memberFind matricnum A0</code><br>
+Returns all members (matric num starts with A0)</p>
 </li>
 </ul>
 </div>
@@ -706,7 +711,7 @@ Selects the 2nd person in the club manager.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Sorts the member at the specified sorting criteria. The attribute refers to the name, matric number, phone number, email, year of study, and major. There can only be a single attribute provided.</p>
+<p>Sorts the member list according to the specified sorting criteria. The attribute refers to the name, matric number, phone number, email, year of study, and major. There can only be a single attribute provided.</p>
 </li>
 <li>
 <p>At least one of the sorting criteria are provided.</p>
@@ -853,7 +858,7 @@ YYYYMMDD_HHMMSS_xxxxx_NameOfPerson.txt</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ActivityName</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ACTIVITYNAME refers to the name of the activity.</p>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ACTIVITY_NAME refers to the name of the activity.</p>
 <p class="tableblock"> Only alphabets are accepted.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Sentosa Outing</p></td>
 </tr>
@@ -878,7 +883,7 @@ to day of month, month and year respectively. HH refers to the hour in 24 hour f
 </tbody>
 </table>
 <div class="paragraph">
-<p>Format: <code>activityAdd n/ACTIVITYNAME d/DATETIME l/LOCATION [de/DESCRIPTION] &#8230;&#8203;</code></p>
+<p>Format: <code>activityAdd n/ACTIVITY_NAME d/DATETIME l/LOCATION [de/DESCRIPTION] &#8230;&#8203;</code></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -1025,7 +1030,7 @@ Removes the member with matric number A1234567N from activity 1’s attending li
 </div>
 </div>
 <div class="sect3">
-<h4 id="edit-an-activity-code-activityedit-code-strong-up-in-v1-4-strong"><a class="link" href="#edit-an-activity-code-activityedit-code-strong-up-in-v1-4-strong">4.3.5. Edit an activity: <code>activityEdit</code> <strong>up in v1.4</strong></a></h4>
+<h4 id="edit-an-activity-code-activityedit-code"><a class="link" href="#edit-an-activity-code-activityedit-code">4.3.5. Edit an activity: <code>activityEdit</code></a></h4>
 <div class="paragraph">
 <p>Edits an existing activity in the activity list
 Format: `activityEdit ACTIVITY_INDEX [n/ACTIVITY_NAME] [d/DATE] [t/TAG] … `</p>
@@ -1102,7 +1107,7 @@ Format: <code>activityFilter CONDITION NUMBEROFDAYS</code></p>
 <div class="paragraph">
 <p>Finds all activities whose attribute contain any of the specified keywords
 (case-insensitive) and displays them as a list with index numbers.<br>
-Format: <code>activityFind [PREFIX] KEYWORD [MORE_KEYWORDS] [NEXT_PREFIX KEYWORD] [MORE KEYWORD]</code></p>
+Format: <code>activityFind [PREFIX] KEYWORD [MORE_KEYWORDS] [NEXT_PREFIX KEYWORD] [MORE_KEYWORDS]</code></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -1244,6 +1249,9 @@ There is no need to save manually.</p>
 <div class="ulist">
 <ul>
 <li>
+<p><strong>Clear</strong> : <code>clear</code></p>
+</li>
+<li>
 <p><strong>Mode</strong> : <code>mode [MODE_CHOICE]</code><br>
 e.g. <code>mode member</code></p>
 </li>
@@ -1261,11 +1269,8 @@ e.g. <code>mode member</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Add member</strong> : <code>memberAdd n/NAME mn/MATRIC_NUMBER p/PHONE_NUMBER e/EMAIL yos/YEAR_OF_STUDY m/MAJOR [t/TAG]&#8230;&#8203;</code><br>
-e.g. <code>memberAdd n/James Ong an/A0123456Y p/98765432 e/jamesong@example.com yos/year1 m/mathematics</code></p>
-</li>
-<li>
-<p><strong>Clear member list</strong> : <code>memberClear</code></p>
+<p><strong>Add a member</strong> : <code>memberAdd n/NAME mn/MATRIC_NUMBER p/PHONE_NUMBER e/EMAIL g/GENDER yos/YEAR_OF_STUDY m/MAJOR [t/TAG]&#8230;&#8203;</code><br>
+e.g. <code>memberAdd n/James Ong mn/A0123456Y p/98765432 e/jamesong@example.com g/male yos/1 m/mathematics</code></p>
 </li>
 <li>
 <p><strong>Delete a member</strong> : <code>memberDelete INDEX</code><br>
@@ -1277,8 +1282,8 @@ e.g. <code>memberDelete 3</code></p>
 e.g. <code>memberEdit 2 n/James Lee e/jameslee@example.com</code></p>
 </li>
 <li>
-<p><strong>Find a member</strong> : <code>memberFind KEYWORD [MORE_KEYWORDS]</code><br>
-e.g. <code>memberFind John</code></p>
+<p><strong>Find a member</strong> : <code>memberFind CRITERIA KEYWORD [MORE_CRITERIA] [MORE_KEYWORDS]</code><br>
+e.g. <code>memberFind name John</code></p>
 </li>
 <li>
 <p><strong>List all members</strong> : <code>memberList</code></p>
@@ -1288,8 +1293,8 @@ e.g. <code>memberFind John</code></p>
 e.g.<code>memberSelect 2</code></p>
 </li>
 <li>
-<p><strong>Sort the member list</strong> : <code>memberSort [name] [gender] [yearOfStudy] [major]</code><br>
-e.g. <code>memberSort NAME</code></p>
+<p><strong>Sort the member list</strong> : <code>memberSort [NAME] [GENDER] [YEAR_OF_STUDY] [MAJOR]</code><br>
+e.g. <code>memberSort name</code></p>
 </li>
 </ul>
 </div>
@@ -1299,7 +1304,7 @@ e.g. <code>memberSort NAME</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Add a activity</strong> : <code>activityAdd n/gACTIVITYNAME d/DATETIME l/LOCATION [de/DESCRIPTION] [ic/INCHARGEMATRIC] &#8230;&#8203;</code><br>
+<p><strong>Add a activity</strong> : <code>activityAdd n/gACTIVITY_NAME d/DATETIME l/LOCATION [de/DESCRIPTION] &#8230;&#8203;</code><br>
 e.g. <code>activityAdd n/Sentosa Outing d/16/02/2019 1000 l/Harbour Front MRT de/Bring swim suits.</code></p>
 </li>
 <li>
@@ -1311,7 +1316,7 @@ e.g. <code>activityAddMember 1 A1234567N</code></p>
 e.g. <code>activityDelete 1</code></p>
 </li>
 <li>
-<p><strong>Delete a member from activity</strong> : <code>activityDeleteMember ACTIVITY_INDEX MATRIC_NO</code><br>
+<p><strong>Delete a member from activity</strong> : <code>activityDeleteMember ACTIVITY_INDEX MATRIC_NUMBER</code><br>
 e.g. <code>activityDeleteMember 1 A1234567N</code></p>
 </li>
 <li>
@@ -1319,11 +1324,11 @@ e.g. <code>activityDeleteMember 1 A1234567N</code></p>
 e.g. `activityEdit 1 d/13022019</code></p>
 </li>
 <li>
-<p><strong>Find an activity</strong> : <code>activityFind [a/] [n/] [de/] [l/] KEYWORD [MORE_KEYWORDS]</code><br>
+<p><strong>Find an activity</strong> :`activityFind [PREFIX] KEYWORD [MORE_KEYWORDS] [NEXT_PREFIX KEYWORD] [MORE_KEYWORDS]`<br>
 e.g. <code>activityFind n/ Workshop</code></p>
 </li>
 <li>
-<p><strong>Filtering activities</strong> : <code>activityFilter CONDITION NUMBEROFDAYS</code><br>
+<p><strong>Filtering activities</strong> : <code>activityFilter CONDITION NUMBER_OF_DAYS</code><br>
 e.g. <code>activityFilter + 30</code></p>
 </li>
 <li>
@@ -1337,4 +1342,4 @@ e.g. <code>activitySelect 2</code></p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-08 03:27:32 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-08 03:43:50 UTC</div></div></div></body></html>
