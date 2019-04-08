@@ -29,12 +29,13 @@
 </li>
 <li><a href="#implementation">3. Implementation</a>
 <ul class="sectlevel2">
-<li><a href="#undo-redo-feature">3.1. Undo/Redo feature</a></li>
-<li><a href="#membersort">3.2. MemberSort</a></li>
-<li><a href="#memberexport">3.3. MemberExport</a></li>
-<li><a href="#activity-list-feature">3.4. Activity List Feature</a></li>
-<li><a href="#logging">3.5. Logging</a></li>
-<li><a href="#configuration">3.6. Configuration</a></li>
+<li><a href="#operation-mode-control-feature">3.1. Operation mode control feature</a></li>
+<li><a href="#undo-redo-feature">3.2. Undo/Redo feature</a></li>
+<li><a href="#membersort">3.3. MemberSort</a></li>
+<li><a href="#memberexport">3.4. MemberExport</a></li>
+<li><a href="#activity-list-feature">3.5. Activity List Feature</a></li>
+<li><a href="#logging">3.6. Logging</a></li>
+<li><a href="#configuration">3.7. Configuration</a></li>
 </ul>
 </li>
 <li><a href="#documentation">4. Documentation</a>
@@ -447,7 +448,7 @@ The following class plays an important role at the architecture level:</p>
 <h3 id="Design-Logic"><a class="link" href="#Design-Logic">2.3. Logic component</a></h3>
 <div id="fig-LogicClassDiagram" class="imageblock">
 <div class="content">
-<img src="images/LogicClassDiagram.png" alt="LogicClassDiagram" width="800">
+<img src="images/LogicClassDiagram2.png" alt="LogicClassDiagram2" width="800">
 </div>
 <div class="title">Figure 5. Structure of the Logic Component</div>
 </div>
@@ -569,9 +570,85 @@ As a more OOP model, we can store a <code>Tag</code> list in <code>Address Book<
 <p>This section describes some noteworthy details on how certain features are implemented.</p>
 </div>
 <div class="sect2">
-<h3 id="undo-redo-feature"><a class="link" href="#undo-redo-feature">3.1. Undo/Redo feature</a></h3>
+<h3 id="operation-mode-control-feature"><a class="link" href="#operation-mode-control-feature">3.1. Operation mode control feature</a></h3>
 <div class="sect3">
 <h4 id="current-implementation"><a class="link" href="#current-implementation">3.1.1. Current Implementation</a></h4>
+<div class="paragraph">
+<p>ClubManager is designed to manage members and activities and allow the user to link members to the activities.
+To syncronize the user interface to show appropriate information when users are doing different operation and to minimize confusion the following feature has been added.
+With the implementation of modes of operations which only allows commands to be executed in their respective modes.</p>
+</div>
+<div class="paragraph">
+<p>For example when ClubManager is in Member Mode, only member commands can be called (for example memberAdd, memberEdit etc.)</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/appInMemberMode.png" alt="appInMemberMode" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>Calling an activity command will result in an error.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/appInMemberModeCallingActivityCmd.png" alt="appInMemberModeCallingActivityCmd" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>General commands can be called in any mode (for example help and exit)</p>
+</div>
+<div class="paragraph">
+<p>Currently the app has 2 modes of operation, namely member mode and activity mode.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-of-operation-mode-control"><a class="link" href="#design-of-operation-mode-control">3.1.2. Design of operation mode control</a></h4>
+<div class="paragraph">
+<p>Each Command extends a CommandType, currently MemberCommand, ActivityCommand and GeneralCommand</p>
+</div>
+<div class="paragraph">
+<p>For each CommandType, there is an ArrayList of modes in where this category of command can operate in.
+When the Command is created, it instatiates the operation modes. And when the execute function of the Command is called, the app would allow the execution of the command if the current app mode can be found within the the allowed mode list of the command.
+If the mode does not match, it will throw an exception preventing the execution and prompting the user to change the app mode (by using the mode command) before calling such a function.</p>
+</div>
+<div class="paragraph">
+<p>A coloured label on the top right corner also indicates the mode of operation at any time to let the user easily track which mode the app is operating in.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ModeMemberLabel.png" alt="ModeMemberLabel" width="400">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ModeActivityLabel.png" alt="ModeActivityLabel" width="400">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-consideration-to-aid-future-expansion-of-app"><a class="link" href="#design-consideration-to-aid-future-expansion-of-app">3.1.3. Design Consideration to aid future expansion of app</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>The design approach of the mode of operation control allows easy expansion of the app to manage more categories if required.</p>
+</li>
+<li>
+<p>The feature is designed with easy reuse in mind by allowing the checking of mode to be done dynamically.</p>
+</li>
+<li>
+<p>Since the modes which the command can operate in is stored as an ArrayList, future implementation of more modes of operation, can be added to the list. The current function to check the allowed mode will still be valid.</p>
+</li>
+<li>
+<p>The design also allows the type of command to operate in and not be restricted to either a single mode or all modes but also any combination of modes.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="undo-redo-feature"><a class="link" href="#undo-redo-feature">3.2. Undo/Redo feature</a></h3>
+<div class="sect3">
+<h4 id="current-implementation-2"><a class="link" href="#current-implementation-2">3.2.1. Current Implementation</a></h4>
 <div class="paragraph">
 <p>The undo/redo mechanism is facilitated by <code>VersionedAddressBook</code>.
 It extends <code>AddressBook</code> with an undo/redo history, stored internally as an <code>addressBookStateList</code> and <code>currentStatePointer</code>.
@@ -701,7 +778,7 @@ If the <code>currentStatePointer</code> is at index <code>addressBookStateList.s
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations"><a class="link" href="#design-considerations">3.1.2. Design Considerations</a></h4>
+<h4 id="design-considerations"><a class="link" href="#design-considerations">3.2.2. Design Considerations</a></h4>
 <div class="sect4">
 <h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">Aspect: How undo &amp; redo executes</a></h5>
 <div class="ulist">
@@ -771,9 +848,9 @@ If the <code>currentStatePointer</code> is at index <code>addressBookStateList.s
 </div>
 </div>
 <div class="sect2">
-<h3 id="membersort"><a class="link" href="#membersort">3.2. MemberSort</a></h3>
+<h3 id="membersort"><a class="link" href="#membersort">3.3. MemberSort</a></h3>
 <div class="sect3">
-<h4 id="current-implementation-2"><a class="link" href="#current-implementation-2">3.2.1. Current Implementation</a></h4>
+<h4 id="current-implementation-3"><a class="link" href="#current-implementation-3">3.3.1. Current Implementation</a></h4>
 <div class="imageblock">
 <div class="content">
 <img src="images/MemberSortCommand_LogicComponentSequenceDiagram.png" alt="MemberSortCommand LogicComponentSequenceDiagram" width="800">
@@ -797,9 +874,9 @@ If the user input does not match, then an error message will be prompted to the 
 </div>
 </div>
 <div class="sect2">
-<h3 id="memberexport"><a class="link" href="#memberexport">3.3. MemberExport</a></h3>
+<h3 id="memberexport"><a class="link" href="#memberexport">3.4. MemberExport</a></h3>
 <div class="sect3">
-<h4 id="current-implementation-3"><a class="link" href="#current-implementation-3">3.3.1. Current Implementation</a></h4>
+<h4 id="current-implementation-4"><a class="link" href="#current-implementation-4">3.4.1. Current Implementation</a></h4>
 <div class="imageblock">
 <div class="content">
 <img src="images/MemberExportCommand_LogicComponentSequenceDiagram.png" alt="MemberExportCommand LogicComponentSequenceDiagram" width="800">
@@ -811,34 +888,60 @@ If the user input does not match, then an error message will be prompted to the 
 <p>The <code>memberExport</code> command extends from command and retrieves the Person object from the Model based on the specified index</p>
 </li>
 <li>
-<p>Then it uses export utilities to create the file and write the Person&#8217;s information to it</p>
+<p>The <code>exportPerson</code> command is called with the Person object being pass into the function as a parameter. The function will get the formatting as defined in resources/exportutil personInfo.html</p>
+</li>
+<li>
+<p>The formatted string in html mark up is then passed to the <code>exportDataToFile</code> function which then creates the file and writes to it.</p>
 </li>
 <li>
 <p>If the index specified in invalid, an error message will be displayed</p>
 </li>
+<li>
+<p>Currently the exported file is in html format. The formatted document is responsive to the screen size giving 2 options.</p>
+</li>
+<li>
+<p>For large screens (diagram below)</p>
+</li>
 </ul>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="images/MemberExportExample.png" alt="MemberExportExample" width="1000">
 </div>
-<div class="sect3">
-<h4 id="future-implementation"><a class="link" href="#future-implementation">3.3.2. Future Implementation</a></h4>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p>For future implementation, the <code>memberExport</code> command will export the members details in a formatted html page</p>
+<p>For smaller mobile screens (diagram below)</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/MemberExportExampleMobile.png" alt="MemberExportExampleMobile" width="800">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="future-implementation"><a class="link" href="#future-implementation">3.4.2. Future Implementation</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>For future implementation, the <code>memberExport</code> would be able to take in an additional parameter for the selection of export format.</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="activity-list-feature"><a class="link" href="#activity-list-feature">3.4. Activity List Feature</a></h3>
+<h3 id="activity-list-feature"><a class="link" href="#activity-list-feature">3.5. Activity List Feature</a></h3>
 <div class="paragraph">
 <p>One basic feature of <code>ClubManager</code> is to display and manage either a list of all the activities or some particular
 activities that the club has. <code>activityAdd</code> , <code>activityList</code> , <code>activityFilter</code> , <code>activityFind</code> and
 <code>activityDelete</code> commands contribute to this feature.</p>
 </div>
 <div class="sect3">
-<h4 id="current-implementation-4"><a class="link" href="#current-implementation-4">3.4.1. Current Implementation</a></h4>
+<h4 id="current-implementation-5"><a class="link" href="#current-implementation-5">3.5.1. Current Implementation</a></h4>
 <h5 id="updated-model-component-to-store-activity-list" class="discrete">Updated Model Component to Store Activity List</h5>
 <div class="imageblock">
 <div class="content">
@@ -882,19 +985,19 @@ also provide additional description.</p>
 <h5 id="activity-list-command" class="discrete">Activity List Command</h5>
 </div>
 <div class="sect3">
-<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.4.2. Design Considerations</a></h4>
+<h4 id="design-considerations-2"><a class="link" href="#design-considerations-2">3.5.2. Design Considerations</a></h4>
 <div class="paragraph">
 <p>This section describes the pros and cons of the current implementation of the activity list
 feature.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="future-implementation-2"><a class="link" href="#future-implementation-2">3.4.3. Future Implementation</a></h4>
+<h4 id="future-implementation-2"><a class="link" href="#future-implementation-2">3.5.3. Future Implementation</a></h4>
 
 </div>
 </div>
 <div class="sect2">
-<h3 id="logging"><a class="link" href="#logging">3.5. Logging</a></h3>
+<h3 id="logging"><a class="link" href="#logging">3.6. Logging</a></h3>
 <div class="paragraph">
 <p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
 </div>
@@ -932,7 +1035,7 @@ feature.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="configuration"><a class="link" href="#configuration">3.6. Configuration</a></h3>
+<h3 id="configuration"><a class="link" href="#configuration">3.7. Configuration</a></h3>
 <div class="paragraph">
 <p>Certain properties of the application can be controlled (e.g user prefs file location, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
@@ -3207,4 +3310,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-08 12:59:02 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-08 14:56:00 UTC</div></div></div></body></html>
