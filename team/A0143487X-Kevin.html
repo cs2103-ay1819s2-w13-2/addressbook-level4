@@ -1,0 +1,442 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]--><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="Asciidoctor 1.5.6.1"><title>Yang Yiqing - Project Portfolio</title><link rel="stylesheet" href="../stylesheets/gh-pages.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../stylesheets/coderay-asciidoctor.css"></head><body class="article"><div id="seedu-header"><nav class="navbar navbar-lg navbar-light bg-lighter"><div class="container"><a class="navbar-brand" href="https://se-edu.github.io/"><img src="../images/SeEduLogo.png" alt="SE-EDU"></a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level1">AB-1</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level2">AB-2</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/addressbook-level3">AB-3</a></li><li class="nav-item"><a class="nav-link active" href="../index.html">AB-4</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/collate">Collate</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/se-book">Book</a></li><li class="nav-item"><a class="nav-link" href="https://se-edu.github.io/learningresources">Resources</a></li></ul></div></nav></div><div id="site-header"><nav class="navbar navbar-light bg-light"><div class="container"><a class="navbar-brand" href="../index.html">Club-Manager</a><ul class="navbar-nav"><li class="nav-item"><a class="nav-link" href="../UserGuide.html">User Guide</a></li><li class="nav-item"><a class="nav-link" href="../DeveloperGuide.html">Developer Guide</a></li><li class="nav-item"><a class="nav-link" href="../LearningOutcomes.html">LOs</a></li><li class="nav-item"><a class="nav-link active" href="../AboutUs.html">About Us</a></li><li class="nav-item"><a class="nav-link" href="../ContactUs.html">Contact Us</a></li><li class="navitem"><a class="nav-link" href="https://github.com/cs2103-ay1819s2-w13-2/main"><span class="fa fa-github fa-lg" aria-hidden="true"></span>&nbsp;View on GitHub</a></li></ul></div></nav></div><div id="header"><h1>Yang Yiqing - Project Portfolio</h1></div><div id="content"><div class="sect1">
+<h2 id="project-clubmanager"><a class="link" href="#project-clubmanager">1. PROJECT: ClubManager</a></h2>
+<div class="sectionbody">
+<hr>
+<div class="sect2">
+<h3 id="overview"><a class="link" href="#overview">1.1. Overview</a></h3>
+<div class="paragraph">
+<p>This portfolio documents the features and enhancements that I have made to the project and the contributions I have made to
+the User and Developer guide.</p>
+</div>
+<div class="paragraph">
+<p>ClubManager is a desktop application for CCA management. It comes with a GUI but most of the user interactions
+takes place on the CLI (Command Line Interface) provided.</p>
+</div>
+<div class="paragraph">
+<p>ClubManager is specially designed for <strong>CCA main committee members</strong> to manage their CCA data. It is the g
+o-to application for CCA leaders who are looking for a software that allows them to <strong>manage their members and activities</strong>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="summary-of-contributions"><a class="link" href="#summary-of-contributions">1.2. Summary of contributions</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Major enhancement</strong>: added <strong>Mode of operation control feature</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>What it does: Allow the app to operate in different modes which restrict the modes in which different commands can operate in. This feacture includes :<br></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Management of UI for the different modes.</p>
+</li>
+<li>
+<p>Function for mode switching.</p>
+</li>
+<li>
+<p>Modification of the logic architecture for the restriction of command operations to their respective modes.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Justification: This feature improves the product to allow user to more intuitively use the app to handle both activity and members.</p>
+</li>
+<li>
+<p>Highlights: This enhancement affects existing commands and commands to be added in future. It also minimizes ambiguity and limits errors from user.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Major enhancement</strong>: added <strong>Export feature</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>What it does: Allow the user to generate information in a html format for viewing or printing. This feacture includes :<br></p>
+<div class="ulist">
+<ul>
+<li>
+<p>File handling operations.</p>
+</li>
+<li>
+<p>Formatting data based on templates which are designed in html.</p>
+</li>
+<li>
+<p>Generating the file which is responsive (large screens or mobile screens)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Justification: This feature improves the product to allow user and vendors to generate a copy of the information on a need-to-hold basis minimizing information leaks and PDPA breaches.</p>
+</li>
+<li>
+<p>Highlights: This enhancement allows easy reuse and expansion in the future as the infrastructure for file handling and generating responsive files from templates.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Minor enhancement</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Rename member list function.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Code contributed</strong>: [<a href="https://github.com/CS2103-AY1819S2-W13-2/main/commits?author=A0143487X-Kevin">Functional code</a>] [<a href="https://nus-cs2103-ay1819s2.github.io/cs2103-dashboard/#search=A0143487X-Kevin&amp;sort=displayName&amp;since=2019-02-10&amp;until=2019-04-8&amp;timeframe=day&amp;reverse=false&amp;repoSort=true">RepoSense</a>]</p>
+</li>
+<li>
+<p><strong>Other contributions</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Project management:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Integrator of the project and modules from member and activity management</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Community:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Reviewed PRs</p>
+</li>
+<li>
+<p>Discuss with and help members design the structure and flow of their feature implementation</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contributions-to-the-user-guide"><a class="link" href="#contributions-to-the-user-guide">2. Contributions to the User Guide</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users.</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect3">
+<h4 id="get-set-the-mode-of-clubmanager-code-mode-code"><a class="link" href="#get-set-the-mode-of-clubmanager-code-mode-code">2.1. Get / Set the mode of ClubManager: <code>mode</code></a></h4>
+<div class="paragraph">
+<p>ClubManager operates in 2 modes. This function allows user to check the mode and change the mode<br></p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 55%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Mode</th>
+<th class="tableblock halign-left valign-top">Definition</th>
+<th class="tableblock halign-left valign-top">Example of allowed commands</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>member</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Member Management Mode</p>
+<p class="tableblock">This mode allows the user to manage members in ClubManager</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberAdd</code>,  <code>memberFind</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>activity</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Activity Management Mode</p>
+<p class="tableblock"> This mode allows the user to manage members in ClubManager</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>activityAdd</code>, <code>activityList</code>, <code>activitySelect</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Format:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>mode [MODE_CHOICE]</code></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If MODE_CHOICE is left blank, returns current mode</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><strong>Examples:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>mode</code>
+Returns current management mode of ClubManager</p>
+</li>
+<li>
+<p><code>mode activity</code>
+Changes current management mode of ClubManager to Activity</p>
+</li>
+<li>
+<p><code>mode member</code>
+Changes current management mode of ClubManager to Member</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="exporting-details-of-a-member-code-memberexport-code"><a class="link" href="#exporting-details-of-a-member-code-memberexport-code">2.2. Exporting details of a member : <code>memberExport</code></a></h4>
+<div class="paragraph">
+<p>Export the details of the member identified by the index number used in the displayed member list.<br>
+Format: <code>memberExport INDEX</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Exports the details of member at the specified <code>INDEX</code>.</p>
+</li>
+<li>
+<p>The index refers to the index number shown in the displayed member list.</p>
+</li>
+<li>
+<p>The index <strong>must be a positive integer</strong> <code>1, 2, 3, &#8230;&#8203;</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>memberList</code><br>
+<code>memberExport 2</code><br>
+Export the details of the 2nd person in the address book.</p>
+</li>
+<li>
+<p><code>memberFind name Betsy</code><br>
+<code>memberExport 1</code><br>
+Export the details of the 1st member in the results of the <code>find</code> command.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/MemberExportExample.png" alt="MemberExportExample" width="1000">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The exported file will be stored in the same directory where ClubManager is installed in.</p>
+</div>
+<div class="paragraph">
+<p>File name with the following format:
+NameOfPerson_xxxxx_exportedOnDDMMYYYY_HHMMSS.html</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="exporting-details-of-an-activity-code-activityexport-code"><a class="link" href="#exporting-details-of-an-activity-code-activityexport-code">2.3. Exporting details of an activity : <code>activityExport</code></a></h4>
+<div class="paragraph">
+<p>Export the details of the activity identified by the index number used in the displayed activity list.<br>
+Format: <code>activityExport INDEX</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Exports the details of activity at the specified <code>INDEX</code>.</p>
+</li>
+<li>
+<p>The index refers to the index number shown in the displayed activity list.</p>
+</li>
+<li>
+<p>The index <strong>must be a positive integer</strong> <code>1, 2, 3, &#8230;&#8203;</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>activityList</code><br>
+<code>activityExport 2</code><br>
+Export the details of the 2nd activity in the address book.</p>
+</li>
+<li>
+<p><code>memberFind name Swimming Class</code><br>
+<code>activityExport 1</code><br>
+Export the details of the 1st activity in the results of the <code>find</code> command.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ActivityExportExample.png" alt="ActivityExportExample" width="1000">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The exported file will be stored in the same directory where ClubManager is installed in.</p>
+</div>
+<div class="paragraph">
+<p>File name with the following format:
+NameOfActivity_xxxxx_exportedOnDDMMYYYY_HHMMSS.html</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="contributions-to-the-developer-guide"><a class="link" href="#contributions-to-the-developer-guide">3. Contributions to the Developer Guide</a></h2>
+<div class="sectionbody">
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project.</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="operation-mode-control-feature"><a class="link" href="#operation-mode-control-feature">3.1. Operation mode control feature</a></h3>
+<div class="sect3">
+<h4 id="current-implementation"><a class="link" href="#current-implementation">3.1.1. Current Implementation</a></h4>
+<div class="paragraph">
+<p>ClubManager is designed to manage members and activities and allow the user to link members to the activities.
+To syncronize the user interface to show appropriate information when users are doing different operation and to minimize confusion the following feature has been added.
+With the implementation of modes of operations which only allows commands to be executed in their respective modes.</p>
+</div>
+<div class="paragraph">
+<p>For example when ClubManager is in Member Mode, only member commands can be called (for example memberAdd, memberEdit etc.)</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/appInMemberMode.png" alt="appInMemberMode" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>Calling an activity command will result in an error.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/appInMemberModeCallingActivityCmd.png" alt="appInMemberModeCallingActivityCmd" width="800">
+</div>
+</div>
+<div class="paragraph">
+<p>General commands can be called in any mode (for example help and exit)</p>
+</div>
+<div class="paragraph">
+<p>Currently the app has 2 modes of operation, namely member mode and activity mode.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-of-operation-mode-control"><a class="link" href="#design-of-operation-mode-control">3.1.2. Design of operation mode control</a></h4>
+<div class="paragraph">
+<p>Each Command extends a CommandType, currently MemberCommand, ActivityCommand and GeneralCommand</p>
+</div>
+<div class="paragraph">
+<p>For each CommandType, there is an ArrayList of modes in where this category of command can operate in.
+When the Command is created, it instatiates the operation modes. And when the execute function of the Command is called, the app would allow the execution of the command if the current app mode can be found within the the allowed mode list of the command.
+If the mode does not match, it will throw an exception preventing the execution and prompting the user to change the app mode (by using the mode command) before calling such a function.</p>
+</div>
+<div class="paragraph">
+<p>A coloured label on the top right corner also indicates the mode of operation at any time to let the user easily track which mode the app is operating in.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ModeMemberLabel.png" alt="ModeMemberLabel" width="400">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ModeActivityLabel.png" alt="ModeActivityLabel" width="400">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-consideration-to-aid-future-expansion-of-app"><a class="link" href="#design-consideration-to-aid-future-expansion-of-app">3.1.3. Design Consideration to aid future expansion of app</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>The design approach of the mode of operation control allows easy expansion of the app to manage more categories if required.</p>
+</li>
+<li>
+<p>The feature is designed with easy reuse in mind by allowing the checking of mode to be done dynamically.</p>
+</li>
+<li>
+<p>Since the modes which the command can operate in is stored as an ArrayList, future implementation of more modes of operation, can be added to the list. The current function to check the allowed mode will still be valid.</p>
+</li>
+<li>
+<p>The design also allows the type of command to operate in and not be restricted to either a single mode or all modes but also any combination of modes.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-08 16:13:40 UTC</div></div></div></body></html>
