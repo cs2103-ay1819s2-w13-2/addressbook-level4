@@ -190,6 +190,9 @@ will be "More details to be added."</p>
 The ongoing activities will be display on top while the completed activity will be at
 the bottom of the list.</p>
 </li>
+<li>
+<p>Activities with the same time and location cannot be added.</p>
+</li>
 </ul>
 </div>
 </div>
@@ -200,7 +203,7 @@ the bottom of the list.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>activityAdd n/Sentosa Outing d/16022019 1000 l/Harbour Front MRT de/Bring swim suits.</code></p>
+<p><code>activityAdd n/Sentosa Outing d/16/02/2019 1000 l/Harbour Front MRT de/Bring swim suits.</code></p>
 </li>
 <li>
 <p><code>activityAdd n/HTML workshop d/1402019 l/ICube Auditorium ic/A0123456Z</code></p>
@@ -246,7 +249,7 @@ Format: <code>activityFilter CONDITION NUMBEROFDAYS</code></p>
 <div class="paragraph">
 <p>Finds all activities whose attribute contain any of the specified keywords
 (case-insensitive) and displays them as a list with index numbers.<br>
-Format: <code>activityFind [a/] [n/] [de/] [l/] KEYWORD [MORE_KEYWORDS]</code></p>
+Format: <code>activityFind [PREFIX] KEYWORD [MORE_KEYWORDS] [NEXT_PREFIX KEYWORD] [MORE KEYWORD]</code></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -259,18 +262,23 @@ Format: <code>activityFind [a/] [n/] [de/] [l/] KEYWORD [MORE_KEYWORDS]</code></
 <p>The order of the keywords does not matter. e.g. <code>Talk Seminar</code> will match <code>Seminar Talk</code></p>
 </li>
 <li>
-<p>The search parameter is determined by the prefix. <code>a/</code> is to search all descriptive fields (ActivityName,
-ActivityLocation, ActivityDescription); <code>n/</code> searches for match in ActivityName; <code>l/</code> searches for match in
+<p>The search parameter is determined by the prefixes.  <code>n/</code> searches for match in ActivityName; <code>l/</code> searches for match in
 ActivityLocation; <code>de/</code> searches for matches in ActivityDescription.</p>
 </li>
 <li>
-<p>There can be one and only one prefix.</p>
+<p>If no prefix is provided, the activities with any fields matching the keywords would be returned.</p>
 </li>
 <li>
 <p>Only full words will be matched e.g. <code>CS</code> will not match <code>CSS</code></p>
 </li>
 <li>
-<p>Activities matching at least one keyword will be returned (i.e. <code>OR</code> search). e.g. <code>HTML workshop</code> will return <code>HTML camp</code>, <code>CSS workshop</code></p>
+<p>For a specific prefix, activities matching at least one keyword will be returned (i.e. <code>OR</code> search within the prefix).
+e.g. <code>HTML workshop</code> will return <code>HTML camp</code>, <code>CSS workshop</code></p>
+</li>
+<li>
+<p>If more than one prefixes are entered, only activities matching all the prefixes' conditions will be returned
+(i.e. <code>AND</code> search between prefixes). e.g. <code>n/Sentosa Dance l/Icube MRT</code> will only return activities with name that contains
+<code>Sentosa</code> or <code>Dance</code> and location that contains <code>Icube</code> or <code>MRT</code>.</p>
 </li>
 </ul>
 </div>
@@ -432,4 +440,4 @@ feature.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-08 01:57:15 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-08 02:47:57 UTC</div></div></div></body></html>
