@@ -1127,7 +1127,7 @@ Format: <code>activityFilter CONDITION NUMBEROFDAYS</code></p>
 <div class="ulist">
 <ul>
 <li>
-<p>The filter condition must be specified. <code>+</code> is to filter future activities and <code>-</code> is to filter activities.</p>
+<p>The filter condition must be specified. <code>+</code> is to filter future activities and <code>-</code> is to filter past activities.</p>
 </li>
 <li>
 <p><code>NUMBEROFDAYS</code> refers to the range of days from the current date.</p>
@@ -1138,6 +1138,21 @@ Format: <code>activityFilter CONDITION NUMBEROFDAYS</code></p>
 </ul>
 </div>
 </div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>activityFilter + 7</code><br>
+Returns future activities scheduled in the next 7 days (including today)</p>
+</li>
+<li>
+<p><code>activityFilter - 30</code><br>
+Returns past activities from the last 30 days (inclusive).</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
@@ -1530,4 +1545,4 @@ e.g. <code>activityExport 1</code></p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-09 09:16:35 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-09 10:11:44 UTC</div></div></div></body></html>
