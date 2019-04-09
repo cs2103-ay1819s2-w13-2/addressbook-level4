@@ -62,7 +62,7 @@ The order is from Ongoing to Completed, within the same status the activities ar
 <div class="ulist">
 <ul>
 <li>
-<p>Update UI display for activity list and activity details.</p>
+<p>Update UI display for activity list and activity details. <a href="https://github.com/cs2103-ay1819s2-w13-2/main/pull/154">#154</a></p>
 </li>
 <li>
 <p>Update Storage for storing attendance in activity.</p>
@@ -206,7 +206,7 @@ the bottom of the list.</p>
 <p><code>activityAdd n/Sentosa Outing d/16/02/2019 1000 l/Harbour Front MRT de/Bring swim suits.</code></p>
 </li>
 <li>
-<p><code>activityAdd n/HTML workshop d/1402019 l/ICube Auditorium ic/A0123456Z</code></p>
+<p>`activityAdd n/HTML workshop d/14/02/2019 l/ICube Auditorium</p>
 </li>
 </ul>
 </div>
@@ -413,19 +413,74 @@ activities that the club has. <code>activityAdd</code> , <code>activityList</cod
 <p>exposes an unmodifiable <code>ObservableList&lt;Activity&gt;</code> that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.</p>
 </li>
 <li>
-<p>Each activity can have a HashMap of <code>Person</code> Object for attendance.</p>
+<p>Each activity can have a <code>List</code> of <code>MatricNumber</code> Object for attendance.</p>
 </li>
 </ul>
-</div>
-<div class="paragraph">
-<p><strong>to be completed</strong></p>
 </div>
 <h5 id="activity-add-command" class="discrete">Activity Add Command</h5>
 <div class="paragraph">
 <p>The <code>activityAdd</code> command enables users to create a new activity with name, datetime, location. User could
 also provide additional description.</p>
 </div>
-<h5 id="activity-list-command" class="discrete">Activity List Command</h5>
+<div class="paragraph">
+<p>When user enters the command <code>activityAdd</code> in <code>Command Box</code>, the following sequence of events would occur:</p>
+</div>
+<div class="paragraph">
+<p>Step 1. An <code>ActivityAddCommandParser</code> would be generated based on user&#8217;s inputs.<br>
+The presence of required prefixes and whether any prefixes are duplicated would be checked.<br>
+Inputs would be checked in respective parser utils.<br>
+If all checks pass, an <code>ActivityAddCommand</code> would be generated with the specified <code>Activity</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. <code>ActivityAddCommand</code> would be executed and it would attempt to add the new <code>Activity</code> to <code>Model</code>.<br>
+Whether the <code>Activity</code> can be added to <code>Model</code> would be checked in this step.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ActivityAddChecks.png" alt="ActivityAddChecks" width="600" height="300">
+</div>
+<div class="title">Figure 2. Sequence of Checks for Adding Activity</div>
+</div>
+<h5 id="activity-filter-command" class="discrete">Activity Filter Command</h5>
+<div class="paragraph">
+<p>The <code>activityFilter</code> command enables users to filter activities based on the time</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ActivityFilterCommandSequenceDiagram.png" alt="ActivityFilterCommandSequenceDiagram" width="800">
+</div>
+<div class="title">Figure 3. Activity Filter Command Sequence Diagram</div>
+</div>
+<h4 id="activity-find-command" class="discrete">Activity Find Command</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">boolean</span> test(Activity activity) {
+    <span class="comment">// all attribute fields are searched.</span>
+    <span class="keyword">if</span> (keywords.containsKey(PREFIX_ALL)) {
+        <span class="keyword">return</span> keywords.get(PREFIX_ALL).stream()
+            .anyMatch(keyword -&gt; StringUtil.containsWordIgnoreCase(activity.getName().fullActivityName, keyword)
+                || StringUtil.containsWordIgnoreCase(activity.getDescription().value, keyword)
+                || StringUtil.containsWordIgnoreCase(activity.getLocation().value, keyword));
+    }
+
+     <span class="comment">// OR search for a single boolean</span>
+   <span class="type">boolean</span> isNameMatched = keywords.get(PREFIX_ACTIVITYNAME) == <span class="predefined-constant">null</span>
+       || keywords.get(PREFIX_ACTIVITYNAME).stream()
+           .anyMatch(keyword -&gt; StringUtil.containsWordIgnoreCase(activity.getName().fullActivityName, keyword));
+
+   <span class="type">boolean</span> isDescriptionMatched = keywords.get(PREFIX_ADESCRIPTION) == <span class="predefined-constant">null</span>
+       || keywords.get(PREFIX_ADESCRIPTION).stream()
+           .anyMatch(keyword -&gt; StringUtil.containsWordIgnoreCase(activity.getDescription().value, keyword));
+
+   <span class="type">boolean</span> isLocationMatched = keywords.get(PREFIX_LOCATION) == <span class="predefined-constant">null</span>
+       || keywords.get(PREFIX_LOCATION).stream()
+           .anyMatch(keyword -&gt; StringUtil.containsWordIgnoreCase(activity.getLocation().value, keyword));
+
+   <span class="comment">// AND search between prefixes</span>
+        <span class="keyword">return</span> isNameMatched &amp;&amp; isDescriptionMatched &amp;&amp; isLocationMatched;
+}</code></pre>
+</div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="design-considerations"><a class="link" href="#design-considerations">3.1.2. Design Considerations</a></h4>
@@ -440,4 +495,4 @@ feature.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-08 16:13:40 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-09 09:15:33 UTC</div></div></div></body></html>
