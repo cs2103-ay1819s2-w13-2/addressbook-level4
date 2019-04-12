@@ -312,12 +312,16 @@ e.g. <code>HTML workshop</code> will return <code>HTML camp</code>, <code>CSS wo
 <div class="ulist">
 <ul>
 <li>
-<p><code>activityFind l/ Hall</code><br>
-Returns activities with location <code>University Hall</code> and <code>Eusoff Hall</code></p>
+<p><code>activityFind de/ free</code><br>
+Returns activities with description <code>Free food</code> and <code>Free giveaway</code></p>
 </li>
 <li>
 <p><code>activityFind n/ HTML CSS Javascript</code><br>
 Returns any activity having names <code>HTML</code>, <code>CSS</code>, or <code>Javascript</code></p>
+</li>
+<li>
+<p><code>activityFind n/Workshop Lecture l/Auditorium</code><br>
+Returns any activity having name <code>Workshop</code> or <code>Lecture</code>, and the location is <code>Auditorium</code></p>
 </li>
 </ul>
 </div>
@@ -454,7 +458,8 @@ Inputs would be checked in respective parser utils.<br>
 If all checks pass, an <code>ActivityAddCommand</code> would be generated with the specified <code>Activity</code>.</p>
 </div>
 <div class="paragraph">
-<p>Step 2. <code>ActivityAddCommand</code> would be executed and it would attempt to add the new <code>Activity</code> to <code>Model</code>.<br>
+<p>Step 2. <code>ActivityAddCommand</code> would be executed by calling <code>ActivityAddCommand#execute</code> and it would attempt to
+add the new <code>Activity</code> to <code>Model</code> by calling <code>Model#addActivity</code><br>
 Whether the <code>Activity</code> can be added to <code>Model</code> would be checked in this step.</p>
 </div>
 <div class="imageblock">
@@ -465,7 +470,33 @@ Whether the <code>Activity</code> can be added to <code>Model</code> would be ch
 </div>
 <h5 id="activity-filter-command" class="discrete">Activity Filter Command</h5>
 <div class="paragraph">
-<p>The <code>activityFilter</code> command enables users to filter activities based on the time</p>
+<p>The <code>activityFilter</code> command enables users to filter activities based on the time. Either past or
+future activities would be filtered based on the condition in the user input.</p>
+</div>
+<div class="paragraph">
+<p>The <code>activityFilter</code> mechanism is facilitated by <code>ActivityFilterCommand</code>, <code>ActivityFilterCommandParser</code>,
+<code>ActivityDateTimeAfterPredicate</code> and <code>ActivityDateTimeBeforePredicate</code>.</p>
+</div>
+<div class="paragraph">
+<p>Given below is an example usage scenario and how the <code>ActivityFilterCommand</code> is carried out at each step.</p>
+</div>
+<div class="paragraph">
+<p>Step 1. The users want to find all future <code>Activity</code> scheduled for the next seven days by inputting
+<code>activityFilter + 7</code> in the command box.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. The <code>ActivityFilterCommandParser</code> will parse the input and generate an <code>ActivityDateTimeAfterPredicate</code>
+based on the <code>+</code> condition given. The predicate will be passed to <code>ActivityFilterCommand</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The <code>ActivityFilterCommand</code> will call the <code>execute</code> function by executing <code>Model#updateFilteredActivityList</code></p>
+</div>
+<div class="paragraph">
+<p>Step 4. <code>AddressBook</code> will be committed due to potential update to <code>ActivityStatus</code> for each <code>Activity</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following diagram is a partial sequence diagram that summarises what happens when the user call
+<code>ActivityFilterCommand</code> starting from <code>ActivityFilterCommandParser</code>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -474,6 +505,24 @@ Whether the <code>Activity</code> can be added to <code>Model</code> would be ch
 <div class="title">Figure 3. Activity Filter Command Sequence Diagram</div>
 </div>
 <h4 id="activity-find-command" class="discrete">Activity Find Command</h4>
+<div class="paragraph">
+<p>The <code>activityFind</code> command enables users to search for activities with specific keywords in some attribute
+fields(i.e <code>ActivityName</code>, <code>ActivityDescription</code> and <code>ActivityLocation</code>).</p>
+</div>
+<div class="paragraph">
+<p>The structure and sequence of events after <code>activityFind</code> command is called is very similar to that of
+<code>activityFilter</code>. The one difference is, instead of generating a predicate based on conditions, the
+<code>ActivityFindCommandParser</code> would parse the input into a <code>Map</code> of <code>Prefix</code> mapped to a <code>List</code> of <code>String</code>(keywords)
+ and pass the map to generate an <code>ActivityContainsKeywordPredicate</code>.</p>
+</div>
+<div class="paragraph">
+<p>To avoid redundancy and repeating diagrams with minor details, the sequence of events could refer to the steps and
+sequence diagram for <code>ActivityFilterCommand</code> given above.</p>
+</div>
+<div class="paragraph">
+<p>The key component of <code>ActivityFindCommand</code> is the <code>ActivityContainsKeywordsPredicate#test</code> function. The snippet
+of code below is to show how it is implemented.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">boolean</span> test(Activity activity) {
@@ -503,6 +552,27 @@ Whether the <code>Activity</code> can be added to <code>Model</code> would be ch
 }</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Here is some usage scenarios to better elucidate the logic of the predicate use:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If a user want to find some <code>Activity</code> with name <code>Workshop</code> or <code>Outing</code>, it could be achieved by typing
+<code>activityFind n/Workshop Outing</code>.</p>
+</li>
+<li>
+<p>If a user want to find some <code>Activity</code> with name <code>Movie</code> or <code>Viewing</code> and the location is a <code>cinema</code>,
+<code>activityFind n/Movie Viewing l/cinema</code> could be used.<br>
+<code>Activity</code> with <code>Movie Panel</code> as <code>ActivityName</code>, <code>Club Room</code> as <code>ActivityLocation</code> would not be displayed
+by this command because it does not match the keyword provided by the location prefix.</p>
+</li>
+<li>
+<p>If no <code>Prexfix</code> is found, e.g. <code>activityFind Summer</code>, all <code>Activity</code> with <code>Summer</code> in any of the three
+fields would be listed.</p>
+</li>
+</ul>
+</div>
 </div>
 <div class="sect3">
 <h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
@@ -510,11 +580,90 @@ Whether the <code>Activity</code> can be added to <code>Model</code> would be ch
 <p>This section describes the pros and cons of the current implementation of the activity list
 feature.</p>
 </div>
+<div class="sect4">
+<h5 id="aspect-updating-the-status-of-activities"><a class="link" href="#aspect-updating-the-status-of-activities">Aspect: Updating the status of activities</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1(current choice):</strong> Loop through the entire <code>ActivityList</code> in <code>AddressBook</code> each time
+the predicate to <code>FilteredActivityList</code> is updated.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Ensures that all the status of <code>Activity</code> displayed by most command calls are accurate and every
+<code>Activity</code> is in the sorted position whenever the list is displayed. The given code snippet below demonstrates
+how this is achieved.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">    <span class="comment">//in ModelManager.java</span>
+    <span class="directive">public</span> <span class="type">void</span> updateFilteredActivityList(<span class="predefined-type">Predicate</span>&lt;Activity&gt; predicate) {
+        requireNonNull(predicate);
+        updateActivityList(); <span class="comment">//loop through activitylist to update any outdated status</span>
+        filteredActivities.setPredicate(predicate);
+    }</code></pre>
 </div>
-<div class="sect3">
-<h4 id="future-implementation"><a class="link" href="#future-implementation">Future Implementation</a></h4>
-
+</div>
+</li>
+<li>
+<p>Cons: The update function would be called for most activity commands, as it loops through the entire <code>ActivityList</code>,
+it would make the app slower in performance. There may be unnecessary loops as well.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Implement an <code>activityUpdate</code> command and <code>ActivityStatus</code> would only be updated when
+the command is called.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Faster in performance.</p>
+</li>
+<li>
+<p>Cons: <code>ActivityStatus</code> displayed in the List may be outdated and the <code>Activity</code> might not be in the correct
+sorted position.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-how-to-specify-search-field-for-code-activityfind-code"><a class="link" href="#aspect-how-to-specify-search-field-for-code-activityfind-code">Aspect: How to specify search field for <code>activityFind</code></a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Search conditions are specified by <code>Prefix</code> such as <code>n/</code> for <code>ActivityName</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Similar to other activity commands such as <code>activityAdd</code> or <code>activityEdit</code>. More accurate results.</p>
+</li>
+<li>
+<p>Cons: May be hard for new users to remember and understand the logic.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Use <code>name</code> etc. as search conditions.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: More intuitive for new users.</p>
+</li>
+<li>
+<p>Cons: Inconsistency with other activity commands. It may yield incorrect results as the app need to
+distinguish whether an input is a keyword or a search condition.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-12 05:27:49 UTC</div></div></div></body></html>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-12 05:29:19 UTC</div></div></div></body></html>
