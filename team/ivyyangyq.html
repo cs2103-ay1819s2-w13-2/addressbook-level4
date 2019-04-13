@@ -11,12 +11,8 @@
 the User and Developer guide.</p>
 </div>
 <div class="paragraph">
-<p>ClubManager is a desktop application for CCA management. It comes with a GUI but most of the user interactions
-takes place on the CLI (Command Line Interface) provided.</p>
-</div>
-<div class="paragraph">
-<p>ClubManager is specially designed for <strong>CCA main committee members</strong> to manage their CCA data. It is the g
-o-to application for CCA leaders who are looking for a software that allows them to <strong>manage their members and activities</strong>.</p>
+<p>ClubManager is a desktop application for NUS CCA management. It is specially designed for <strong>CCA main committee members</strong> to manage their CCA data. It is the
+go-to application for CCA leaders who are looking for a software that allows them to <strong>manage their members and activities</strong>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -32,7 +28,7 @@ o-to application for CCA leaders who are looking for a software that allows them
 <div class="ulist">
 <ul>
 <li>
-<p>Adding activities to (<code>activityAdd</code>) and removing activities from (<code>activityDelete</code>) from the activity list.</p>
+<p>Adding activities to (<code>activityAdd</code>) and removing activities from (<code>activityDelete</code>) the activity list.</p>
 </li>
 <li>
 <p>Finding activities that match some given criteria (<code>activityFind</code>) and filtering the activities based on the how recent
@@ -82,10 +78,7 @@ The order is from Ongoing to Completed, within the same status the activities ar
 <div class="ulist">
 <ul>
 <li>
-<p>Managed releases <code>v1.1</code> - <code>v1.4</code> (4 releases) on GitHub</p>
-</li>
-<li>
-<p>Tagged releases, compiled binary (JAR) files and published releases on GitHub</p>
+<p>Compiled binary (JAR) files and managed releases <code>v1.1</code> - <code>v1.4</code> (4 releases) on GitHub</p>
 </li>
 <li>
 <p>Managed milestones <code>v1.1</code> - <code>v1.4</code></p>
@@ -150,14 +143,14 @@ and 6 user stories (<a href="https://github.com/cs2103-ay1819s2-w13-2/main/issue
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ActivityName</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ACTIVITY_NAME refers to the name of the activity.</p>
-<p class="tableblock"> Only alphabets are accepted.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ACTIVITY_NAME refers to the name of the activity.
+ Only alphabets are accepted.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Sentosa Outing</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ActivityDateTime</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DATETIME refers to the date and time of the activity</p>
-<p class="tableblock">Activity Date and time should be in "dd/MM/YYYY HHMM" format, where dd, MM, YYYY refers
+<td class="tableblock halign-left valign-top"><p class="tableblock">DATETIME refers to the date and time of the activity
+Activity Date and time should be in "dd/MM/YYYY HHMM" format, where dd, MM, YYYY refers
 to day of month, month and year respectively. HH refers to the hour in 24 hour format (
 0-23).</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">28/02/2019 2359</p></td>
@@ -182,12 +175,12 @@ to day of month, month and year respectively. HH refers to the hour in 24 hour f
 <div class="ulist">
 <ul>
 <li>
-<p>Inputing description is optional. If no description is found, the default description
-will be "More details to be added."</p>
+<p>Inputing description is optional. If no description is found, the default description will be
+"More details to be added."</p>
 </li>
 <li>
 <p>The added activity will be displayed at the sorted position according to its time.<br>
-The ongoing activities will be display on top while the completed activity will be at
+The most recent ongoing activities will be display on top while the most recent completed activity will be at
 the bottom of the list.</p>
 </li>
 <li>
@@ -206,17 +199,13 @@ the bottom of the list.</p>
 <p><code>activityAdd n/Sentosa Outing d/16/02/2019 1000 l/Harbour Front MRT de/Bring swim suits.</code></p>
 </li>
 <li>
-<p>`activityAdd n/HTML workshop d/14/02/2019 l/ICube Auditorium</p>
+<p><code>activityAdd n/HTML workshop d/14/02/2019 l/ICube Auditorium</code></p>
 </li>
 </ul>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/ActivityAddCommand.png" alt="ActivityAddCommand" width="790">
-</div>
-</div>
 <div class="paragraph">
-<p>Adding activity to the correct position based on the time.</p>
+<p>(image omitted)<br>
+Adding activity to the correct position based on the time.</p>
 </div>
 </div>
 <div class="sect3">
@@ -333,10 +322,8 @@ Format: <code>activityList</code></p>
 </div>
 </div>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/ActivityListCommand.png" alt="ActivityListCommand" width="790">
-</div>
+<div class="paragraph">
+<p>(image omitted)</p>
 </div>
 </div>
 <div class="sect3">
@@ -407,7 +394,7 @@ activities that the club has. <code>activityAdd</code> , <code>activityList</cod
 <h5 id="updated-model-component-to-store-activity-list" class="discrete">Updated Model Component to Store Activity List</h5>
 <div class="imageblock">
 <div class="content">
-<img src="../images/ModelComponentWithActivityList.png" alt="ModelComponentWithActivityList" width="800">
+<img src="../images/ModelComponentWithActivityList_copy.png" alt="ModelComponentWithActivityList copy" width="600">
 </div>
 <div class="title">Figure 1. Structure of the Activity Model Component</div>
 </div>
@@ -419,15 +406,6 @@ activities that the club has. <code>activityAdd</code> , <code>activityList</cod
 </div>
 <div class="ulist">
 <ul>
-<li>
-<p>stores a <code>UserPref</code> object that represents the user&#8217;s preferences.</p>
-</li>
-<li>
-<p>stores the Address Book data.</p>
-</li>
-<li>
-<p>exposes an unmodifiable <code>ObservableList&lt;Person&gt;</code> that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.</p>
-</li>
 <li>
 <p>exposes an unmodifiable <code>ObservableList&lt;Activity&gt;</code> that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.</p>
 </li>
@@ -457,7 +435,7 @@ Whether the <code>Activity</code> can be added to <code>Model</code> would be ch
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/ActivityAddChecks.png" alt="ActivityAddChecks" width="600" height="300">
+<img src="../images/ActivityAddChecks.png" alt="ActivityAddChecks" width="500" height="300">
 </div>
 <div class="title">Figure 2. Sequence of Checks for Adding Activity</div>
 </div>
@@ -509,10 +487,6 @@ fields(i.e <code>ActivityName</code>, <code>ActivityDescription</code> and <code
  and pass the map to generate an <code>ActivityContainsKeywordPredicate</code>.</p>
 </div>
 <div class="paragraph">
-<p>To avoid redundancy and repeating diagrams with minor details, the sequence of events could refer to the steps and
-sequence diagram for <code>ActivityFilterCommand</code> given above.</p>
-</div>
-<div class="paragraph">
 <p>The key component of <code>ActivityFindCommand</code> is the <code>ActivityContainsKeywordsPredicate#test</code> function. The snippet
 of code below is to show how it is implemented.</p>
 </div>
@@ -522,26 +496,21 @@ of code below is to show how it is implemented.</p>
     <span class="comment">// all attribute fields are searched.</span>
     <span class="keyword">if</span> (keywords.containsKey(PREFIX_ALL)) {
         <span class="keyword">return</span> keywords.get(PREFIX_ALL).stream()
-            .anyMatch(keyword -&gt; StringUtil.containsWordIgnoreCase(activity.getName().fullActivityName, keyword)
-                || StringUtil.containsWordIgnoreCase(activity.getDescription().value, keyword)
-                || StringUtil.containsWordIgnoreCase(activity.getLocation().value, keyword));
-    }
+            .anyMatch(...); <span class="comment">//String util to check if keywords in ActivityName or ActivityDescription</span>
+    }                       <span class="comment">// or ActivityLocation</span>
 
      <span class="comment">// OR search for a single boolean</span>
    <span class="type">boolean</span> isNameMatched = keywords.get(PREFIX_ACTIVITYNAME) == <span class="predefined-constant">null</span>
        || keywords.get(PREFIX_ACTIVITYNAME).stream()
            .anyMatch(keyword -&gt; StringUtil.containsWordIgnoreCase(activity.getName().fullActivityName, keyword));
 
-   <span class="type">boolean</span> isDescriptionMatched = keywords.get(PREFIX_ADESCRIPTION) == <span class="predefined-constant">null</span>
-       || keywords.get(PREFIX_ADESCRIPTION).stream()
-           .anyMatch(keyword -&gt; StringUtil.containsWordIgnoreCase(activity.getDescription().value, keyword));
 
-   <span class="type">boolean</span> isLocationMatched = keywords.get(PREFIX_LOCATION) == <span class="predefined-constant">null</span>
-       || keywords.get(PREFIX_LOCATION).stream()
-           .anyMatch(keyword -&gt; StringUtil.containsWordIgnoreCase(activity.getLocation().value, keyword));
+   <span class="type">boolean</span> isDescriptionMatched = ... <span class="comment">//checking if keywords in description</span>
+
+   boolean isLocationMatched =  ... <span class="comment">// checking if keywords in location</span>
 
    <span class="comment">// AND search between prefixes</span>
-        <span class="keyword">return</span> isNameMatched &amp;&amp; isDescriptionMatched &amp;&amp; isLocationMatched;
+   return isNameMatched &amp;&amp; isDescriptionMatched &amp;&amp; isLocationMatched;
 }</code></pre>
 </div>
 </div>
@@ -557,7 +526,7 @@ of code below is to show how it is implemented.</p>
 <li>
 <p>If a user want to find some <code>Activity</code> with name <code>Movie</code> or <code>Viewing</code> and the location is a <code>cinema</code>,
 <code>activityFind n/Movie Viewing l/cinema</code> could be used.<br>
-<code>Activity</code> with <code>Movie Panel</code> as <code>ActivityName</code>, <code>Club Room</code> as <code>ActivityLocation</code> would not be displayed
+<code>Activity</code> with <code>Movie Panel Discussion</code> as <code>ActivityName</code>, <code>Club Room</code> as <code>ActivityLocation</code> would not be displayed
 by this command because it does not match the keyword provided by the location prefix.</p>
 </li>
 <li>
@@ -655,8 +624,19 @@ distinguish whether an input is a keyword or a search condition.</p>
 </li>
 </ul>
 </div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Some of the contributions to the user guide and developer guide have been omitted for brevity.
+Please visit W13-2 user guide and developer guide for full details.</em></p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-12 08:23:09 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-13 09:45:02 UTC</div></div></div></body></html>

@@ -945,7 +945,7 @@ activities that the club has. <code>activityAdd</code> , <code>activityList</cod
 <h5 id="updated-model-component-to-store-activity-list" class="discrete">Updated Model Component to Store Activity List</h5>
 <div class="imageblock">
 <div class="content">
-<img src="images/ModelComponentWithActivityList.png" alt="ModelComponentWithActivityList" width="800">
+<img src="images/ModelComponentWithActivityList_copy.png" alt="ModelComponentWithActivityList copy" width="600">
 </div>
 <div class="title">Figure 9. Structure of the Activity Model Component</div>
 </div>
@@ -957,15 +957,6 @@ activities that the club has. <code>activityAdd</code> , <code>activityList</cod
 </div>
 <div class="ulist">
 <ul>
-<li>
-<p>stores a <code>UserPref</code> object that represents the user&#8217;s preferences.</p>
-</li>
-<li>
-<p>stores the Address Book data.</p>
-</li>
-<li>
-<p>exposes an unmodifiable <code>ObservableList&lt;Person&gt;</code> that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.</p>
-</li>
 <li>
 <p>exposes an unmodifiable <code>ObservableList&lt;Activity&gt;</code> that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.</p>
 </li>
@@ -995,7 +986,7 @@ Whether the <code>Activity</code> can be added to <code>Model</code> would be ch
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/ActivityAddChecks.png" alt="ActivityAddChecks" width="600" height="300">
+<img src="images/ActivityAddChecks.png" alt="ActivityAddChecks" width="500" height="300">
 </div>
 <div class="title">Figure 10. Sequence of Checks for Adding Activity</div>
 </div>
@@ -1047,10 +1038,6 @@ fields(i.e <code>ActivityName</code>, <code>ActivityDescription</code> and <code
  and pass the map to generate an <code>ActivityContainsKeywordPredicate</code>.</p>
 </div>
 <div class="paragraph">
-<p>To avoid redundancy and repeating diagrams with minor details, the sequence of events could refer to the steps and
-sequence diagram for <code>ActivityFilterCommand</code> given above.</p>
-</div>
-<div class="paragraph">
 <p>The key component of <code>ActivityFindCommand</code> is the <code>ActivityContainsKeywordsPredicate#test</code> function. The snippet
 of code below is to show how it is implemented.</p>
 </div>
@@ -1060,26 +1047,21 @@ of code below is to show how it is implemented.</p>
     <span class="comment">// all attribute fields are searched.</span>
     <span class="keyword">if</span> (keywords.containsKey(PREFIX_ALL)) {
         <span class="keyword">return</span> keywords.get(PREFIX_ALL).stream()
-            .anyMatch(keyword -&gt; StringUtil.containsWordIgnoreCase(activity.getName().fullActivityName, keyword)
-                || StringUtil.containsWordIgnoreCase(activity.getDescription().value, keyword)
-                || StringUtil.containsWordIgnoreCase(activity.getLocation().value, keyword));
-    }
+            .anyMatch(...); <span class="comment">//String util to check if keywords in ActivityName or ActivityDescription</span>
+    }                       <span class="comment">// or ActivityLocation</span>
 
      <span class="comment">// OR search for a single boolean</span>
    <span class="type">boolean</span> isNameMatched = keywords.get(PREFIX_ACTIVITYNAME) == <span class="predefined-constant">null</span>
        || keywords.get(PREFIX_ACTIVITYNAME).stream()
            .anyMatch(keyword -&gt; StringUtil.containsWordIgnoreCase(activity.getName().fullActivityName, keyword));
 
-   <span class="type">boolean</span> isDescriptionMatched = keywords.get(PREFIX_ADESCRIPTION) == <span class="predefined-constant">null</span>
-       || keywords.get(PREFIX_ADESCRIPTION).stream()
-           .anyMatch(keyword -&gt; StringUtil.containsWordIgnoreCase(activity.getDescription().value, keyword));
 
-   <span class="type">boolean</span> isLocationMatched = keywords.get(PREFIX_LOCATION) == <span class="predefined-constant">null</span>
-       || keywords.get(PREFIX_LOCATION).stream()
-           .anyMatch(keyword -&gt; StringUtil.containsWordIgnoreCase(activity.getLocation().value, keyword));
+   <span class="type">boolean</span> isDescriptionMatched = ... <span class="comment">//checking if keywords in description</span>
+
+   boolean isLocationMatched =  ... <span class="comment">// checking if keywords in location</span>
 
    <span class="comment">// AND search between prefixes</span>
-        <span class="keyword">return</span> isNameMatched &amp;&amp; isDescriptionMatched &amp;&amp; isLocationMatched;
+   return isNameMatched &amp;&amp; isDescriptionMatched &amp;&amp; isLocationMatched;
 }</code></pre>
 </div>
 </div>
