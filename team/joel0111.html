@@ -14,7 +14,7 @@
 </div>
 <div class="paragraph">
 <p>For this project, our group has embarked on a journey to create a desktop CCA management application called <strong>Club Manager</strong>.
-Club Manager is catered for CCA leaders and is used for managing CCA members and activities. The user (i.e. CCA leader) interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.</p>
+Club Manager is catered for <strong>CCA leaders</strong> and is used for managing CCA members and activities. The user (i.e. CCA leader) interacts with it using a CLI, and it has a GUI created with JavaFX. This application is written in Java.</p>
 </div>
 </div>
 </div>
@@ -24,49 +24,90 @@ Club Manager is catered for CCA leaders and is used for managing CCA members and
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Major enhancement</strong>: Enhancements that allow the users to be able to better manage the member&#8217;s list.</p>
+<p><strong>Major enhancement</strong>: Member List Management Feature</p>
 <div class="ulist">
 <ul>
 <li>
-<p>What it does:</p>
+<p><strong>What it does:</strong></p>
 <div class="ulist">
 <ul>
 <li>
-<p>Sorts the members' list based on a given sorting criteria. This allows the user to be able to organise their members based on a particular member attribute, facilitating the planning of CCA activities and the export list function.</p>
+<p><strong>Add</strong> member to the existing list of members (<code>memberAdd</code>).</p>
 </li>
 <li>
-<p>Selectively list members based on a given filter criteria. This allows the user to shortlist members for activities (e.g. competition) based on a particular member&#8217;s attribute.</p>
+<p><strong>Lists</strong> all of the members in Club Manager (<code>memberList</code>).</p>
 </li>
 <li>
-<p>View the complete members' information page.</p>
+<p><strong>Filters</strong> the list of members based on a given filter criteria. This allows the user to shortlist members for activities (e.g. competition) based on a particular member&#8217;s attribute (<code>memberFilter</code>).</p>
+</li>
+<li>
+<p><strong>Select</strong> a specific member to view the complete members' information page which includes statistics pertaining to the selected member (<code>memberSelect</code>).</p>
+</li>
+<li>
+<p><strong>Sorts</strong> the members' list based on a given sorting criteria (<code>memberSort</code>). This allows the user to be able to organise their members based on a particular member attribute, facilitating the attendance list preparation, keying in CCA points as well as the export list function.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>Justification: This feature improves the product significantly because a user needs to be able to view the entire set of member&#8217;s information, as well as organise members in the list to prepare the list to be exported and printed for attendance taking in the CCA activities.</p>
+<p><strong>Justification:</strong> This feature improves the product significantly because as a CCA leader, the user needs to be able to view the entire set of member&#8217;s information and statistics, as well as manage the member&#8217;s list to prepare the list to be exported and printed for attendance taking in the CCA activities. CCA leaders could also use the information to plan out their activities (e.g. logistics).</p>
 </li>
 <li>
 <p>Highlights: This enhancement affects existing commands and commands to be added in future. It required an in-depth analysis of design alternatives. The implementation too was challenging as it required changes to existing commands.</p>
 </li>
-<li>
-<p>Credits: <em>{mention here if you reused any code/ideas from elsewhere or if a third-party library is heavily used in the feature so that a reader can make a more accurate judgement of how much effort went into the feature}</em></p>
-</li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Minor enhancement</strong>: Modified the add command to accept other forms of members' information such as gender, major, matric number, and year of study.</p>
+<p><strong>Minor enhancements</strong>:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Add members to the member&#8217;s list, and checks if the user input matches the correct format required.</p>
+<p>A checksum generator has been implemented to ensure that all members have valid matric numbers.</p>
+</li>
+<li>
+<p>Colored tags which follows the color theme of Club Manager.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Code contributed</strong>: [<a href="https://github.com/CS2103-AY1819S2-W13-2/main/commits?author=joel0111">Functional code</a>] [<a href="https://nus-cs2103-ay1819s2.github.io/cs2103-dashboard/#search=joel0111&amp;sort=displayName&amp;since=2019-02-10&amp;until=2019-04-2&amp;timeframe=day&amp;reverse=false&amp;repoSort=true">RepoSense</a>]</p>
+<p><strong>Code contributed</strong>: [<a href="https://github.com/CS2103-AY1819S2-W13-2/main/commits?author=joel0111">Functional code</a>] [<a href="https://nus-cs2103-ay1819s2.github.io/cs2103-dashboard/#search=joel0111&amp;sort=displayName&amp;since=2019-02-10&amp;until=2019-04-12&amp;timeframe=day&amp;reverse=false&amp;repoSort=true">RepoSense</a>]</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Other Contributions:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Actively reviewed documentation of teammates to make sure the documentation follows a similar structure.</p>
+</li>
+<li>
+<p>Corrected any team-related documentation issues.</p>
+</li>
+<li>
+<p>Updated issues tracker for member management features including features that are not done by me.</p>
+</li>
+<li>
+<p>Updated README and AboutUs page.</p>
+</li>
+<li>
+<p>Provided UI Walkthrough in the User Guide.</p>
+</li>
+<li>
+<p>Designed a logo for the Club Manager Application.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Community Contributions</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Actively reviewed teammates' PRs.</p>
 </li>
 </ul>
 </div>
@@ -85,6 +126,332 @@ Club Manager is catered for CCA leaders and is used for managing CCA members and
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="introduction"><a class="link" href="#introduction">Introduction</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ClubManager is for Co-Curricular Activities (CCAs) leaders who <strong>prefer to use a desktop app for managing their members
+and activities</strong>. More importantly, ClubManager is <strong>optimized for those who prefer to work with a Command Line Interface</strong>
+(CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, ClubManager can get
+your contact management tasks done faster than traditional GUI apps. Interested? Jump to the <a href="#Quick Start">[Quick Start]</a> to get
+started. Enjoy!
+== User Interface Walkthrough</p>
+</div>
+<div class="paragraph">
+<p>This section is designed to guide you through how the user interface and components in Club Manager works.</p>
+</div>
+<div class="paragraph">
+<p>Here is an example of how Club Manager in member mode looks like:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/memberUiWalkthrough.png" alt="memberUiWalkthrough" width="100%">
+</div>
+</div>
+<div class="paragraph">
+<p>Here is an example of how Club Manager in activity mode looks like:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/activityUiWalkthrough.png" alt="activityUiWalkthrough" width="100%">
+</div>
+</div>
+<div class="paragraph">
+<p>In total, there are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>5 General Parts:</strong> <a href="#Menu-Bar">Menu Bar</a>, <a href="#Result-Display">Result Display</a>, <a href="#Command-Box">Command Box</a>, <a href="#SSB">Sync Status Bar</a>, <a href="#Mode-Status">Mode Status</a></p>
+</li>
+<li>
+<p><strong>3 Member Mode-specific Parts:</strong> <a href="#Member-List">List of Members</a>, <a href="#Member-Display">Member Information Display Panel</a>, <a href="#Member-Activities">List of Activities Attended By Selected Member</a></p>
+</li>
+<li>
+<p><strong>4 Activity Mode-specific Parts:</strong> <a href="#Activity-List">List of Activities</a>, <a href="#Activity-Display">Activity Information Display Panel</a>, <a href="#Activity-Members">List of Members Attending Selected Activity</a>, and <a href="#Activity-Nonmembers">List of Members Not Attending Selected Activity</a></p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="Menu-Bar"><a class="link" href="#Menu-Bar">Menu Bar</a></h3>
+<div class="paragraph">
+<p>The <strong>Menu Bar</strong> provide you quick access to functions as below.</p>
+</div>
+<div class="paragraph">
+<p>Here are the available options currently:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>File: Provide access to file functions.</p>
+</li>
+<li>
+<p>Exit: Exit the program.</p>
+</li>
+<li>
+<p>Help: Show Club Manager tutorial.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can also press F1 to show Club Manager User Guide.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="Command-Box"><a class="link" href="#Command-Box">Command Box</a></h3>
+<div class="paragraph">
+<p>The <strong>Command Box</strong> is the place where you can input the commands.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="Result-Display"><a class="link" href="#Result-Display">Result Display</a></h3>
+<div class="paragraph">
+<p>The <strong>Result Display</strong> shows information relating to the result of the command.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="SSB"><a class="link" href="#SSB">Sync Status Bar</a></h3>
+<div class="paragraph">
+<p>The <strong>Sync Status Bar</strong> displays the last updated date and time of any changes to the data.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="Mode-Status"><a class="link" href="#Mode-Status">Mode Status</a></h3>
+<div class="paragraph">
+<p>Displays the <strong>current mode</strong> of Club Manager. There are only 2 modes, namely: <code>mode member</code> and <code>mode activity</code></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="Member-List"><a class="link" href="#Member-List">List of Members</a></h3>
+<div class="paragraph">
+<p>Displays latest <strong>list of all members</strong> in Club Manager.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="Member-Display"><a class="link" href="#Member-Display">Member Information Display Panel</a></h3>
+<div class="paragraph">
+<p>Displays the <strong>selected member&#8217;s information.</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="Member-Activities"><a class="link" href="#Member-Activities">List of Activities Attended By Selected Member</a></h3>
+<div class="paragraph">
+<p>Displays the <strong>list of Activities attended by selected member</strong>. This include both completed and ongoing activities.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="Activity-List"><a class="link" href="#Activity-List">List of Activities</a></h3>
+<div class="paragraph">
+<p>Displays latest <strong>list of all activities</strong> in Club Manager.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="Activity-Display"><a class="link" href="#Activity-Display">Activity Information Display Panel</a></h3>
+<div class="paragraph">
+<p>Displays the <strong>selected activity&#8217;s information.</strong></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="Activity-Members"><a class="link" href="#Activity-Members">List of Members Attending Selected Activity</a></h3>
+<div class="paragraph">
+<p>Displays the <strong>list of Members who is attending or have attended</strong> the selected activity.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="Activity-Nonmembers"><a class="link" href="#Activity-Nonmembers">List of Members Not Attending Selected Activity</a></h3>
+<div class="paragraph">
+<p>Displays the <strong>list of Members who is not attending or have not attended</strong> the selected activity.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="Features"><a class="link" href="#Features">Features</a></h2>
+<div class="sectionbody">
+<div class="exampleblock">
+<div class="content">
+<div class="paragraph">
+<p><strong>Command Format</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Words in <code>UPPER_CASE</code> are the parameters to be supplied by the user e.g. in <code>add n/NAME</code>, <code>NAME</code> is a parameter which can be used as <code>add n/John Doe</code>.</p>
+</li>
+<li>
+<p>Items in square brackets are optional e.g <code>n/NAME [t/TAG]</code> can be used as <code>n/John Doe t/Swimming</code> or as <code>n/John Doe</code>.</p>
+</li>
+<li>
+<p>Items with <code>…</code>​ after them can be used multiple times including zero times e.g. <code>[t/TAG]&#8230;&#8203;</code> can be used as <code>&#160;</code> (i.e. 0 times), <code>t/Swimming</code>, <code>t/Running t/Hockey</code> etc.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="adding-a-member-code-memberadd-code-or-code-madd-code"><a class="link" href="#adding-a-member-code-memberadd-code-or-code-madd-code">Adding a member: <code>memberAdd</code> or <code>mAdd</code></a></h4>
+<div class="paragraph">
+<p>You can add members to ClubManager.<br></p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 23.0769%;">
+<col style="width: 38.4615%;">
+<col style="width: 38.4616%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Information of Member</th>
+<th class="tableblock halign-left valign-top">Definition</th>
+<th class="tableblock halign-left valign-top">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NAME refers to the name of the member.</p>
+<p class="tableblock">Only alphabets are accepted.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">John Sim</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Matric Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MATRIC_NUMBER refers to the member&#8217;s matriculation number.</p>
+<p class="tableblock">Matric Number is a string of 9 alphanumeric characters.</p>
+<p class="tableblock">For the first alphabet of the Matric Number, only the uppercase letter A or uppercase letter U will be accepted.
+This will be followed by a 7 digits. The final character is an uppercase alphabet which has tally with the alphabet generated by our checksum generator.</p>
+<p class="tableblock">If an error occurs, it could mean that a wrong final character of the Matric Number has been inputted.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A0123456Z</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Phone Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PHONE_NUMBER refers to the member&#8217;s phone number.</p>
+<p class="tableblock">Only 8 digits are accepted. The first digit of the phone number has to begin with 6, 8, 9.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">91234567</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Email Address</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EMAIL_ADDRESS refers to the member&#8217;s student/personal email address</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="mailto:johnsim@example.com">johnsim@example.com</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Address</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ADDRESS refers to the member&#8217;s home address.</p>
+<p class="tableblock">Alphanumeric and Special characters are acceptable.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Jurong East Avenue 1 Block 2 #03-04</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GENDER refers to the sex of the member.</p>
+<p class="tableblock">Only "Male" or "Female" is accepted (case-insensitive)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Male</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Year of Study</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">YEAR_OF_STUDY refers to the academic level (in years)
+in which the member is currently studying.</p>
+<p class="tableblock">Only a single digit is accepted. This digit has to be between the range 1 to 6 (both inclusive)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Major</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MAJOR refers to the field of discipline in which member is currently enrolled in.</p>
+<p class="tableblock">Only alphabets are accepted.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Chemistry</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Tags</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TAGS refers to the hobbies and interests of the member.</p>
+<p class="tableblock">Only Alphabets are acceptable, restricted to a single word.</p>
+<p class="tableblock">A member can have any number of tags (including 0).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Swimming</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><strong>Format:</strong>
+* <code>memberAdd n/NAME mn/MATRIC_NUMBER p/PHONE_NUMBER e/EMAIL a/ADDRESS g/GENDER y/YEAR_OF_STUDY m/MAJOR [t/TAG]&#8230;&#8203;</code></p>
+</div>
+<div class="paragraph">
+<p><strong>Examples:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>memberAdd n/Jon Lim mn/A0123456J p/98765432 e/johnl@example.com a/123, Woodlands Drive 12, #12-34 g/Male y/2 m/Chemistry t/Swimming</code></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/memberAdd_added.png" alt="memberAdd added" width="1000">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>memberAdd n/James Ong mn/A0123456J p/98765432 e/jamesong@example.com a/123, Jurong West Ave 6, #08-111 g/male y/2 m/mathematics</code></p>
+</li>
+<li>
+<p><code>memberAdd n/Jane Lim mn/A0654321J p/91324756 e/janelim@example.com a/123, Sengkang Ave 6, #02-123 g/Female y/3  m/physics t/Swimming</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="listing-members-code-memberlist-code-or-code-mlist-code"><a class="link" href="#listing-members-code-memberlist-code-or-code-mlist-code">Listing members : <code>memberList</code> or <code>mList</code></a></h4>
+<div class="paragraph">
+<p>Shows a list of all members in ClubManager.<br>
+Format: <code>memberList</code></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/MemberList.png" alt="MemberList" width="40%">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="selecting-a-member-code-memberselect-code"><a class="link" href="#selecting-a-member-code-memberselect-code">Selecting a member : <code>memberSelect</code></a></h4>
+<div class="paragraph">
+<p>Selects the member identified by the index number used in the displayed member list.<br>
+Format: <code>memberSelect INDEX</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Selects the member and loads the members page of the member at the specified <code>INDEX</code>.</p>
+</li>
+<li>
+<p>The index refers to the index number shown in the displayed member list.</p>
+</li>
+<li>
+<p>The index <strong>must be a positive integer</strong> <code>1, 2, 3, &#8230;&#8203;</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>memberList</code><br>
+<code>memberSelect 2</code><br>
+Selects the 2nd person in the club manager.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/memberSelectCommand.png" alt="memberSelectCommand" width="100%">
+</div>
+</div>
+</div>
 <div class="sect3">
 <h4 id="sort-members-list-code-membersort-code-or-code-msort-code"><a class="link" href="#sort-members-list-code-membersort-code-or-code-msort-code">Sort members’ list : <code>memberSort</code> or <code>mSort</code></a></h4>
 <div class="paragraph">
@@ -174,7 +541,7 @@ Sorts the list by name.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/MemberSortCommand_sortby_name.png" alt="MemberSortCommand sortby name" width="100%">
+<img src="../images/MemberSortCommand_sortby_name.png" alt="MemberSortCommand sortby name" width="70%">
 </div>
 </div>
 <div class="ulist">
@@ -188,7 +555,7 @@ Sorts the list by year of study.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/MemberSortCommand_sortby_yearofstudy.png" alt="MemberSortCommand sortby yearofstudy" width="100%">
+<img src="../images/MemberSortCommand_sortby_yearofstudy.png" alt="MemberSortCommand sortby yearofstudy" width="70%">
 </div>
 </div>
 </div>
@@ -209,8 +576,7 @@ Sorts the list by year of study.</p>
 </table>
 <div class="sect2">
 <h3 id="membersort"><a class="link" href="#membersort">MemberSort</a></h3>
-<div class="sect3">
-<h4 id="current-implementation"><a class="link" href="#current-implementation">Current Implementation</a></h4>
+<h4 id="current-implementation" class="discrete">Current Implementation</h4>
 <div class="imageblock">
 <div class="content">
 <img src="../images/MemberSortCommand_LogicComponentSequenceDiagram.png" alt="MemberSortCommand LogicComponentSequenceDiagram" width="800">
@@ -234,7 +600,6 @@ If the user input does not match, then an error message will be prompted to the 
 </div>
 </div>
 </div>
-</div>
 <div class="sect1">
 <h2 id="project-powerpointlabs"><a class="link" href="#project-powerpointlabs">PROJECT: PowerPointLabs</a></h2>
 <div class="sectionbody">
@@ -243,4 +608,4 @@ If the user input does not match, then an error message will be prompted to the 
 <p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-14 05:07:43 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-14 05:19:05 UTC</div></div></div></body></html>
