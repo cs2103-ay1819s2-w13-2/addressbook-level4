@@ -910,6 +910,7 @@ To ensure versatility and enhance the usefulness of this list, a number of comma
 <div class="content">
 <img src="images/person-attributes.png" alt="person attributes" width="100%">
 </div>
+<div class="title">Figure 14. Updated Model Component Class Diagram for Member List</div>
 </div>
 </div>
 <div class="sect4">
@@ -919,8 +920,9 @@ To ensure versatility and enhance the usefulness of this list, a number of comma
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/memberadd_validation.png" alt="memberadd validation" width="70%">
+<img src="images/memberadd_validation.png" alt="memberadd validation" width="100%">
 </div>
+<div class="title">Figure 15. Activity Diagram of Validations and Checks for MemberAddCommand</div>
 </div>
 <div class="paragraph">
 <p>Below is a step-by-step process on how the memberAdd command works on execution:</p>
@@ -993,6 +995,7 @@ To ensure versatility and enhance the usefulness of this list, a number of comma
 <div class="content">
 <img src="images/MemberFilter_Logic.png" alt="MemberFilter Logic" width="100%">
 </div>
+<div class="title">Figure 16. Sequence Diagram for MemberFilterCommand for the logic component.</div>
 </div>
 <div class="paragraph">
 <p><strong>Model Component</strong></p>
@@ -1001,6 +1004,7 @@ To ensure versatility and enhance the usefulness of this list, a number of comma
 <div class="content">
 <img src="images/MemberFilter_Model.png" alt="MemberFilter Model" width="100%">
 </div>
+<div class="title">Figure 17. Sequence Diagram for MemberFilterCommand for the model component.</div>
 </div>
 <div class="paragraph">
 <p>The <code>memberFilter</code> command retrieves members (based on a filter criteria) from the <code>UniquePersonList</code> and displays these members on the <code>PersonListPanel</code>.</p>
@@ -1103,9 +1107,8 @@ the list generated will given as it is (no sorting carried out). Depending on th
 </ul>
 </div>
 </div>
-</div>
-<div class="sect3">
-<h4 id="code-memberselect-code-command"><a class="link" href="#code-memberselect-code-command">4.3.3. <code>memberSelect</code> Command</a></h4>
+<div class="sect4">
+<h5 id="code-memberselect-code-command"><a class="link" href="#code-memberselect-code-command"><code>memberSelect</code> Command</a></h5>
 <div class="paragraph">
 <p>The <code>memberSelect</code> command selects a member (based on index) on the <code>UniquePersonList</code>.</p>
 </div>
@@ -1136,6 +1139,7 @@ member in the <code>filteredPersonList</code>.</p>
 <div class="content">
 <img src="images/updatedUIcomponent.png" alt="updatedUIcomponent" width="50%">
 </div>
+<div class="title">Figure 18. Updated Ui Component Class Diagram</div>
 </div>
 <div class="paragraph">
 <p>When a member is selected, the <code>memberDetailPanel</code> will populate the information of the selected person. The <code>ActivitiesAttendedByMemberPanel</code> will also populate the activities that are attended by member.
@@ -1144,6 +1148,8 @@ For the population of member statistics, it is less straightforward. The calling
 <div class="imageblock">
 <div class="content">
 <img src="images/memberselect_sequence.png" alt="memberselect sequence" width="50%">
+</div>
+<div class="title">Figure 19. Sequence Diagram of MemberSelectCommand</div>
 </div>
 </div>
 <div class="sect4">
@@ -1203,6 +1209,7 @@ will conduct an additional sort (by name). For example, <code>memberSort yearOfS
 <div class="content">
 <img src="images/membersort_sequencediagram.png" alt="membersort sequencediagram" width="70%">
 </div>
+<div class="title">Figure 20. Sequence Diagram of MemberSortCommand</div>
 </div>
 <div class="ulist">
 <ul>
@@ -1227,7 +1234,7 @@ will conduct an additional sort (by name). For example, <code>memberSort yearOfS
 <div class="content">
 <img src="images/MemberExportCommand_LogicComponentSequenceDiagram.png" alt="MemberExportCommand LogicComponentSequenceDiagram" width="800">
 </div>
-<div class="title">Figure 14. Sequence diagram for export function</div>
+<div class="title">Figure 21. Sequence diagram for export function</div>
 </div>
 <div class="ulist">
 <ul>
@@ -1255,7 +1262,7 @@ will conduct an additional sort (by name). For example, <code>memberSort yearOfS
 <div class="content">
 <img src="images/MemberExportExample.png" alt="MemberExportExample" width="1000">
 </div>
-<div class="title">Figure 15. Exported file on large screens</div>
+<div class="title">Figure 22. Exported file on large screens</div>
 </div>
 <div class="ulist">
 <ul>
@@ -1268,7 +1275,7 @@ will conduct an additional sort (by name). For example, <code>memberSort yearOfS
 <div class="content">
 <img src="images/MemberExportExampleMobile.png" alt="MemberExportExampleMobile" width="300">
 </div>
-<div class="title">Figure 16. Exported file on mobile screens</div>
+<div class="title">Figure 23. Exported file on mobile screens</div>
 </div>
 </div>
 <div class="sect3">
@@ -1296,7 +1303,7 @@ activities that the club has. <code>activityAdd</code> , <code>activityList</cod
 <div class="content">
 <img src="images/ModelComponentWithActivityList.png" alt="ModelComponentWithActivityList" width="800">
 </div>
-<div class="title">Figure 17. Structure of the Activity Model Component</div>
+<div class="title">Figure 24. Structure of the Activity Model Component</div>
 </div>
 <div class="paragraph">
 <p><strong>API</strong> : <a href="https://github.com/cs2103-ay1819s2-w13-2/main/src/main/java/seedu/address/model/Model.java"><code>Model.java</code></a></p>
@@ -1346,7 +1353,7 @@ Whether the <code>Activity</code> can be added to <code>Model</code> would be ch
 <div class="content">
 <img src="images/ActivityAddChecks.png" alt="ActivityAddChecks" width="600" height="300">
 </div>
-<div class="title">Figure 18. Sequence of Checks for Adding Activity</div>
+<div class="title">Figure 25. Sequence of Checks for Adding Activity</div>
 </div>
 <h5 id="activity-filter-command" class="discrete">Activity Filter Command</h5>
 <div class="paragraph">
@@ -1382,7 +1389,7 @@ based on the <code>+</code> condition given. The predicate will be passed to <co
 <div class="content">
 <img src="images/ActivityFilterCommandSequenceDiagram.png" alt="ActivityFilterCommandSequenceDiagram" width="800">
 </div>
-<div class="title">Figure 19. Activity Filter Command Sequence Diagram</div>
+<div class="title">Figure 26. Activity Filter Command Sequence Diagram</div>
 </div>
 <h4 id="activity-find-command" class="discrete">Activity Find Command</h4>
 <div class="paragraph">
@@ -1583,13 +1590,13 @@ it will check that the MatricNumber provided does not belong to a member already
 <div class="content">
 <img src="images/ActivityAddMember_SequenceDiagram.PNG" alt="ActivityAddMember SequenceDiagram" width="800">
 </div>
-<div class="title">Figure 20. Sequence Diagram for <code>activityAddMember</code> command</div>
+<div class="title">Figure 27. Sequence Diagram for <code>activityAddMember</code> command</div>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="images/ActivityAddMember_ObjectDiagram.PNG" alt="ActivityAddMember ObjectDiagram" width="600" height="300">
 </div>
-<div class="title">Figure 21. Object Diagram displaying the relationship between Activity and Person when using <code>activityAddMember</code> command.</div>
+<div class="title">Figure 28. Object Diagram displaying the relationship between Activity and Person when using <code>activityAddMember</code> command.</div>
 </div>
 <h5 id="activity-delete-member-command" class="discrete">Activity Delete Member Command</h5>
 <div class="paragraph">
@@ -1713,7 +1720,7 @@ Alternatively, you can download the AsciiDoc plugin for IntelliJ, which allows y
 <div class="content">
 <img src="images/chrome_save_as_pdf.png" alt="chrome save as pdf" width="300">
 </div>
-<div class="title">Figure 22. Saving documentation as PDF files in Chrome</div>
+<div class="title">Figure 29. Saving documentation as PDF files in Chrome</div>
 </div>
 </div>
 <div class="sect2">
@@ -3919,4 +3926,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 10:35:05 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 11:32:21 UTC</div></div></div></body></html>

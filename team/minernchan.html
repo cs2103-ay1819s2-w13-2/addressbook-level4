@@ -208,6 +208,54 @@ Removes the member with matric number A1234567N from activity 1’s attending li
 </ul>
 </div>
 </div>
+<div class="sect3">
+<h4 id="edit-an-activity-code-activityedit-code-or-code-aedit-code"><a class="link" href="#edit-an-activity-code-activityedit-code-or-code-aedit-code">Edit an activity: <code>activityEdit</code> or <code>aEdit</code></a></h4>
+<div class="paragraph">
+<p>Edits an existing activity in the activity list
+Format: `activityEdit ACTIVITY_INDEX [n/ACTIVITY_NAME] [d/DATE] [t/TAG] … `</p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Edits the activity at the specified <code>ACTIVITY_INDEX</code> which refers to the index number shown in the displayed activity list.</p>
+</li>
+<li>
+<p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+</li>
+<li>
+<p>At least one of the optional fields must be provided.</p>
+</li>
+<li>
+<p>Existing values will be updated to the input values.</p>
+</li>
+<li>
+<p>When editing tags, the existing tags of the activity will be removed i.e adding of tags is not cumulative.</p>
+</li>
+<li>
+<p>You can remove all the activity’s tags by typing <code>t/</code> without specifying any tags after it.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>activityEdit 1 n/New Activity d/13/02/2019 1200 l/Com1 de/Bring calculator</code><br>
+Edits the name of the first activity, datetime, location and description to "New Activity", "13 February 2019 1200 hrs", "Com1" and "Bring calculator" respectively.</p>
+</li>
+<li>
+<p><code>activityEdit 2 l/NUS</code><br>
+Edits the location of the second activity to "NUS".</p>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -223,6 +271,68 @@ Removes the member with matric number A1234567N from activity 1’s attending li
 </tr>
 </tbody>
 </table>
+<div class="sect2">
+<h3 id="activity-edit-command"><a class="link" href="#activity-edit-command">Activity Edit Command</a></h3>
+<div class="paragraph">
+<p><code>ClubManager</code> allows users to make changes to the information fields of activities that are currently in its activity list.</p>
+</div>
+<div class="paragraph">
+<p>The <code>activityEdit</code> command allows users to edit the name, datetime, location and description fields of existing activities in the activity list.
+At least one of the fields must be different from the existing record of the activity the user is trying to edit.</p>
+</div>
+<div class="paragraph">
+<p>When the command is entered, an <code>ActivityEditCommandParser</code> is created with the inputs provided by the user.<br>
+The ActivityEditCommandParser object would then validate the prefixes in the inputs and compare it with the current fields of the activity to check if there are any changes to be made.<br>
+After that, the individual inputs would be validated in the parser utils. Finally, if the checks pass, an <code>ActivityEditCommand</code> object would be returned.</p>
+</div>
+<div class="paragraph">
+<p>The execute command of the <code>ActivityEditCommand</code> object would then be called, and it will replace the existing Activity object (that the user wants to edit) with
+a new Activity object created with the updated fields, and any other previous information if certain fields are not edited.</p>
+</div>
+<h5 id="activity-add-member-command" class="discrete">Activity Add Member Command</h5>
+<div class="paragraph">
+<p>The <code>activityAddMember</code> command allows users to add members to the attendance list of an activity. The provided MatricNumber must be a valid MatricNumber and must belong to
+a member in the member list.</p>
+</div>
+<div class="paragraph">
+<p>When the <code>activityAddMember</code> command is executed from the UI, the inputs are parsed with the <code>ActivityAddMemberCommandParser</code> object which checks the validity of the MatricNumber.</p>
+</div>
+<div class="paragraph">
+<p>If the inputs are valid, the <code>ActivityAddMemberCommand</code> is returned from the Parser object and the execute function is called. The first check would be if the provided activity
+index number is valid, relative to the currently displayed activity list. Then, the Command object will check whether the MatricNumber belongs to a member in the member list. Finally,
+it will check that the MatricNumber provided does not belong to a member already in the activity&#8217;s attendance list.</p>
+</div>
+<div class="paragraph">
+<p>If all the checks pass, the MatricNumber object containing the member&#8217;s matric number will be stored in an ArrayList object(which represents the attendance list) belonging to the activity.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ActivityAddMember_SequenceDiagram.PNG" alt="ActivityAddMember SequenceDiagram" width="800">
+</div>
+<div class="title">Figure 1. Sequence Diagram for <code>activityAddMember</code> command</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ActivityAddMember_ObjectDiagram.PNG" alt="ActivityAddMember ObjectDiagram" width="600" height="300">
+</div>
+<div class="title">Figure 2. Object Diagram displaying the relationship between Activity and Person when using <code>activityAddMember</code> command.</div>
+</div>
+<h5 id="activity-delete-member-command" class="discrete">Activity Delete Member Command</h5>
+<div class="paragraph">
+<p>The <code>activityDeleteMember</code> command allows users to remove members from the attendance list of an activity. The provided MatricNumber must be a valid MatricNumber and must belong to
+a member in the member list.</p>
+</div>
+<div class="paragraph">
+<p>When the <code>activityDeleteMember</code> command is executed from the UI, the inputs are parsed with the <code>ActivityDeleteMemberCommandParser</code> object which checks the validity of the MatricNumber.</p>
+</div>
+<div class="paragraph">
+<p>If the inputs are valid, the <code>ActivityDeleteMemberCommand</code> is returned from the Parser object and the execute function is called. The first check would be if the provided activity
+index number is valid, relative to the currently displayed activity list. Then, the Command object will check whether the MatricNumber belongs to a member in the member list. Finally,
+it will check that the MatricNumber provided belongs to a member already in the activity&#8217;s attendance list.</p>
+</div>
+<div class="paragraph">
+<p>If all the checks pass, the MatricNumber object containing the member&#8217;s matric number will be removed from the ArrayList object(which represents the attendance list) belonging to the activity.</p>
+</div>
 <h3 id="use-case-delete-activity" class="discrete">Use case: Delete Activity</h3>
 <div class="paragraph">
 <p><strong>Main Success Scenario (MSS)</strong></p>
@@ -423,4 +533,5 @@ Removes the member with matric number A1234567N from activity 1’s attending li
 </ul>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 10:35:05 UTC</div></div></div></body></html>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 11:32:21 UTC</div></div></div></body></html>

@@ -127,42 +127,6 @@ Club Manager is catered for <strong>CCA leaders</strong> and is used for managin
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="sect1">
-<h2 id="introduction"><a class="link" href="#introduction">Introduction</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>ClubManager is for Co-Curricular Activities (CCAs) leaders who <strong>prefer to use a desktop app for managing their members
-and activities</strong>. More importantly, ClubManager is <strong>optimized for those who prefer to work with a Command Line Interface</strong>
-(CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, ClubManager can get
-your contact management tasks done faster than traditional GUI apps. Interested? Jump to the <a href="#Quick Start">[Quick Start]</a> to get
-started. Enjoy!</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="user-interface-walkthrough"><a class="link" href="#user-interface-walkthrough">User Interface Walkthrough</a></h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>This section is designed to guide you through how the user interface and components in Club Manager works.</p>
-</div>
-<div class="paragraph">
-<p>Here is an example of how Club Manager in member mode looks like:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/memberUiWalkthrough.png" alt="memberUiWalkthrough" width="100%">
-</div>
-</div>
-<div class="paragraph">
-<p>Here is an example of how Club Manager in activity mode looks like:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/activityUiWalkthrough.png" alt="activityUiWalkthrough" width="100%">
-</div>
-</div>
 <div class="sect3">
 <h4 id="adding-a-member-code-memberadd-code-or-code-madd-code"><a class="link" href="#adding-a-member-code-memberadd-code-or-code-madd-code">Adding a member: <code>memberAdd</code> or <code>mAdd</code></a></h4>
 <div class="paragraph">
@@ -444,8 +408,9 @@ Sorts the list by year of study.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/memberadd_validation.png" alt="memberadd validation" width="70%">
+<img src="../images/memberadd_validation.png" alt="memberadd validation" width="100%">
 </div>
+<div class="title">Figure 1. Activity Diagram of Validations and Checks for MemberAddCommand</div>
 </div>
 <div class="paragraph">
 <p>Below is a step-by-step process on how the memberAdd command works on execution:</p>
@@ -531,8 +496,8 @@ Sorts the list by year of study.</p>
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="code-memberselect-code-command"><a class="link" href="#code-memberselect-code-command"><code>memberSelect</code> Command</a></h4>
+<div class="sect4">
+<h5 id="code-memberselect-code-command"><a class="link" href="#code-memberselect-code-command"><code>memberSelect</code> Command</a></h5>
 <div class="paragraph">
 <p>The <code>memberSelect</code> command selects a member (based on index) on the <code>UniquePersonList</code>.</p>
 </div>
@@ -563,6 +528,7 @@ member in the <code>filteredPersonList</code>.</p>
 <div class="content">
 <img src="../images/updatedUIcomponent.png" alt="updatedUIcomponent" width="50%">
 </div>
+<div class="title">Figure 2. Updated Ui Component Class Diagram</div>
 </div>
 <div class="paragraph">
 <p>When a member is selected, the <code>memberDetailPanel</code> will populate the information of the selected person. The <code>ActivitiesAttendedByMemberPanel</code> will also populate the activities that are attended by member.
@@ -571,6 +537,8 @@ For the population of member statistics, it is less straightforward. The calling
 <div class="imageblock">
 <div class="content">
 <img src="../images/memberselect_sequence.png" alt="memberselect sequence" width="50%">
+</div>
+<div class="title">Figure 3. Sequence Diagram of MemberSelectCommand</div>
 </div>
 </div>
 <div class="sect4">
@@ -612,7 +580,6 @@ For the population of member statistics, it is less straightforward. The calling
 </ul>
 </div>
 </div>
-</div>
 <div class="sect2">
 <h3 id="membersort"><a class="link" href="#membersort">MemberSort</a></h3>
 <div class="sect3">
@@ -629,6 +596,7 @@ will conduct an additional sort (by name). For example, <code>memberSort yearOfS
 <div class="content">
 <img src="../images/membersort_sequencediagram.png" alt="membersort sequencediagram" width="70%">
 </div>
+<div class="title">Figure 4. Sequence Diagram of MemberSortCommand</div>
 </div>
 <div class="ulist">
 <ul>
@@ -646,4 +614,4 @@ will conduct an additional sort (by name). For example, <code>memberSort yearOfS
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 10:35:05 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 11:32:21 UTC</div></div></div></body></html>
