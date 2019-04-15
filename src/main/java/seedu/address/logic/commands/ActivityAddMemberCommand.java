@@ -87,4 +87,3 @@ public class ActivityAddMemberCommand extends ActivityCommand {
                 && targetIndex.equals(((ActivityAddMemberCommand) other).targetIndex)); // state check
     }
 }
-

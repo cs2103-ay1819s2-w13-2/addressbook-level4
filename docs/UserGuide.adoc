@@ -353,6 +353,8 @@ image::memberFilter1.png[width=70%]
 
 * `memberFilter gender male`
 
+*Coming in v2.0:* Filter more than one criteria, to find a subgroup of members.
+
 
 
 //tag::memberfind[]

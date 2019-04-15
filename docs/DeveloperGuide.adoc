@@ -1964,7 +1964,51 @@ These instructions only provide a starting point for testers to work on; testers
 .. Re-launch the app by double-clicking the jar file. +
    Expected: The most recent window size and location is retained.
 
-_{ more test cases ... }_
+
+
+=== Adding a member
+
+You are adding a new member to Club Manager
+
+Instructions:
+
+.. *Test case:* `memberAdd n/Lim Sun Yong mn/A0187456N p/87961012 e/johnd@example.com a/311, Tiong Bahru Ave 5, #12-03 g/Male y/2 m/Law t/Tennis
+` +
+   *Expected:* New member added: Lim Sun Yong Matric Number: A0187456N Phone: 87961012 Email: johnd@example.com Address: 311, Tiong Bahru Ave 5, #12-03 Gender: Male Year of Study: Year 2 Major: Law Tags: [Tennis]
+.. *Test case:* `memberAdd n/Tan Xun Song mn/A0192595N p/811619921 e/txs@example.com a/311, Jurong West Ave 3, #12-03 g/Female y/2 m/Medicine t/Archery` +
+   *Expected:* Phone numbers should only start with 6, 8 or 9, and it should be only be 8 digits long.
+.. *Test case:* `memberAdd n/Tan Xun Song mn/A0187456N p/81161992 e/txs@example.com a/311, Jurong West Ave 3, #12-03 g/Female y/2 m/Medicine t/Archery` +
+   *Expected:* This matricNumber already exists in Club Manager.
+.. *Test case:* `memberAdd n/Tan Xun Song mn/A0192595Z p/81161992 e/txs@example.com a/311, Jurong West Ave 3, #12-03 g/Female y/2 m/Medicine t/Archery` +
+   *Expected:* MatricNumber should only contain alphanumeric characters, starting with an A and ending with an uppercase alphabet, with 7 digits in between the first and last character. The last letter must be a valid checksum.
+.. *Test case:* `memberAdd n/Tan Xun Song mn/A0192595N p/81161992 e/txs@example.com a/311, Jurong West Ave 3, #12-03 g/chicken y/2 m/Medicine t/Archery` +
+   *Expected:* Gender should be Male or Female, and it should not be blank
+.. *Test case:* `memberAdd n/Tan Xun Song mn/A0192595N p/81161992 e/txs@example.com a/311, Jurong West Ave 3, #12-03 g/Female y/0 m/Medicine t/Archery` +
+   *Expected:* YearOfStudy should only contain a single digit between 1 to 6 and it should not be blank
+
+=== Filtering Member's List
+.. *Test case:* `memberFilter yearofstudy 2` +
+   *Expected:* _ member(s) listed!!
+
+=== Listing all Members
+.. *Test case:* `memberList` +
+   *Expected:* Listed all persons
+
+=== Select a Member
+.. *Test case:* `memberSelect 1` +
+   *Expected:* Selected Person: 1
+.. *Test case:* `memberSelect 0` +
+   *Expected:* Invalid command format!
+               memberSelect: Selects the member identified by the index number used in the displayed member list.
+               Parameters: INDEX (must be a positive integer)
+
+=== Sorting Member's List
+.. *Test case:* `memberSort name` +
+   *Expected:* Members' list successfully sorted!
+.. *Test case:* `memberSort names` +
+   *Expected:* Invalid command format!
+               memberSort: Sorts all members in the members' list based on the specified attribute (case-insensitive).
+               Parameters: KEYWORD...
 
 === Modes of Operation Feature for `mode`
 
@@ -2024,10 +2068,35 @@ _{ more test cases ... }_
    Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
 .. Test case: `memberDelete 0` +
    Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
-.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
+.. Other incorrect delete commands to try: `memberDelete`, `memberDelete x` (where x is larger than the list size) _{give more}_ +
+   Expected: Similar to previous.
+
+=== Editing a person
+
+. Editing a person while all persons are listed
+
+.. Prerequisites: List all persons using the `memberList` command. Multiple persons in the list.
+.. Test case: `memberEdit 1 yos/4` +
+   Expected: First contact's year of study is changed to Year 4. New details shown in status message. Timestamp in the status bar is updated.
+.. Test case: `memberEdit 1 mn/A0157138B` +
+   Expected: First contact matriculation number is not edited. Error on status message says that matriculation number cannot be edited. Status bar remains the same.
+.. Other incorrect edit commands to try: `memberEdit 0`, `memberEdit 1 n/`, `memberEdit 1 z/` +
+   Expected: No person is edited. Error details shown in the status message. Similar to previous.
+
+=== Finding a person
+
+. Finding a person while all persons are listed
+
+.. Prerequisites: List all persons using the `memberList` command. Multiple persons in the list.
+.. Test case: `memberFind name john` +
+   Expected: All members whose names contain fully or partially "john" will be displayed. Status message shows number of members found. Timestamp in the status bar is updated.
+.. Test case: `memberFind john` +
+   Expected: Display does not change. Error message shown on status message. Timstamp remains the same.
+.. Other incorrect find commands to try: `memberFind hello`, `memberFind `, any case which does not have the correct criteria ("name" or "matricnum" only) +
    Expected: Similar to previous.
 
 _{ more test cases ... }_
+
 
 === Activity List Feature
 
@@ -2037,7 +2106,7 @@ _{ more test cases ... }_
 No duplicated activities or time and location clash for the activity to add.
 .. Test case: `activityAdd n/Test activity d/25/06/2019 1900 l/NUS de/test activity` +
    Expected: Activity added to the correct location in the list.
-.. Test case: activityAdd n/Test activity d/25/06/2019 2500 l/NUS de/test activity` +
+.. Test case: `activityAdd n/Test activity d/25/06/2019 2500 l/NUS de/test activity` +
    Expected: Error message with prompt for correct time input format.
 .. Other incorrect activity add commands to try: `activityAdd`, `activityAdd x/` (where x
 is an invalid prefix), `activityAdd n/Some activity d/20/03/2019 1000 d/30/03/2019 2039 l/here`
@@ -2067,6 +2136,45 @@ the activity list.
 .. Other incorrect input for `activityFilter` command: `activityFilter + 0`,
 `activityFilter + randomsomething` +
    Expected: Same as above.
+
+=== Editing an activity
+
+. Editing an activity while all activities are listed.
+
+.. Prerequisites: List all activities using the `aList` command. Multiple persons in the list.
+.. Test case: `activityEdit 1 n/New Activity d/13/02/2019 1200 l/Com1 de/Bring calculator` +
+.. Expected: Edited Activity: New Activity Date Time: 13/02/2019 1200 Location: Com1 Description: Bring calculator Number Attending: "NUM_ATTENDING"
+.. Test case: `aEdit 0` +
+   Expected: Invalid command format!
+
+=== Deleting an activity
+. Deleting an activity while all activities are listed.
+
+.. Prerequisites: List all activities using the `aList` command. Multiple persons in the list.
+.. Test case: `activityDelete 1` +
+.. Expected: Deleted Activity: "ACTIVITY DETAILS"
+.. Test case: `activityDelete 99` (if there are only 10 activities in the list) +
+   The activity index provided is invalid
+
+=== Adding a member to an activity's attendance list
+. Adding a member to an activity while all activities are listed.
+
+.. Prerequisites: List all activities using the `aList` command. Multiple persons in the list.
+.. Test case: `aAddMember 1 A0111111M` +
+.. Expected: Successfully added to selected Activity: 1
+.. Test case: `aAddMember 1 A1234567N` +
+   Expected: MatricNumber should only contain alphanumeric characters, starting with an A and ending with an uppercase alphabet, with 7 digits in between the first and last character.
+   The last letter must be a valid checksum.
+
+=== Deleting a member from an activity's attendance list
+. Deleting a member from an activity while all activities are listed.
+
+.. Prerequisites: List all activities using the `aList` command. Multiple persons in the list.
+.. Test case: `activityDeleteMember 1 A0111111M` +
+.. Expected: Successfully removed member from selected Activity: 1
+.. Test case: `activityDeleteMember 1 A0111111M` +
+   Expected: The person is not in the activity attendance list!
+
 
 === Saving data
 
@@ -2101,3 +2209,4 @@ _{ more test cases ... }_
    Expected: File created at root folder where the jar file is situated.
 .. Test case: `activityExport 999` +
    Expected: Retuens 'The activity index provided is invalid.'. No file is created.
+

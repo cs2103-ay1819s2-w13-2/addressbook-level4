@@ -88,7 +88,7 @@ public class ActivityFindCommandParser implements Parser<ActivityFindCommand> {
         for (String arg: args) {
             keywords.addAll(Arrays.asList(arg.trim().split("\\s+")));
         }
-        if (keywords.isEmpty()) {
+        if (keywords.isEmpty() || keywords.get(0).equals(new String(""))) {
             throw new ParseException(String
                     .format(MESSAGE_INVALID_COMMAND_FORMAT, ActivityFindCommand.MESSAGE_USAGE));
         }
