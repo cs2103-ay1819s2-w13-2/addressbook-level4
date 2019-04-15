@@ -90,8 +90,10 @@
 <li><a href="#launch-and-shutdown">H.1. Launch and Shutdown</a></li>
 <li><a href="#adding-a-member">H.2. Adding a member</a></li>
 <li><a href="#deleting-a-person">H.3. Deleting a person</a></li>
-<li><a href="#activity-list-feature-2">H.4. Activity List Feature</a></li>
-<li><a href="#saving-data">H.5. Saving data</a></li>
+<li><a href="#editing-a-person">H.4. Editing a person</a></li>
+<li><a href="#finding-a-person">H.5. Finding a person</a></li>
+<li><a href="#activity-list-feature-2">H.6. Activity List Feature</a></li>
+<li><a href="#saving-data">H.7. Saving data</a></li>
 </ul>
 </li>
 </ul>
@@ -4155,7 +4157,65 @@ Expected: First contact is deleted from the list. Details of the deleted contact
 Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.</p>
 </li>
 <li>
-<p>Other incorrect delete commands to try: <code>delete</code>, <code>delete x</code> (where x is larger than the list size) <em>{give more}</em><br>
+<p>Other incorrect delete commands to try: <code>memberDelete</code>, <code>memberDelete x</code> (where x is larger than the list size) <em>{give more}</em><br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="editing-a-person"><a class="link" href="#editing-a-person">H.4. Editing a person</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Editing a person while all persons are listed</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all persons using the <code>memberList</code> command. Multiple persons in the list.</p>
+</li>
+<li>
+<p>Test case: <code>memberEdit 1 yos/4</code><br>
+Expected: First contact&#8217;s year of study is changed to Year 4. New details shown in status message. Timestamp in the status bar is updated.</p>
+</li>
+<li>
+<p>Test case: <code>memberEdit 1 mn/A0157138B</code><br>
+Expected: First contact matriculation number is not edited. Error on status message says that matriculation number cannot be edited. Status bar remains the same.</p>
+</li>
+<li>
+<p>Other incorrect edit commands to try: <code>memberEdit 0</code>, <code>memberEdit 1 n/</code>, <code>memberEdit 1 z/</code><br>
+Expected: No person is edited. Error details shown in the status message. Similar to previous.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="finding-a-person"><a class="link" href="#finding-a-person">H.5. Finding a person</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Finding a person while all persons are listed</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all persons using the <code>memberList</code> command. Multiple persons in the list.</p>
+</li>
+<li>
+<p>Test case: <code>memberFind name john</code><br>
+Expected: All members whose names contain fully or partially "john" will be displayed. Status message shows number of members found. Timestamp in the status bar is updated.</p>
+</li>
+<li>
+<p>Test case: <code>memberFind john</code><br>
+Expected: Display does not change. Error message shown on status message. Timstamp remains the same.</p>
+</li>
+<li>
+<p>Other incorrect find commands to try: <code>memberFind hello</code>, `memberFind `, any case which does not have the correct criteria ("name" or "matricnum" only)<br>
 Expected: Similar to previous.</p>
 </li>
 </ol>
@@ -4168,7 +4228,7 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="activity-list-feature-2"><a class="link" href="#activity-list-feature-2">H.4. Activity List Feature</a></h3>
+<h3 id="activity-list-feature-2"><a class="link" href="#activity-list-feature-2">H.6. Activity List Feature</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4250,7 +4310,7 @@ Expected: Error message in result display about incorrect result format.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-data"><a class="link" href="#saving-data">H.5. Saving data</a></h3>
+<h3 id="saving-data"><a class="link" href="#saving-data">H.7. Saving data</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4270,4 +4330,4 @@ Expected: Error message in result display about incorrect result format.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 15:07:36 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 15:17:05 UTC</div></div></div></body></html>
