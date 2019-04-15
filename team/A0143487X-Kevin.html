@@ -403,6 +403,7 @@ With the implementation of modes of operations which only allows commands to be 
 <div class="content">
 <img src="../images/appInMemberMode.png" alt="appInMemberMode" width="800">
 </div>
+<div class="title">Figure 1. ClubManager in MEMBER mode</div>
 </div>
 <div class="paragraph">
 <p>Calling an activity command will result in an error.</p>
@@ -411,6 +412,7 @@ With the implementation of modes of operations which only allows commands to be 
 <div class="content">
 <img src="../images/appInMemberModeCallingActivityCmd.png" alt="appInMemberModeCallingActivityCmd" width="800">
 </div>
+<div class="title">Figure 2. Error when Activity Command is called in MEMBER mode</div>
 </div>
 <div class="paragraph">
 <p>General commands can be called in any mode (for example help and exit)</p>
@@ -423,13 +425,14 @@ With the implementation of modes of operations which only allows commands to be 
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/ModeMemberLabel.png" alt="ModeMemberLabel" width="400">
+<img src="../images/ModeMemberLabel.png" alt="ModeMemberLabel" width="200">
 </div>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/ModeActivityLabel.png" alt="ModeActivityLabel" width="400">
+<img src="../images/ModeActivityLabel.png" alt="ModeActivityLabel" width="200">
 </div>
+<div class="title">Figure 3. Indicator for mode in the Window</div>
 </div>
 </div>
 <div class="sect3">
@@ -446,6 +449,7 @@ Which means that the MemberSelectCommand can only operate when ClubManager is in
 <div class="content">
 <img src="../images/memberCommandClassDiagram.png" alt="memberCommandClassDiagram" width="800px">
 </div>
+<div class="title">Figure 4. Example of Class Diagram for Member Commands</div>
 </div>
 <div class="paragraph">
 <p>When the Command is created, it instantiates the operation modes. And when the execute function of the Command is called, the app would allow the execution of the command if the current app mode can be found within the the allowed mode list of the command.
@@ -458,6 +462,7 @@ If the mode does not match, it will throw an exception preventing the execution 
 <div class="content">
 <img src="../images/commandModeControl.png" alt="commandModeControl" width="800px">
 </div>
+<div class="title">Figure 5. Sequence diagram of mode control</div>
 </div>
 </div>
 <div class="sect3">
@@ -481,4 +486,4 @@ If the mode does not match, it will throw an exception preventing the execution 
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 10:29:14 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 10:35:05 UTC</div></div></div></body></html>
