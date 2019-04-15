@@ -89,7 +89,8 @@
 <ul class="sectlevel2">
 <li><a href="#launch-and-shutdown">H.1. Launch and Shutdown</a></li>
 <li><a href="#deleting-a-person">H.2. Deleting a person</a></li>
-<li><a href="#saving-data">H.3. Saving data</a></li>
+<li><a href="#activity-list-feature-2">H.3. Activity List Feature</a></li>
+<li><a href="#saving-data">H.4. Saving data</a></li>
 </ul>
 </li>
 </ul>
@@ -4120,14 +4121,14 @@ Expected: The most recent window size and location is retained.</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Prerequisites: List all persons using the <code>list</code> command. Multiple persons in the list.</p>
+<p>Prerequisites: List all persons using the <code>memberList</code> command. Multiple persons in the list.</p>
 </li>
 <li>
-<p>Test case: <code>delete 1</code><br>
+<p>Test case: <code>memberDelete 1</code><br>
 Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.</p>
 </li>
 <li>
-<p>Test case: <code>delete 0</code><br>
+<p>Test case: <code>memberDelete 0</code><br>
 Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.</p>
 </li>
 <li>
@@ -4144,7 +4145,89 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-data"><a class="link" href="#saving-data">H.3. Saving data</a></h3>
+<h3 id="activity-list-feature-2"><a class="link" href="#activity-list-feature-2">H.3. Activity List Feature</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Adding an activity to the activity list - <code>activityAdd</code></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: The ClubManager in <code>mode activity</code>. The activity to add is not already in the list.
+No duplicated activities or time and location clash for the activity to add.</p>
+</li>
+<li>
+<p>Test case: <code>activityAdd n/Test activity d/25/06/2019 1900 l/NUS de/test activity</code><br>
+Expected: Activity added to the correct location in the list.</p>
+</li>
+<li>
+<p>Test case: activityAdd n/Test activity d/25/06/2019 2500 l/NUS de/test activity`<br>
+Expected: Error message with prompt for correct time input format.</p>
+</li>
+<li>
+<p>Other incorrect activity add commands to try: <code>activityAdd</code>, <code>activityAdd x/</code> (where x
+is an invalid prefix), <code>activityAdd n/Some activity d/20/03/2019 1000 d/30/03/2019 2039 l/here</code>
+(activity with duplicated prefix) &#8230;&#8203;<br>
+    Expected: Error message.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Finding activities based on keywords - <code>activityFind</code></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: The ClubManager in <code>mode activity</code>. Some activities matching the keywords are in
+the activity list.</p>
+</li>
+<li>
+<p>Test case: <code>activityFind CS2103</code><br>
+Expected: Activities with <code>CS2103</code> in <code>name</code> or <code>location</code> or <code>description</code> are listed</p>
+</li>
+<li>
+<p>Test case: <code>activityFind n/Movie Outing</code><br>
+Expected: Activities with name containing either <code>Movie</code> or <code>Outing</code> will be listed.</p>
+</li>
+<li>
+<p>Test case: <code>activityFind d/20/02/2019 0910</code><br>
+Expected: Error message.</p>
+</li>
+<li>
+<p>Other incorrect input for <code>activityFind</code> command: <code>activityFind</code>, <code>activityFind n/</code><br>
+Expected: Error message</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Filtering activities - <code>activityFilter</code></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: The ClubManager in <code>mode activity</code>. Some activities in the activity list.</p>
+</li>
+<li>
+<p>Test case: <code>activityFilter + 30</code><br>
+Expected: Upcoming activities in the next 30 days are listed.</p>
+</li>
+<li>
+<p>Test case: <code>activityFilter -3</code><br>
+Expected: Error message in result display about incorrect result format.</p>
+</li>
+<li>
+<p>Other incorrect input for <code>activityFilter</code> command: <code>activityFilter + 0</code>,
+<code>activityFilter + randomsomething</code><br>
+   Expected: Same as above.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="saving-data"><a class="link" href="#saving-data">H.4. Saving data</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4164,4 +4247,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 14:18:31 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 14:40:58 UTC</div></div></div></body></html>
