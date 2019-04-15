@@ -987,6 +987,243 @@ To ensure versatility and enhance the usefulness of this list, a number of comma
 </div>
 </div>
 <div class="sect4">
+<h5 id="code-memberdelete-code-command"><a class="link" href="#code-memberdelete-code-command"><code>memberDelete</code> Command</a></h5>
+<div class="paragraph">
+<p>The <code>memberDelete</code> command deletes a person (based on index) from the addressbook.</p>
+</div>
+<div class="paragraph">
+<p>Below is a step-by-step process on how the <code>memberDelete</code> command works on execution:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Step 1:</strong> The user executes the <code>memberDelete</code> command by specifying the index of the member that the user would like to delete.</p>
+</li>
+<li>
+<p><strong>Step 2:</strong> The <code>memberDelete</code> command will call <code>model#getFilteredPersonList</code> to retrieve the members list.</p>
+</li>
+<li>
+<p><strong>Step 3:</strong> Next, the <code>memberDelete</code> command will call <code>lastShownList#get</code> from which the given index will be used to pin point the specific
+member in the <code>filteredPersonList</code>.</p>
+</li>
+<li>
+<p><strong>Step 4:</strong> Then, the <code>memberDelete</code> command will call <code>model#removeMemberFromAllAttendance</code> to remove the member from all actvities using the member&#8217;s matriculation number.</p>
+</li>
+<li>
+<p><strong>Step 5:</strong> Afterwards, the <code>memberDelete</code> command will call <code>model#deletePerson</code> to delete the person from the Club Manager.</p>
+</li>
+<li>
+<p><strong>Step 6:</strong> Thereafter, the <code>memberDelete</code> command will call <code>model#commitAddressBook</code> to commit the changes to Club Manager.</p>
+</li>
+<li>
+<p><strong>Step 7:</strong> Finally, the <code>memberDelete</code> command provides a success message to indicate that the member has been successfully deleted from Club Manager.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following code snippet shows how <code>memberDelete</code> command is executed:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Override</span>
+    <span class="directive">public</span> CommandResult execute(Model model, CommandHistory history) <span class="directive">throws</span> CommandException {
+        requireNonNull(model);
+        <span class="predefined-type">List</span>&lt;Person&gt; lastShownList = model.getFilteredPersonList(); <span class="error">#</span> (<span class="integer">1</span>)
+
+        <span class="keyword">if</span> (targetIndex.getZeroBased() &gt;= lastShownList.size()) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX); <span class="error">#</span> (<span class="integer">2</span>)
+        }
+
+        Person personToDelete = lastShownList.get(targetIndex.getZeroBased()); <span class="error">#</span> (<span class="integer">3</span>)
+        model.removeMemberFromAllAttendance(personToDelete.getMatricNumber()); <span class="error">#</span> (<span class="integer">4</span>)
+        model.deletePerson(personToDelete); <span class="error">#</span> (<span class="integer">5</span>)
+        model.commitAddressBook();
+        <span class="keyword">return</span> <span class="keyword">new</span> CommandResult(<span class="predefined-type">String</span>.format(MESSAGE_DELETE_PERSON_SUCCESS, personToDelete));
+    }</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Gets filtered person list</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Checks if index is valid</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Gets person from filtered person list</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Gets person&#8217;s matriculation number and removes it from all activities</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Delete person from address book</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="code-memberedit-code-command"><a class="link" href="#code-memberedit-code-command"><code>memberEdit</code> Command</a></h5>
+<div class="paragraph">
+<p>The <code>memberEdit</code> command edits a member&#8217;s information.</p>
+</div>
+<div class="paragraph">
+<p>Below is a step-by-step process on how the <code>memberEdit</code> command works on execution:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Step 1:</strong> The user executes the <code>memberEdit</code> command by specifying the index of the member that the user would like to edit, followed by the prefix and information to be overwritten.</p>
+</li>
+<li>
+<p><strong>Step 2:</strong> The <code>memberEdit</code> command will call <code>model#getFilteredPersonList</code> to retrieve the members list.</p>
+</li>
+<li>
+<p><strong>Step 3:</strong> Next, the <code>memberEdit</code> command will call <code>lastShownList#get</code> from which the given index will be used to pin point the specific
+member in the <code>filteredPersonList</code>.</p>
+</li>
+<li>
+<p><strong>Step 4:</strong> Then, the <code>memberEdit</code> command will call <code>createEditedPerson</code> to create a new member using the new information.</p>
+</li>
+<li>
+<p><strong>Step 5:</strong> Afterwards, the <code>memberEdit</code> command will call <code>model#SetPerson</code> to replace the outdated member in the Club Manager.</p>
+</li>
+<li>
+<p><strong>Step 6:</strong> Thereafter, the <code>memberEdit</code> command will call <code>model#updateFilteredPersonList</code> to update the filtered person list.</p>
+</li>
+<li>
+<p><strong>Step 7:</strong> Finally, the <code>memberDelete</code> command provides a success message to indicate that the member has been successfully deleted from Club Manager.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following code snippet shows how <code>memberEdit</code> command is executed:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"> <span class="annotation">@Override</span>
+    <span class="directive">public</span> CommandResult execute(Model model, CommandHistory history) <span class="directive">throws</span> CommandException {
+        requireNonNull(model);
+        <span class="predefined-type">List</span>&lt;Person&gt; lastShownList = model.getFilteredPersonList(); <span class="error">#</span> (<span class="integer">1</span>)
+
+        <span class="keyword">if</span> (index.getZeroBased() &gt;= lastShownList.size()) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX); <span class="error">#</span> (<span class="integer">2</span>)
+        }
+
+        Person personToEdit = lastShownList.get(index.getZeroBased()); <span class="error">#</span> (<span class="integer">3</span>)
+        Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor); <span class="error">#</span> (<span class="integer">4</span>)
+
+        <span class="keyword">if</span> (!personToEdit.isSamePerson(editedPerson) &amp;&amp; model.hasPerson(editedPerson)) { <span class="error">#</span> (<span class="integer">5</span>)
+            <span class="keyword">throw</span> <span class="keyword">new</span> CommandException(MESSAGE_DUPLICATE_PERSON);
+        }
+
+        model.setPerson(personToEdit, editedPerson); <span class="error">#</span> (<span class="integer">6</span>)
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS); <span class="error">#</span> (<span class="integer">7</span>)
+        model.commitAddressBook();
+        <span class="keyword">return</span> <span class="keyword">new</span> CommandResult(<span class="predefined-type">String</span>.format(MESSAGE_EDIT_PERSON_SUCCESS, editedPerson));
+    }</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Gets filtered person list</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Checks if index is valid</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Gets person from filtered person list</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Creates new person using new information</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Checks if the new person created is the same as the old person</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Replace old entry of person with updated person</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>Update filtered person list to show changes</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="code-memberfind-code-command"><a class="link" href="#code-memberfind-code-command"><code>memberFind</code> Command</a></h5>
+<div class="paragraph">
+<p>The <code>memberFind</code> command finds all members in Club Manager that contain the keywords in their name or matricnum (as specified in command).</p>
+</div>
+<div class="paragraph">
+<p>Below is a step-by-step process on how the <code>memberFind</code> command works on execution:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Step 1:</strong> The user executes the <code>memberFind</code> command by specifying the criteria and keyword(s)of the member that the user would like to find.</p>
+</li>
+<li>
+<p><strong>Step 2:</strong> The <code>memberFind</code> command will call <code>model#getFilteredPersonList</code> to retrieve the members list of members whose name contains the name keywords or matricnum contains the matricnum keywords.</p>
+</li>
+<li>
+<p><strong>Step 3:</strong>  Finally, the <code>memberFind</code> command shows an overview of the number of members found, and displays the members found.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following code snippet shows how <code>memberFind</code> command is executed:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Override</span>
+    <span class="directive">public</span> CommandResult execute(Model model, CommandHistory history) {
+        requireNonNull(model);
+
+        <span class="keyword">if</span> (predicate.toString().equalsIgnoreCase(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>)) { <span class="error">#</span> (<span class="integer">1</span>)
+            model.updateFilteredPersonList(namePredicate); <span class="error">#</span> (<span class="integer">2</span>)
+        } <span class="keyword">else</span> <span class="keyword">if</span> (predicate.toString().equalsIgnoreCase(<span class="string"><span class="delimiter">&quot;</span><span class="content">matricnum</span><span class="delimiter">&quot;</span></span>)) { <span class="error">#</span> (<span class="integer">3</span>)
+            model.updateFilteredPersonList(matricNumPredicate); <span class="error">#</span> (<span class="integer">4</span>)
+        }
+        <span class="keyword">return</span> <span class="keyword">new</span> CommandResult(
+                <span class="predefined-type">String</span>.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+    }</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Checks if criteria given is "name"</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Updates filtered person list with members whose names contain the keyword</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Checks if criteria given is "matricnum"</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Updates filtered person list with members whose matriculation number contain the keyword</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
 <h5 id="code-memberfilter-code-command"><a class="link" href="#code-memberfilter-code-command"><code>memberFilter</code> Command</a></h5>
 <div class="paragraph">
 <p><strong>Logic Component</strong></p>
@@ -3927,4 +4164,4 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 13:59:04 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 14:18:31 UTC</div></div></div></body></html>

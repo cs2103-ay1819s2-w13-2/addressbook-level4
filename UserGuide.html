@@ -559,14 +559,10 @@ in which the member is currently studying.</p>
 <p><code>memberAdd n/James Ong mn/A0123456J p/98765432 e/jamesong@example.com a/123, Jurong West Ave 6, #08-111 g/male y/2 m/mathematics</code></p>
 </li>
 <li>
-<p><code>memberAdd n/Jane Lim mn/A0654321J p/91324756 e/janelim@example.com a/123, Sengkang Ave 6, #02-123 g/Female y/3  m/physics t/Swimming</code></p>
+<p><code>memberAdd n/Jane Lim mn/A0654321J p/91324756 e/janelim@example.com a/123, Sengkang Ave 6, #02-123 g/Female y/3  m/physics t/Swimming</code>
+image::memberAdd_added.png[width=70%]</p>
 </li>
 </ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="images/memberAdd_added.png" alt="memberAdd added" width="70%">
-</div>
 </div>
 </div>
 <div class="sect3">
@@ -587,6 +583,9 @@ Format: <code>memberDelete INDEX</code></p>
 </li>
 <li>
 <p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+</li>
+<li>
+<p>Member will be deleted from activity attendance list as well.</p>
 </li>
 </ul>
 </div>
@@ -635,9 +634,6 @@ The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p
 </li>
 <li>
 <p>You can remove all the member&#8217;s tags by typing <code>t/</code> without specifying any tags after it.</p>
-</li>
-<li>
-<p>You cannot change a member&#8217;s Matriculation Number</p>
 </li>
 </ul>
 </div>
@@ -714,7 +710,7 @@ Edits the name of the 2nd member to be <code>Betsy Crower</code> and clears all 
 <h4 id="locating-members-by-name-code-memberfind-code-or-code-mfind-code"><a class="link" href="#locating-members-by-name-code-memberfind-code-or-code-mfind-code">4.2.5. Locating members by name: <code>memberFind</code> or <code>mFind</code></a></h4>
 <div class="paragraph">
 <p>Finds members whose names contain any of the given keywords.<br>
-Format: <code>memberFind CRITERIA KEYWORD [MORE_KEYWORDS]</code></p>
+Format: <code>memberFind CRITERIA KEYWORD [MORE_CRITERIA] [MORE_KEYWORDS]</code></p>
 </div>
 <div class="sidebarblock">
 <div class="content">
@@ -1504,7 +1500,7 @@ e.g. <code>memberAdd n/James Ong mn/A0123456Y p/98765432 e/jamesong@example.com 
 e.g. <code>memberDelete 3</code></p>
 </li>
 <li>
-<p><strong>Edit a member</strong> : <code>memberEdit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [yos/YEAR_OF_STUDY] [m/MAJOR] [t/TAG]&#8230;&#8203;</code><br>
+<p><strong>Edit a member</strong> : <code>memberEdit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [g/GENDER] [yos/YEAR_OF_STUDY] [m/MAJOR] [t/TAG]&#8230;&#8203;</code><br>
 e.g. <code>memberEdit 2 n/James Lee e/jameslee@example.com</code></p>
 </li>
 <li>
@@ -1657,4 +1653,4 @@ e.g. <code>activityExport 1</code></p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 13:59:04 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 14:18:31 UTC</div></div></div></body></html>

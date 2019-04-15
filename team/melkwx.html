@@ -20,14 +20,27 @@
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Major enhancement</strong>: added <strong>the ability of the find function to find members by name or matriculation number, case insensitive and a partial word match is allowed</strong></p>
+<p><strong>Major enhancement</strong>: Member List Management Functions</p>
 <div class="ulist">
 <ul>
 <li>
-<p>What it does: allows the user to find members using part or whole name or matriculation number, and multiple fields can also be entered. All members who fulfill the criteria will be returned.</p>
+<p><strong>What it does:</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Find</strong> (<code>memberFind</code>): allows the user to find members using part or whole name or matriculation number, and multiple fields can also be entered. All members who fulfill the criteria will be returned.</p>
 </li>
 <li>
-<p>Justification: This feature improves the product significantly because it makes searching for a member easier, making it distinct from the normal select function.</p>
+<p><strong>Edit</strong> (<code>memberEdit</code>): allows the user to edit all fields in the member information EXCEPT matriculation number.</p>
+</li>
+<li>
+<p><strong>Delete</strong> (<code>memberDelete</code>): allows the user to delete member from memberList AND activityList with one simple command using list index.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Justification:</strong> Grants ease of CCA leaders looking up contact information of a particular member without scrolling through long lists, allows leaders to easily edit member information that is available to edit, as well as allow for clean delete from the Club Manager when the member graduates or has quit the club.</p>
 </li>
 <li>
 <p>Highlights: This enhancement affects existing commands and commands to be added in future. It required an in-depth analysis of design alternatives. The implementation too was challenging as it required changes to existing commands.</p>
@@ -39,9 +52,15 @@
 </div>
 </li>
 <li>
-<p><strong>Minor enhancement</strong>: added contiansIgnoreCase function under StringUtil to allow for partial keyword match</p>
+<p><strong>Minor enhancements</strong>:</p>
 <div class="ulist">
 <ul>
+<li>
+<p>Added contiansIgnoreCase function under StringUtil to allow for partial keyword match, available for all to use, breaking restriction of only full word match</p>
+</li>
+<li>
+<p>Find Criteria contains keywords predicate for others to follow to allow for multiple criteria and keywords to be input instead of single criteria multiple keywords</p>
+</li>
 <li>
 <p>Highlights: It negates the need to demand full word match and enables more effective search functions given a long list of members with may information fields.</p>
 </li>
@@ -49,73 +68,39 @@
 </div>
 </li>
 <li>
-<p><strong>Code contributed</strong>: [<a href="https://github.com">Functional code</a>] [<a href="https://github.com">Test code</a>] <em>{give links to collated code files}</em></p>
+<p><strong>Code contributed</strong>: [<a href="https://github.com/CS2103-AY1819S2-W13-2/main/commits?author=melkwx">Functional code</a>] [<a href="https://nus-cs2103-ay1819s2.github.io/cs2103-dashboard/#search=melkwx&amp;sort=displayName&amp;since=2019-02-10&amp;until=2019-04-15&amp;timeframe=day&amp;reverse=false&amp;repoSort=true">RepoSense</a>] <em>{give links to collated code files}</em></p>
 </li>
 <li>
 <p><strong>Other contributions</strong>:</p>
+</li>
+<li>
+<p>Actively reviewed documentation of teammates to make sure the documentation follows a similar structure.</p>
+</li>
+<li>
+<p>Actively reviewed teammates' PRs to ease debugging process.</p>
+</li>
+<li>
+<p>Corrected any team-related documentation issues.</p>
+</li>
+<li>
+<p>Provided high-speed typing services for all demos.</p>
+</li>
+<li>
+<p>Continuous morale booster and emotional support.</p>
+</li>
+<li>
+<p>Tells everyone their code looks good.</p>
 <div class="ulist">
 <ul>
-<li>
-<p>Project management:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Managed releases <code>v1.3</code> - <code>v1.5rc</code> (3 releases) on GitHub</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Enhancements to existing features:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Updated the GUI color scheme (Pull requests <a href="https://github.com">#33</a>, <a href="https://github.com">#34</a>)</p>
-</li>
-<li>
-<p>Wrote additional tests for existing features to increase coverage from 88% to 92% (Pull requests <a href="https://github.com">#36</a>, <a href="https://github.com">#38</a>)</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Documentation:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Did cosmetic tweaks to existing contents of the User Guide: <a href="https://github.com">#14</a></p>
-</li>
-</ul>
-</div>
-</li>
 <li>
 <p>Community:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>PRs reviewed (with non-trivial review comments): <a href="https://github.com">#12</a>, <a href="https://github.com">#32</a>, <a href="https://github.com">#19</a>, <a href="https://github.com">#42</a></p>
+<p>Regularly reviewed PRs and commented.</p>
 </li>
 <li>
-<p>Contributed to forum discussions (examples:  <a href="https://github.com">1</a>, <a href="https://github.com">2</a>, <a href="https://github.com">3</a>, <a href="https://github.com">4</a>)</p>
-</li>
-<li>
-<p>Reported bugs and suggestions for other teams in the class (examples:  <a href="https://github.com">1</a>, <a href="https://github.com">2</a>, <a href="https://github.com">3</a>)</p>
-</li>
-<li>
-<p>Some parts of the history feature I added was adopted by several other class mates (<a href="https://github.com">1</a>, <a href="https://github.com">2</a>)</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Tools:</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Integrated a third party library (Natty) to the project (<a href="https://github.com">#42</a>)</p>
-</li>
-<li>
-<p>Integrated a new Github plugin (CircleCI) to the team repo</p>
+<p>Reported bugs and suggestions for other teams in the class (W14-1)</p>
 </li>
 </ul>
 </div>
@@ -124,9 +109,6 @@
 </div>
 </li>
 </ul>
-</div>
-<div class="paragraph">
-<p><em>{you can add/remove categories in the list above}</em></p>
 </div>
 </div>
 </div>
@@ -143,6 +125,151 @@
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="introduction"><a class="link" href="#introduction">Introduction</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>ClubManager is for Co-Curricular Activities (CCAs) leaders who <strong>prefer to use a desktop app for managing their members
+and activities</strong>. More importantly, ClubManager is <strong>optimized for those who prefer to work with a Command Line Interface</strong>
+(CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, ClubManager can get
+your contact management tasks done faster than traditional GUI apps. Interested? Jump to the <a href="#Quick Start">[Quick Start]</a> to get
+started. Enjoy!
+==== Editing a member : <code>memberEdit</code> or <code>mEdit</code></p>
+</div>
+<div class="paragraph">
+<p>Edits an existing member in ClubManager.<br>
+Format: <code>memberEdit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [g/GENDER] [yos/YEAR_OF_STUDY] [m/MAJOR] [t/TAG]&#8230;&#8203;</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Edits the member at the specified <code>INDEX</code>. The index refers to the index number shown in the displayed member list.
+The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+</li>
+<li>
+<p>At least one of the optional fields must be provided.</p>
+</li>
+<li>
+<p>Existing values will be updated to the input values.</p>
+</li>
+<li>
+<p>NOTE: Matriculation Number cannot be edited</p>
+</li>
+<li>
+<p>You can remove all the member&#8217;s tags by typing <code>t/</code> without specifying any tags after it.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>memberEdit 1 p/91234567 e/johndoe@example.com</code><br>
+Edits the phone number and email address of the 1st member to be <code>91234567</code> and <code>johndoe@example.com</code> respectively.</p>
+</li>
+<li>
+<p><code>memberEdit 2 n/Betsy Crower t/</code><br>
+Edits the name of the 2nd member to be <code>Betsy Crower</code> and clears all existing tags.
+==== Deleting a member : <code>memberDelete</code> or <code>mDelete</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Deletes the specified member from ClubManager.<br>
+Format: <code>memberDelete INDEX</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Deletes the member at the specified <code>INDEX</code>.</p>
+</li>
+<li>
+<p>The index refers to the index number shown in the displayed member list.</p>
+</li>
+<li>
+<p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
+</li>
+<li>
+<p>Member will be deleted from activity attendance list as well.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>memberList</code><br>
+<code>memberDelete 2</code><br>
+Deletes the 2nd member in ClubManager.</p>
+</li>
+<li>
+<p><code>memberFind name Betsy</code><br>
+<code>memberDelete 1</code><br>
+Deletes the 1st member in the results of the <code>find</code> command.
+==== Locating members by name: <code>memberFind</code> or <code>mFind</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Finds members whose names contain any of the given keywords.<br>
+Format: <code>memberFind CRITERIA KEYWORD [MORE_CRITERIA] [MORE_KEYWORDS]</code></p>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>The search is case insensitive. e.g <code>hans</code> will match <code>Hans</code></p>
+</li>
+<li>
+<p>The order of the keywords does not matter. e.g. <code>Hans Bo</code> will match <code>Bo Hans</code></p>
+</li>
+<li>
+<p>Partial or full words will be matched e.g. <code>Han</code> will match <code>Hans</code></p>
+</li>
+<li>
+<p>members matching at least one keyword will be returned (i.e. <code>OR</code> search). e.g. <code>Hans Bo</code> will return <code>Hans Gruber</code>, <code>Bo Yang</code></p>
+</li>
+<li>
+<p>CRITERIA could be "name" or "matricnum" only (case insensitive)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>memberFind name John</code><br>
+Returns <code>john</code> and <code>John Doe</code></p>
+</li>
+<li>
+<p><code>memberFind name Betsy Tim John</code><br>
+Returns any member having names <code>Betsy</code>, <code>Tim</code>, or <code>John</code></p>
+</li>
+<li>
+<p><code>memberFind matricnum A0</code><br>
+Returns all members (matric num starts with A0)</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -370,4 +497,4 @@ If the <code>currentStatePointer</code> is at index <code>addressBookStateList.s
 <p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 13:59:04 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 14:18:31 UTC</div></div></div></body></html>
