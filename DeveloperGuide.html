@@ -93,15 +93,18 @@
 <li><a href="#listing-all-members">H.4. Listing all Members</a></li>
 <li><a href="#select-a-member">H.5. Select a Member</a></li>
 <li><a href="#sorting-member-s-list">H.6. Sorting Member&#8217;s List</a></li>
-<li><a href="#deleting-a-person">H.7. Deleting a person</a></li>
-<li><a href="#editing-a-person">H.8. Editing a person</a></li>
-<li><a href="#finding-a-person">H.9. Finding a person</a></li>
-<li><a href="#activity-list-feature-2">H.10. Activity List Feature</a></li>
-<li><a href="#editing-an-activity">H.11. Editing an activity</a></li>
-<li><a href="#deleting-an-activity">H.12. Deleting an activity</a></li>
-<li><a href="#adding-a-member-to-an-activity-s-attendance-list">H.13. Adding a member to an activity&#8217;s attendance list</a></li>
-<li><a href="#deleting-a-member-from-an-activity-s-attendance-list">H.14. Deleting a member from an activity&#8217;s attendance list</a></li>
-<li><a href="#saving-data">H.15. Saving data</a></li>
+<li><a href="#modes-of-operation-feature-for-code-mode-code">H.7. Modes of Operation Feature for <code>mode</code></a></li>
+<li><a href="#deleting-a-person">H.8. Deleting a person</a></li>
+<li><a href="#editing-a-person">H.9. Editing a person</a></li>
+<li><a href="#finding-a-person">H.10. Finding a person</a></li>
+<li><a href="#activity-list-feature-2">H.11. Activity List Feature</a></li>
+<li><a href="#editing-an-activity">H.12. Editing an activity</a></li>
+<li><a href="#deleting-an-activity">H.13. Deleting an activity</a></li>
+<li><a href="#adding-a-member-to-an-activity-s-attendance-list">H.14. Adding a member to an activity&#8217;s attendance list</a></li>
+<li><a href="#deleting-a-member-from-an-activity-s-attendance-list">H.15. Deleting a member from an activity&#8217;s attendance list</a></li>
+<li><a href="#saving-data">H.16. Saving data</a></li>
+<li><a href="#export-feature-for-member-code-memberexport-code-or-code-mexport-code">H.17. Export Feature for MEMBER <code>memberExport</code> or <code>mExport</code></a></li>
+<li><a href="#export-feature-for-activity-code-activityexport-code-or-code-aexport-code">H.18. Export Feature for ACTIVITY <code>activityExport</code> or <code>aExport</code></a></li>
 </ul>
 </li>
 </ul>
@@ -4215,7 +4218,136 @@ Expected: The most recent window size and location is retained.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-a-person"><a class="link" href="#deleting-a-person">H.7. Deleting a person</a></h3>
+<h3 id="modes-of-operation-feature-for-code-mode-code"><a class="link" href="#modes-of-operation-feature-for-code-mode-code">H.7. Modes of Operation Feature for <code>mode</code></a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Initial launch mode</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>App should start in MEMBER mode, indicated by the label on the top right corner of app window.</p>
+</li>
+<li>
+<p>Test case: <code>mode</code><br>
+Expected: Returns 'Mode MEMBER' in the Result Display Panel.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Mode changes correctly from MEMBER</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: ClubManager is in MEMBER mode</p>
+</li>
+<li>
+<p>Test case: <code>mode MEMBER</code><br>
+Expected: Returns 'Mode is already: MEMBER'.</p>
+</li>
+<li>
+<p>Test case: <code>mode ACTIVITY</code><br>
+Expected: Returns 'Mode changed to ACTIVITY', and is indicated by the label on the top right corner of app window.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Mode changes correctly from ACTIVITY</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: ClubManager is in ACTIVITY mode.</p>
+</li>
+<li>
+<p>Test case: <code>mode ACTIVITY</code><br>
+Expected: Returns 'Mode is already: ACTIVITY'.</p>
+</li>
+<li>
+<p>Test case: <code>mode MEMBER</code><br>
+Expected: Returns 'Mode changed to MEMBER', and is indicated by the label on the top right corner of app window.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Only Member Commands and Generic Commands work in MEMBER mode</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: ClubManager is in MEMBER mode.</p>
+</li>
+<li>
+<p>Test case: <code>memberSelect 1</code><br>
+Expected: Person at index 1 of the list is selected. Member details panel shows details of person at index 1. Returns 'Selected Person: 1'.</p>
+</li>
+<li>
+<p>Test case: <code>activityList</code><br>
+Expected: Error message 'Invalid command mode! Allowed Mode : ACTIVITY' and prompt mode usage to change mode.</p>
+</li>
+<li>
+<p>Test case: <code>help</code><br>
+Expected: Help window opens.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Only Activity Commands and Generic Commands work in ACTIVITY mode</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: ClubManager is in ACTIVITY mode.</p>
+</li>
+<li>
+<p>Test case: <code>activitySelect 1</code><br>
+Expected: Activity at index 1 of the list is selected. Activity details panel shows details of activity at index 1. Returns 'Selected Activity: 1'.</p>
+</li>
+<li>
+<p>Test case: <code>memberList</code><br>
+Expected: Error message 'Invalid command mode! Allowed Mode : MEMBER' and prompt mode usage to change mode.</p>
+</li>
+<li>
+<p>Test case: <code>help</code><br>
+Expected: Help window opens.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>ClubManager mode resets in MEMBER mode after <code>clear</code> operation in MEMBER mode.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: ClubManager is in MEMBER mode.</p>
+</li>
+<li>
+<p>Test case: <code>clear</code><br>
+Expected: App in mode MEMBER indicated by the label on the top right corner of app window.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>ClubManager mode resets in MEMBER mode after <code>clear</code> operation in ACTIVITY mode.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: ClubManager is in ACTIVITY mode.</p>
+</li>
+<li>
+<p>Test case: <code>clear</code><br>
+Expected: App in mode MEMBER indicated by the label on the top right corner of app window.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="deleting-a-person"><a class="link" href="#deleting-a-person">H.8. Deleting a person</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4244,7 +4376,7 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="editing-a-person"><a class="link" href="#editing-a-person">H.8. Editing a person</a></h3>
+<h3 id="editing-a-person"><a class="link" href="#editing-a-person">H.9. Editing a person</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4273,7 +4405,7 @@ Expected: No person is edited. Error details shown in the status message. Simila
 </div>
 </div>
 <div class="sect2">
-<h3 id="finding-a-person"><a class="link" href="#finding-a-person">H.9. Finding a person</a></h3>
+<h3 id="finding-a-person"><a class="link" href="#finding-a-person">H.10. Finding a person</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4305,7 +4437,7 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="activity-list-feature-2"><a class="link" href="#activity-list-feature-2">H.10. Activity List Feature</a></h3>
+<h3 id="activity-list-feature-2"><a class="link" href="#activity-list-feature-2">H.11. Activity List Feature</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4387,7 +4519,7 @@ Expected: Error message in result display about incorrect result format.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="editing-an-activity"><a class="link" href="#editing-an-activity">H.11. Editing an activity</a></h3>
+<h3 id="editing-an-activity"><a class="link" href="#editing-an-activity">H.12. Editing an activity</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4414,7 +4546,7 @@ Expected: Invalid command format!</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-an-activity"><a class="link" href="#deleting-an-activity">H.12. Deleting an activity</a></h3>
+<h3 id="deleting-an-activity"><a class="link" href="#deleting-an-activity">H.13. Deleting an activity</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4441,7 +4573,7 @@ The activity index provided is invalid</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="adding-a-member-to-an-activity-s-attendance-list"><a class="link" href="#adding-a-member-to-an-activity-s-attendance-list">H.13. Adding a member to an activity&#8217;s attendance list</a></h3>
+<h3 id="adding-a-member-to-an-activity-s-attendance-list"><a class="link" href="#adding-a-member-to-an-activity-s-attendance-list">H.14. Adding a member to an activity&#8217;s attendance list</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4469,7 +4601,7 @@ The last letter must be a valid checksum.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-a-member-from-an-activity-s-attendance-list"><a class="link" href="#deleting-a-member-from-an-activity-s-attendance-list">H.14. Deleting a member from an activity&#8217;s attendance list</a></h3>
+<h3 id="deleting-a-member-from-an-activity-s-attendance-list"><a class="link" href="#deleting-a-member-from-an-activity-s-attendance-list">H.15. Deleting a member from an activity&#8217;s attendance list</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4496,7 +4628,7 @@ Expected: The person is not in the activity attendance list!</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-data"><a class="link" href="#saving-data">H.15. Saving data</a></h3>
+<h3 id="saving-data"><a class="link" href="#saving-data">H.16. Saving data</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4515,5 +4647,71 @@ Expected: The person is not in the activity attendance list!</p>
 <p><em>{ more test cases &#8230;&#8203; }</em></p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="export-feature-for-member-code-memberexport-code-or-code-mexport-code"><a class="link" href="#export-feature-for-member-code-memberexport-code-or-code-mexport-code">H.17. Export Feature for MEMBER <code>memberExport</code> or <code>mExport</code></a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>App exports member data to file when index if member exists in list.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: ClubManager is in MEMBER mode. There is a member in the list at index 1 and none at index 999.</p>
+</li>
+<li>
+<p>Test case: <code>memberExport</code><br>
+Expected: Error message, shows command usage instructions.</p>
+</li>
+<li>
+<p>Test case: <code>mExport</code><br>
+Expected: Error message, shows command usage instructions.</p>
+</li>
+<li>
+<p>Test case: <code>memberExport 1</code><br>
+Expected: File created at root folder where the jar file is situated.</p>
+</li>
+<li>
+<p>Test case: <code>memberExport 999</code><br>
+Expected: Retuens 'The member index provided is invalid.'. No file is created.</p>
+</li>
+</ol>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 15:27:35 UTC</div></div></div></body></html>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="export-feature-for-activity-code-activityexport-code-or-code-aexport-code"><a class="link" href="#export-feature-for-activity-code-activityexport-code-or-code-aexport-code">H.18. Export Feature for ACTIVITY <code>activityExport</code> or <code>aExport</code></a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>App exports member data to file when index if member exists in list.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: ClubManager is in ACTIVITY mode. There is an activity in the list at index 1 and none at index 999.</p>
+</li>
+<li>
+<p>Test case: <code>activityExport</code><br>
+Expected: Error message, shows command usage instructions.</p>
+</li>
+<li>
+<p>Test case: <code>aExport</code><br>
+Expected: Error message, shows command usage instructions.</p>
+</li>
+<li>
+<p>Test case: <code>activityExport 1</code><br>
+Expected: File created at root folder where the jar file is situated.</p>
+</li>
+<li>
+<p>Test case: <code>activityExport 999</code><br>
+Expected: Returns 'The activity index provided is invalid.'. No file is created.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 15:35:55 UTC</div></div></div></body></html>
