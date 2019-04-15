@@ -89,15 +89,19 @@
 <ul class="sectlevel2">
 <li><a href="#launch-and-shutdown">H.1. Launch and Shutdown</a></li>
 <li><a href="#adding-a-member">H.2. Adding a member</a></li>
-<li><a href="#deleting-a-person">H.3. Deleting a person</a></li>
-<li><a href="#editing-a-person">H.4. Editing a person</a></li>
-<li><a href="#finding-a-person">H.5. Finding a person</a></li>
-<li><a href="#activity-list-feature-2">H.6. Activity List Feature</a></li>
-<li><a href="#editing-an-activity">H.7. Editing an activity</a></li>
-<li><a href="#deleting-an-activity">H.8. Deleting an activity</a></li>
-<li><a href="#adding-a-member-to-an-activity-s-attendance-list">H.9. Adding a member to an activity&#8217;s attendance list</a></li>
-<li><a href="#deleting-a-member-from-an-activity-s-attendance-list">H.10. Deleting a member from an activity&#8217;s attendance list</a></li>
-<li><a href="#saving-data">H.11. Saving data</a></li>
+<li><a href="#filtering-member-s-list">H.3. Filtering Member&#8217;s List</a></li>
+<li><a href="#listing-all-members">H.4. Listing all Members</a></li>
+<li><a href="#select-a-member">H.5. Select a Member</a></li>
+<li><a href="#sorting-member-s-list">H.6. Sorting Member&#8217;s List</a></li>
+<li><a href="#deleting-a-person">H.7. Deleting a person</a></li>
+<li><a href="#editing-a-person">H.8. Editing a person</a></li>
+<li><a href="#finding-a-person">H.9. Finding a person</a></li>
+<li><a href="#activity-list-feature-2">H.10. Activity List Feature</a></li>
+<li><a href="#editing-an-activity">H.11. Editing an activity</a></li>
+<li><a href="#deleting-an-activity">H.12. Deleting an activity</a></li>
+<li><a href="#adding-a-member-to-an-activity-s-attendance-list">H.13. Adding a member to an activity&#8217;s attendance list</a></li>
+<li><a href="#deleting-a-member-from-an-activity-s-attendance-list">H.14. Deleting a member from an activity&#8217;s attendance list</a></li>
+<li><a href="#saving-data">H.15. Saving data</a></li>
 </ul>
 </li>
 </ul>
@@ -4135,11 +4139,83 @@ Expected: The most recent window size and location is retained.</p>
 <p><strong>Test case:</strong> <code>memberAdd n/Tan Xun Song mn/A0192595N p/811619921 e/txs@example.com a/311, Jurong West Ave 3, #12-03 g/Female y/2 m/Medicine t/Archery</code><br>
 <strong>Expected:</strong> Phone numbers should only start with 6, 8 or 9, and it should be only be 8 digits long.</p>
 </li>
+<li>
+<p><strong>Test case:</strong> <code>memberAdd n/Tan Xun Song mn/A0187456N p/81161992 e/txs@example.com a/311, Jurong West Ave 3, #12-03 g/Female y/2 m/Medicine t/Archery</code><br>
+<strong>Expected:</strong> This matricNumber already exists in Club Manager.</p>
+</li>
+<li>
+<p><strong>Test case:</strong> <code>memberAdd n/Tan Xun Song mn/A0192595Z p/81161992 e/txs@example.com a/311, Jurong West Ave 3, #12-03 g/Female y/2 m/Medicine t/Archery</code><br>
+<strong>Expected:</strong> MatricNumber should only contain alphanumeric characters, starting with an A and ending with an uppercase alphabet, with 7 digits in between the first and last character. The last letter must be a valid checksum.</p>
+</li>
+<li>
+<p><strong>Test case:</strong> <code>memberAdd n/Tan Xun Song mn/A0192595N p/81161992 e/txs@example.com a/311, Jurong West Ave 3, #12-03 g/chicken y/2 m/Medicine t/Archery</code><br>
+<strong>Expected:</strong> Gender should be Male or Female, and it should not be blank</p>
+</li>
+<li>
+<p><strong>Test case:</strong> <code>memberAdd n/Tan Xun Song mn/A0192595N p/81161992 e/txs@example.com a/311, Jurong West Ave 3, #12-03 g/Female y/0 m/Medicine t/Archery</code><br>
+<strong>Expected:</strong> YearOfStudy should only contain a single digit between 1 to 6 and it should not be blank</p>
+</li>
 </ol>
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-a-person"><a class="link" href="#deleting-a-person">H.3. Deleting a person</a></h3>
+<h3 id="filtering-member-s-list"><a class="link" href="#filtering-member-s-list">H.3. Filtering Member&#8217;s List</a></h3>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Test case:</strong> <code>memberFilter yearofstudy 2</code><br>
+<strong>Expected:</strong> _ member(s) listed!!</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="listing-all-members"><a class="link" href="#listing-all-members">H.4. Listing all Members</a></h3>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Test case:</strong> <code>memberList</code><br>
+<strong>Expected:</strong> Listed all persons</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="select-a-member"><a class="link" href="#select-a-member">H.5. Select a Member</a></h3>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Test case:</strong> <code>memberSelect 1</code><br>
+<strong>Expected:</strong> Selected Person: 1</p>
+</li>
+<li>
+<p><strong>Test case:</strong> <code>memberSelect 0</code><br>
+<strong>Expected:</strong> Invalid command format!
+            memberSelect: Selects the member identified by the index number used in the displayed member list.
+            Parameters: INDEX (must be a positive integer)</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="sorting-member-s-list"><a class="link" href="#sorting-member-s-list">H.6. Sorting Member&#8217;s List</a></h3>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Test case:</strong> <code>memberSort name</code><br>
+<strong>Expected:</strong> Members' list successfully sorted!</p>
+</li>
+<li>
+<p><strong>Test case:</strong> <code>memberSort names</code><br>
+<strong>Expected:</strong> Invalid command format!
+            memberSort: Sorts all members in the members' list based on the specified attribute (case-insensitive).
+            Parameters: KEYWORD&#8230;&#8203;</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="deleting-a-person"><a class="link" href="#deleting-a-person">H.7. Deleting a person</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4168,7 +4244,7 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="editing-a-person"><a class="link" href="#editing-a-person">H.4. Editing a person</a></h3>
+<h3 id="editing-a-person"><a class="link" href="#editing-a-person">H.8. Editing a person</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4197,7 +4273,7 @@ Expected: No person is edited. Error details shown in the status message. Simila
 </div>
 </div>
 <div class="sect2">
-<h3 id="finding-a-person"><a class="link" href="#finding-a-person">H.5. Finding a person</a></h3>
+<h3 id="finding-a-person"><a class="link" href="#finding-a-person">H.9. Finding a person</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4229,7 +4305,7 @@ Expected: Similar to previous.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="activity-list-feature-2"><a class="link" href="#activity-list-feature-2">H.6. Activity List Feature</a></h3>
+<h3 id="activity-list-feature-2"><a class="link" href="#activity-list-feature-2">H.10. Activity List Feature</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4311,7 +4387,7 @@ Expected: Error message in result display about incorrect result format.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="editing-an-activity"><a class="link" href="#editing-an-activity">H.7. Editing an activity</a></h3>
+<h3 id="editing-an-activity"><a class="link" href="#editing-an-activity">H.11. Editing an activity</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4338,7 +4414,7 @@ Expected: Invalid command format!</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-an-activity"><a class="link" href="#deleting-an-activity">H.8. Deleting an activity</a></h3>
+<h3 id="deleting-an-activity"><a class="link" href="#deleting-an-activity">H.12. Deleting an activity</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4365,7 +4441,7 @@ The activity index provided is invalid</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="adding-a-member-to-an-activity-s-attendance-list"><a class="link" href="#adding-a-member-to-an-activity-s-attendance-list">H.9. Adding a member to an activity&#8217;s attendance list</a></h3>
+<h3 id="adding-a-member-to-an-activity-s-attendance-list"><a class="link" href="#adding-a-member-to-an-activity-s-attendance-list">H.13. Adding a member to an activity&#8217;s attendance list</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4393,7 +4469,7 @@ The last letter must be a valid checksum.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="deleting-a-member-from-an-activity-s-attendance-list"><a class="link" href="#deleting-a-member-from-an-activity-s-attendance-list">H.10. Deleting a member from an activity&#8217;s attendance list</a></h3>
+<h3 id="deleting-a-member-from-an-activity-s-attendance-list"><a class="link" href="#deleting-a-member-from-an-activity-s-attendance-list">H.14. Deleting a member from an activity&#8217;s attendance list</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4420,7 +4496,7 @@ Expected: The person is not in the activity attendance list!</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-data"><a class="link" href="#saving-data">H.11. Saving data</a></h3>
+<h3 id="saving-data"><a class="link" href="#saving-data">H.15. Saving data</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4440,4 +4516,4 @@ Expected: The person is not in the activity attendance list!</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 15:21:55 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 15:27:35 UTC</div></div></div></body></html>
