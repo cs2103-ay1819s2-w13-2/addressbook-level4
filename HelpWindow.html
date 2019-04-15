@@ -1066,7 +1066,7 @@ Format: <code>activityAddMember ACTIVITY_INDEX MATRIC_NO</code></p>
 <p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
 </li>
 <li>
-<p>MATRIC_NO must be a currently existing entry in any existing member’s MATRIC_NO information column in the member list.</p>
+<p>MATRIC_NO must be a currently existing entry in any existing member’s MATRIC_NO information column in the member list and not currently in the activity&#8217;s attendance list.</p>
 </li>
 </ul>
 </div>
@@ -1133,7 +1133,7 @@ Format: <code>activityDeleteMember ACTIVITY_INDEX MATRIC_NO</code></p>
 <p>The index <strong>must be a positive integer</strong> 1, 2, 3, &#8230;&#8203;</p>
 </li>
 <li>
-<p>MATRIC_NO must be a currently existing entry in the specified activity’s attending list.</p>
+<p>MATRIC_NO must be a currently existing entry in the specified activity’s attendance list.</p>
 </li>
 </ul>
 </div>
@@ -1189,12 +1189,12 @@ Format: `activityEdit ACTIVITY_INDEX [n/ACTIVITY_NAME] [d/DATE] [t/TAG] … `</p
 <div class="ulist">
 <ul>
 <li>
-<p><code>activityEdit 1 d/13022019</code><br>
-Edits the date of the first activity to be 13 Feb 2019.</p>
+<p><code>activityEdit 1 n/New Activity d/13022019 1200 l/Com1 de/Bring calculator</code><br>
+Edits the name of the first activity, datetime, location and description to "New Activity", "13 February 2019 1200 hrs", "Com1" and "Bring calculator" respectively.</p>
 </li>
 <li>
-<p><code>activityEdit 2 t/</code><br>
-Clears all existing tags of the second activity.</p>
+<p><code>activityEdit 2 l/NUS</code><br>
+Edits the location of the second activity to "NUS".</p>
 </li>
 </ul>
 </div>
@@ -1529,8 +1529,8 @@ e.g. <code>activityDelete 1</code></p>
 e.g. <code>activityDeleteMember 1 A1234567N</code></p>
 </li>
 <li>
-<p><strong>Edit an activity</strong> : <code>activityEdit ACTIVITY_INDEX [n/ACTIVITY_NAME] [d/DATE] [t/TAG] … `<br>
-e.g. `activityEdit 1 d/13022019</code></p>
+<p><strong>Edit an activity</strong> : <code>activityEdit ACTIVITY_INDEX [n/ACTIVITY_NAME] [d/DATETIME] [l/ACTIVITY_LOCATION] [de/ACTIVITY_DESCRIPTION] … `<br>
+e.g. `activityEdit 1 n/New Activity d/13/02/2019 1200 l/Com1 de/Bring calculator</code></p>
 </li>
 <li>
 <p><strong>Find an activity</strong> : <code>activityFind [PREFIX] KEYWORD [MORE_KEYWORDS] [NEXT_PREFIX KEYWORD] [MORE_KEYWORDS]</code><br>
@@ -1636,4 +1636,4 @@ e.g. <code>activityExport 1</code></p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 08:11:18 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 09:43:44 UTC</div></div></div></body></html>
