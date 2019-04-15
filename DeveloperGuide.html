@@ -93,7 +93,11 @@
 <li><a href="#editing-a-person">H.4. Editing a person</a></li>
 <li><a href="#finding-a-person">H.5. Finding a person</a></li>
 <li><a href="#activity-list-feature-2">H.6. Activity List Feature</a></li>
-<li><a href="#saving-data">H.7. Saving data</a></li>
+<li><a href="#editing-an-activity">H.7. Editing an activity</a></li>
+<li><a href="#deleting-an-activity">H.8. Deleting an activity</a></li>
+<li><a href="#adding-a-member-to-an-activity-s-attendance-list">H.9. Adding a member to an activity&#8217;s attendance list</a></li>
+<li><a href="#deleting-a-member-from-an-activity-s-attendance-list">H.10. Deleting a member from an activity&#8217;s attendance list</a></li>
+<li><a href="#saving-data">H.11. Saving data</a></li>
 </ul>
 </li>
 </ul>
@@ -4111,9 +4115,6 @@ Expected: The most recent window size and location is retained.</p>
 </li>
 </ol>
 </div>
-<div class="paragraph">
-<p><em>{ more test cases &#8230;&#8203; }</em></p>
-</div>
 </div>
 <div class="sect2">
 <h3 id="adding-a-member"><a class="link" href="#adding-a-member">H.2. Adding a member</a></h3>
@@ -4310,7 +4311,116 @@ Expected: Error message in result display about incorrect result format.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="saving-data"><a class="link" href="#saving-data">H.7. Saving data</a></h3>
+<h3 id="editing-an-activity"><a class="link" href="#editing-an-activity">H.7. Editing an activity</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Editing an activity while all activities are listed.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all activities using the <code>aList</code> command. Multiple persons in the list.</p>
+</li>
+<li>
+<p>Test case: <code>activityEdit 1 n/New Activity d/13/02/2019 1200 l/Com1 de/Bring calculator</code><br></p>
+</li>
+<li>
+<p>Expected: Edited Activity: New Activity Date Time: 13/02/2019 1200 Location: Com1 Description: Bring calculator Number Attending: "NUM_ATTENDING"</p>
+</li>
+<li>
+<p>Test case: <code>aEdit 0</code><br>
+Expected: Invalid command format!</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="deleting-an-activity"><a class="link" href="#deleting-an-activity">H.8. Deleting an activity</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Deleting an activity while all activities are listed.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all activities using the <code>aList</code> command. Multiple persons in the list.</p>
+</li>
+<li>
+<p>Test case: <code>activityDelete 1</code><br></p>
+</li>
+<li>
+<p>Expected: Deleted Activity: "ACTIVITY DETAILS"</p>
+</li>
+<li>
+<p>Test case: <code>activityDelete 99</code> (if there are only 10 activities in the list)<br>
+The activity index provided is invalid</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="adding-a-member-to-an-activity-s-attendance-list"><a class="link" href="#adding-a-member-to-an-activity-s-attendance-list">H.9. Adding a member to an activity&#8217;s attendance list</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Adding a member to an activity while all activities are listed.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all activities using the <code>aList</code> command. Multiple persons in the list.</p>
+</li>
+<li>
+<p>Test case: <code>aAddMember 1 A0111111M</code><br></p>
+</li>
+<li>
+<p>Expected: Successfully added to selected Activity: 1</p>
+</li>
+<li>
+<p>Test case: <code>aAddMember 1 A1234567N</code><br>
+Expected: MatricNumber should only contain alphanumeric characters, starting with an A and ending with an uppercase alphabet, with 7 digits in between the first and last character.
+The last letter must be a valid checksum.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="deleting-a-member-from-an-activity-s-attendance-list"><a class="link" href="#deleting-a-member-from-an-activity-s-attendance-list">H.10. Deleting a member from an activity&#8217;s attendance list</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Deleting a member from an activity while all activities are listed.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all activities using the <code>aList</code> command. Multiple persons in the list.</p>
+</li>
+<li>
+<p>Test case: <code>activityDeleteMember 1 A0111111M</code><br></p>
+</li>
+<li>
+<p>Expected: Successfully removed member from selected Activity: 1</p>
+</li>
+<li>
+<p>Test case: <code>activityDeleteMember 1 A0111111M</code><br>
+Expected: The person is not in the activity attendance list!</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="saving-data"><a class="link" href="#saving-data">H.11. Saving data</a></h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -4330,4 +4440,4 @@ Expected: Error message in result display about incorrect result format.</p>
 </div>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 15:17:05 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 15:21:55 UTC</div></div></div></body></html>
