@@ -94,18 +94,18 @@ Club Manager is catered for <strong>CCA leaders</strong> and is used for managin
 <p>Updated README and AboutUs page.</p>
 </li>
 <li>
-<p>Provided UI Walkthrough in the User Guide.</p>
+<p>Provided UI Walk-through in the User Guide.</p>
 </li>
 <li>
 <p>Designed a logo for the Club Manager Application.</p>
 </li>
-</ul>
-</div>
-<div class="paragraph">
-<p><strong>Community Contributions</strong></p>
-</div>
-<div class="ulist">
-<ul>
+<li>
+<p>Made cosmetic changes to the command summary in User Guide by categorising the commands.</p>
+</li>
+<li>
+<p>Did up the user stories, non-functional requirements, glossary, and product survey in the Developer Guide.
+<strong>Community Contributions</strong></p>
+</li>
 <li>
 <p>Actively reviewed teammates' PRs.</p>
 </li>
@@ -407,7 +407,7 @@ Format: <code>memberList</code></p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/MemberList.png" alt="MemberList" width="40%">
+<img src="../images/MemberList.png" alt="MemberList" width="30%">
 </div>
 </div>
 </div>
@@ -574,38 +574,213 @@ Sorts the list by year of study.</p>
 </tr>
 </tbody>
 </table>
-<div class="sect2">
-<h3 id="membersort"><a class="link" href="#membersort">MemberSort</a></h3>
-<h4 id="current-implementation" class="discrete">Current Implementation</h4>
+<div class="sect4">
+<h5 id="code-memberadd-code-command"><a class="link" href="#code-memberadd-code-command"><code>memberAdd</code> Command</a></h5>
+<div class="paragraph">
+<p>This command takes in a number of parameters that are contact and student information pertaining to the member. The <code>MemberAddCommandParser</code> requires that all field are present, in the required format, with the exception of tags which are optional.</p>
+</div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/MemberSortCommand_LogicComponentSequenceDiagram.png" alt="MemberSortCommand LogicComponentSequenceDiagram" width="800">
+<img src="../images/memberadd_validation.png" alt="memberadd validation" width="70%">
+</div>
+</div>
+<div class="paragraph">
+<p>Below is a step-by-step process on how the memberAdd command works on execution:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Step 1:</strong> The User executes the <code>memberAdd</code> command</p>
+</li>
+<li>
+<p><strong>Step 2:</strong> The <code>memberAdd</code> command calls the <code>Model#hasPerson()</code> to prevent duplicated members from being added to the member&#8217;s list.</p>
+</li>
+<li>
+<p><strong>Step 3:</strong> Then, the <code>memberAdd</code> call <code>Model#hasMatricNumber</code> to prevent duplication of matric number within the member&#8217;s list. This is because matric number are unique and no two students can have the same matric number.</p>
+</li>
+<li>
+<p><strong>Step 4:</strong> Once these verification have been completed, the <code>memberAdd</code> command calls <code>Model#addPerson</code> to proceed with adding the member to the member&#8217;s list.</p>
+</li>
+<li>
+<p><strong>Step 5:</strong> The <code>memberAdd</code> calls <code>Model#commitAddressBook()</code> to finalise the changes made to the patient record.</p>
+</li>
+<li>
+<p><strong>Step 6:</strong> Finally, the <code>memberAdd</code> command provides a success message to indicate that the member has been successfully added to Club Manager.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following code snippet shows how the <code>memberAdd</code> command is executed:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">    <span class="annotation">@Override</span>
+    <span class="directive">public</span> CommandResult execute(Model model, CommandHistory history) <span class="directive">throws</span> CommandException {
+        requireNonNull(model);
+
+        <span class="keyword">if</span> (model.hasPerson(toAdd)) { <i class="conum" data-value="1"></i><b>(1)</b>
+            <span class="keyword">throw</span> <span class="keyword">new</span> CommandException(MESSAGE_DUPLICATE_PERSON);
+        } <span class="keyword">else</span> <span class="keyword">if</span> (model.hasMatricNumber(toAdd.getMatricNumber())) { <i class="conum" data-value="2"></i><b>(2)</b>
+            <span class="keyword">throw</span> <span class="keyword">new</span> CommandException(MESSAGE_DUPLICATE_MATRICNUMBER);
+        }
+        model.addPerson(toAdd); <i class="conum" data-value="3"></i><b>(3)</b>
+        model.commitAddressBook();
+        <span class="keyword">return</span> <span class="keyword">new</span> CommandResult(<span class="predefined-type">String</span>.format(MESSAGE_SUCCESS, toAdd));
+    }</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Check if member already exists in Club Manager.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Check if the matric number entered is unique.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Add member to Club Manager.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="code-memberlist-code-command"><a class="link" href="#code-memberlist-code-command"><code>memberList</code> Command</a></h5>
+<div class="paragraph">
+<p>The <code>memberList</code> command retrieves all the members in the <code>UniquePersonList</code> and displays all these members on the <code>PersonListPanel</code>.</p>
+</div>
+<div class="paragraph">
+<p>Below is a step-by-step process on how the <code>memberList</code> command works on execution:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Step 1: The user executes the <code>memberList</code> command.</p>
+</li>
+<li>
+<p>Step 2: The <code>memberList</code> command will then call the <code>Model#UpdateFilteredPersonList()</code> to retrieve all the members in the UniquePersonList.</p>
+</li>
+<li>
+<p>Step 3: The <code>memberList</code> provide the command success message to indicate that the member list has been successfully listed.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="code-memberselect-code-command"><a class="link" href="#code-memberselect-code-command"><code>memberSelect</code> Command</a></h4>
+<div class="paragraph">
+<p>The <code>memberSelect</code> command selects a member (based on index) on the <code>UniquePersonList</code>.</p>
+</div>
+<div class="paragraph">
+<p>Below is a step-by-step process on how the <code>memberSelect</code> command works on execution:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Step 1:</strong> The user executes the <code>memberSelect</code> command by specifying the index of the member that the user would like to select.</p>
+</li>
+<li>
+<p><strong>Step 2:</strong> The <code>memberSelect</code> command will call <code>model#getFilteredPersonList</code> to retrieve the member&#8217;s list.</p>
+</li>
+<li>
+<p><strong>Step 3:</strong> Next, the <code>memberSelect</code> command will call <code>model#setSelectedPerson</code> from which the given index will be used to pin point the specific
+member in the <code>filteredPersonList</code>.</p>
+</li>
+<li>
+<p><strong>Step 4:</strong> Finally, the <code>memberSelect</code> command will show a command success message to indicate the member at the specified index has been successfully selected.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>memberSelect</code> command is naturally tied with the User Interface.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/updatedUIcomponent.png" alt="updatedUIcomponent" width="100%">
+</div>
+</div>
+<div class="paragraph">
+<p>When a member is selected, the <code>memberDetailPanel</code> will populate the information of the selected person. The <code>ActivitiesAttendedByMemberPanel</code> will also populate the activities that are attended by member.
+For the population of member statistics, it is less straightforward. The calling flow is UI to Logic to Model. This is illustrated in the diagram below.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/memberselect_sequence.png" alt="memberselect sequence" width="100%">
+</div>
+</div>
+<div class="sect4">
+<h5 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h5>
+<div class="paragraph">
+<p><strong>Aspect:</strong> UI calling methods from the AddressBook class</p>
+</div>
+<div class="paragraph">
+<p>There are various ways to cal the statistics methods from UI. Below are some options:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Go through the calling flow of UI to logic to model.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Abstraction principle is observed.</p>
+</li>
+<li>
+<p>Cons: More tedious for the developer to implement methods that UI requires.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Aternative 2:</strong> Go through Model directly.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Abstraction principle is violated.</p>
+</li>
+<li>
+<p>Cons: Less tedious to implement.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="membersort"><a class="link" href="#membersort">MemberSort</a></h3>
+<div class="sect3">
+<h4 id="current-implementation"><a class="link" href="#current-implementation">Current Implementation</a></h4>
+<div class="paragraph">
+<p>The <code>memberSort</code> command extends from <code>MemberCommand</code>, and modifies the <code>uniquePersonList</code> which is an observable list. The user will provide a sorting criteria,
+and the <code>memberSort</code> command will sort the members in the <code>uniquePersonList</code> based on the sorting criteria.</p>
+</div>
+<div class="paragraph">
+<p>If the sorting criteria is not name, the <code>memberSort</code> command will
+will conduct an additional sort (by name). For example, <code>memberSort yearOfStudy 2</code> will be sorted by member&#8217;s yearOfStudy, followed by member&#8217;s name.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/MemberSortCommand_LogicComponentSequenceDiagram.png" alt="MemberSortCommand LogicComponentSequenceDiagram" width="100%">
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>The <code>memberSort</code> command extends from command, and modifies the uniquePersonList which is an observable list.</p>
+<p><strong>Step 1:</strong> The user executes the <code>memberSort</code> command by specifying the sorting criteria in which the user would like to sort the list.</p>
 </li>
 <li>
-<p>It takes in a criteria from the user, and checks if the input from the user matches any of the available
-sorting criteria provided.</p>
+<p><strong>Step 2:</strong> The <code>memberSort</code> command will call <code>model#sortAddressBook</code> to retrieve the member&#8217;s list.</p>
 </li>
 <li>
-<p>If the user input matches, the uniquePersonList will be sorted based on that criteria
-If the user input does not match, then an error message will be prompted to the user.</p>
+<p><strong>Step 3:</strong> Finally, the <code>memberSort</code> command will show a command success message to indicate that the member&#8217;s list has been successfully sorted.</p>
 </li>
 </ul>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1">
-<h2 id="project-powerpointlabs"><a class="link" href="#project-powerpointlabs">PROJECT: PowerPointLabs</a></h2>
-<div class="sectionbody">
-<hr>
-<div class="paragraph">
-<p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
-</div>
-</div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 06:25:14 UTC</div></div></div></body></html>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 06:53:37 UTC</div></div></div></body></html>
