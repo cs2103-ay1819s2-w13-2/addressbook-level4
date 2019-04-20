@@ -285,57 +285,918 @@ Returns all members (matric num starts with A0)</p>
 </tr>
 </tbody>
 </table>
+<div class="sect4">
+<h5 id="code-memberdelete-code-command"><a class="link" href="#code-memberdelete-code-command"><code>memberDelete</code> Command</a></h5>
+<div class="paragraph">
+<p>The <code>memberDelete</code> command deletes a person (based on index) from the addressbook.</p>
+</div>
+<div class="paragraph">
+<p>Below is a step-by-step process on how the <code>memberDelete</code> command works on execution:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Step 1:</strong> The user executes the <code>memberDelete</code> command by specifying the index of the member that the user would like to delete.</p>
+</li>
+<li>
+<p><strong>Step 2:</strong> The <code>memberDelete</code> command will call <code>model#getFilteredPersonList</code> to retrieve the members list.</p>
+</li>
+<li>
+<p><strong>Step 3:</strong> Next, the <code>memberDelete</code> command will call <code>lastShownList#get</code> from which the given index will be used to pin point the specific
+member in the <code>filteredPersonList</code>.</p>
+</li>
+<li>
+<p><strong>Step 4:</strong> Then, the <code>memberDelete</code> command will call <code>model#removeMemberFromAllAttendance</code> to remove the member from all actvities using the member&#8217;s matriculation number.</p>
+</li>
+<li>
+<p><strong>Step 5:</strong> Afterwards, the <code>memberDelete</code> command will call <code>model#deletePerson</code> to delete the person from the Club Manager.</p>
+</li>
+<li>
+<p><strong>Step 6:</strong> Thereafter, the <code>memberDelete</code> command will call <code>model#commitAddressBook</code> to commit the changes to Club Manager.</p>
+</li>
+<li>
+<p><strong>Step 7:</strong> Finally, the <code>memberDelete</code> command provides a success message to indicate that the member has been successfully deleted from Club Manager.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following code snippet shows how <code>memberDelete</code> command is executed:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Override</span>
+    <span class="directive">public</span> CommandResult execute(Model model, CommandHistory history) <span class="directive">throws</span> CommandException {
+        requireNonNull(model);
+        <span class="predefined-type">List</span>&lt;Person&gt; lastShownList = model.getFilteredPersonList(); <span class="error">#</span> (<span class="integer">1</span>)
+
+        <span class="keyword">if</span> (targetIndex.getZeroBased() &gt;= lastShownList.size()) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX); <span class="error">#</span> (<span class="integer">2</span>)
+        }
+
+        Person personToDelete = lastShownList.get(targetIndex.getZeroBased()); <span class="error">#</span> (<span class="integer">3</span>)
+        model.removeMemberFromAllAttendance(personToDelete.getMatricNumber()); <span class="error">#</span> (<span class="integer">4</span>)
+        model.deletePerson(personToDelete); <span class="error">#</span> (<span class="integer">5</span>)
+        model.commitAddressBook();
+        <span class="keyword">return</span> <span class="keyword">new</span> CommandResult(<span class="predefined-type">String</span>.format(MESSAGE_DELETE_PERSON_SUCCESS, personToDelete));
+    }</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Gets filtered person list</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Checks if index is valid</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Gets person from filtered person list</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Gets person&#8217;s matriculation number and removes it from all activities</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Delete person from address book
+===== <code>memberEdit</code> Command
+The <code>memberEdit</code> command edits a member&#8217;s information.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Below is a step-by-step process on how the <code>memberEdit</code> command works on execution:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Step 1:</strong> The user executes the <code>memberEdit</code> command by specifying the index of the member that the user would like to edit, followed by the prefix and information to be overwritten.</p>
+</li>
+<li>
+<p><strong>Step 2:</strong> The <code>memberEdit</code> command will call <code>model#getFilteredPersonList</code> to retrieve the members list.</p>
+</li>
+<li>
+<p><strong>Step 3:</strong> Next, the <code>memberEdit</code> command will call <code>lastShownList#get</code> from which the given index will be used to pin point the specific
+member in the <code>filteredPersonList</code>.</p>
+</li>
+<li>
+<p><strong>Step 4:</strong> Then, the <code>memberEdit</code> command will call <code>createEditedPerson</code> to create a new member using the new information.</p>
+</li>
+<li>
+<p><strong>Step 5:</strong> Afterwards, the <code>memberEdit</code> command will call <code>model#SetPerson</code> to replace the outdated member in the Club Manager.</p>
+</li>
+<li>
+<p><strong>Step 6:</strong> Thereafter, the <code>memberEdit</code> command will call <code>model#updateFilteredPersonList</code> to update the filtered person list.</p>
+</li>
+<li>
+<p><strong>Step 7:</strong> Finally, the <code>memberDelete</code> command provides a success message to indicate that the member has been successfully deleted from Club Manager.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following code snippet shows how <code>memberEdit</code> command is executed:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"> <span class="annotation">@Override</span>
+    <span class="directive">public</span> CommandResult execute(Model model, CommandHistory history) <span class="directive">throws</span> CommandException {
+        requireNonNull(model);
+        <span class="predefined-type">List</span>&lt;Person&gt; lastShownList = model.getFilteredPersonList(); <span class="error">#</span> (<span class="integer">1</span>)
+
+        <span class="keyword">if</span> (index.getZeroBased() &gt;= lastShownList.size()) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX); <span class="error">#</span> (<span class="integer">2</span>)
+        }
+
+        Person personToEdit = lastShownList.get(index.getZeroBased()); <span class="error">#</span> (<span class="integer">3</span>)
+        Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor); <span class="error">#</span> (<span class="integer">4</span>)
+
+        <span class="keyword">if</span> (!personToEdit.isSamePerson(editedPerson) &amp;&amp; model.hasPerson(editedPerson)) { <span class="error">#</span> (<span class="integer">5</span>)
+            <span class="keyword">throw</span> <span class="keyword">new</span> CommandException(MESSAGE_DUPLICATE_PERSON);
+        }
+
+        model.setPerson(personToEdit, editedPerson); <span class="error">#</span> (<span class="integer">6</span>)
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS); <span class="error">#</span> (<span class="integer">7</span>)
+        model.commitAddressBook();
+        <span class="keyword">return</span> <span class="keyword">new</span> CommandResult(<span class="predefined-type">String</span>.format(MESSAGE_EDIT_PERSON_SUCCESS, editedPerson));
+    }</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Gets filtered person list</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Checks if index is valid</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Gets person from filtered person list</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Creates new person using new information</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Checks if the new person created is the same as the old person</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>Replace old entry of person with updated person</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>Update filtered person list to show changes</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="code-memberfind-code-command"><a class="link" href="#code-memberfind-code-command"><code>memberFind</code> Command</a></h5>
+<div class="paragraph">
+<p>The <code>memberFind</code> command finds all members in Club Manager that contain the keywords in their name or matricnum (as specified in command).</p>
+</div>
+<div class="paragraph">
+<p>Below is a step-by-step process on how the <code>memberFind</code> command works on execution:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Step 1:</strong> The user executes the <code>memberFind</code> command by specifying the criteria and keyword(s)of the member that the user would like to find.</p>
+</li>
+<li>
+<p><strong>Step 2:</strong> The <code>memberFind</code> command will call <code>model#getFilteredPersonList</code> to retrieve the members list of members whose name contains the name keywords or matricnum contains the matricnum keywords.</p>
+</li>
+<li>
+<p><strong>Step 3:</strong>  Finally, the <code>memberFind</code> command shows an overview of the number of members found, and displays the members found.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following code snippet shows how <code>memberFind</code> command is executed:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Override</span>
+    <span class="directive">public</span> CommandResult execute(Model model, CommandHistory history) {
+        requireNonNull(model);
+
+        <span class="keyword">if</span> (predicate.toString().equalsIgnoreCase(<span class="string"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>)) { <span class="error">#</span> (<span class="integer">1</span>)
+            model.updateFilteredPersonList(namePredicate); <span class="error">#</span> (<span class="integer">2</span>)
+        } <span class="keyword">else</span> <span class="keyword">if</span> (predicate.toString().equalsIgnoreCase(<span class="string"><span class="delimiter">&quot;</span><span class="content">matricnum</span><span class="delimiter">&quot;</span></span>)) { <span class="error">#</span> (<span class="integer">3</span>)
+            model.updateFilteredPersonList(matricNumPredicate); <span class="error">#</span> (<span class="integer">4</span>)
+        }
+        <span class="keyword">return</span> <span class="keyword">new</span> CommandResult(
+                <span class="predefined-type">String</span>.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+    }</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Checks if criteria given is "name"</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Updates filtered person list with members whose names contain the keyword</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Checks if criteria given is "matricnum"</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Updates filtered person list with members whose matriculation number contain the keyword</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="code-memberfilter-code-command"><a class="link" href="#code-memberfilter-code-command"><code>memberFilter</code> Command</a></h5>
+<div class="paragraph">
+<p><strong>Logic Component</strong></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/MemberFilter_Logic.png" alt="MemberFilter Logic" width="60%">
+</div>
+<div class="title">Figure 1. Sequence Diagram for MemberFilterCommand for the logic component.</div>
+</div>
+<div class="paragraph">
+<p><strong>Model Component</strong></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/MemberFilter_Model.png" alt="MemberFilter Model" width="60%">
+</div>
+<div class="title">Figure 2. Sequence Diagram for MemberFilterCommand for the model component.</div>
+</div>
+<div class="paragraph">
+<p>The <code>memberFilter</code> command retrieves members (based on a filter criteria) from the <code>UniquePersonList</code> and displays these members on the <code>PersonListPanel</code>.</p>
+</div>
+<div class="paragraph">
+<p>Below is a step-by-step process on how the <code>memberFilter</code> command works on execution:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Step 1: The user executes the <code>memberFilter</code> command.</p>
+</li>
+<li>
+<p>Step 2: The <code>memberFilter</code> command parser will check if the filter category entered by the user is valid. Note that this is case-insensitive.</p>
+</li>
+<li>
+<p>Step 3: Thereafter, the <code>memberFilter</code> command parser will concatenate the keywords (if there are more than one keyword). This will allow users to filter majors with multiple words.</p>
+</li>
+<li>
+<p>Step 4: The <code>memberFilter</code> command will then call <code>Model#updateFilteredPersonList</code> to filter the member&#8217;s list based on the given criteria.</p>
+</li>
+<li>
+<p>Step 4 (Continued): In this process, based on the criteria provided, the relevant predicate class
+(e.g. <code>YearOfStudyContainsKeywordsPredicate</code>) will be used and its test method will be called to test if the member in the member&#8217;s list has an exact match of the given keyword. This gradually filters the member&#8217;s list. Do note, however,
+the list generated will given as it is (no sorting carried out). Depending on the initial ordering of the member&#8217;s list, the list may or may not appear to be sorted.</p>
+</li>
+<li>
+<p>Step 5: The <code>memberFilter</code> command will then call <code>Model#getFilteredPersonList()</code> to get the filtered member&#8217;s list.</p>
+</li>
+<li>
+<p>Step 6: Finally, the memberFilter command provides a success message to indicate that the member&#8217;s list has been successfully filtered.</p>
+</li>
+</ul>
+</div>
+<div class="sect5">
+<h6 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h6>
+<div class="paragraph">
+<p><strong>Aspect:</strong> Predicate Classes</p>
+</div>
+<div class="paragraph">
+<p>To check if the user input matches the correct criteria, there are various ways. Below are some options:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice)</strong>: Check through MemberFilterCommandParser Class</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros : More organised and logical as parser classes handle the user input.</p>
+</li>
+<li>
+<p>Cons : May be less efficient as check has to be done through looping through the criteria one by one.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2</strong>: Check through individual predicate classes.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: More time efficient as only one check is required.</p>
+</li>
+<li>
+<p>Cons: Less logical and could prove to be confusing to the developer.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="future-implementation"><a class="link" href="#future-implementation">Future Implementation</a></h4>
+<div class="paragraph">
+<p>For future implementation, the <code>memberFilter</code> command could allow more than one filter, which will further allow the user to target a specific subset of members.</p>
+</div>
+<div class="sect4">
+<h5 id="code-memberlist-code-command"><a class="link" href="#code-memberlist-code-command"><code>memberList</code> Command</a></h5>
+<div class="paragraph">
+<p>The <code>memberList</code> command retrieves all the members in the <code>UniquePersonList</code> and displays all these members on the <code>PersonListPanel</code>.</p>
+</div>
+<div class="paragraph">
+<p>Below is a step-by-step process on how the <code>memberList</code> command works on execution:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Step 1: The user executes the <code>memberList</code> command.</p>
+</li>
+<li>
+<p>Step 2: The <code>memberList</code> command will then call the <code>Model#UpdateFilteredPersonList()</code> to retrieve all the members in the UniquePersonList.</p>
+</li>
+<li>
+<p>Step 3: The <code>memberList</code> provide the command success message to indicate that the member list has been successfully listed.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="code-memberselect-code-command"><a class="link" href="#code-memberselect-code-command"><code>memberSelect</code> Command</a></h5>
+<div class="paragraph">
+<p>The <code>memberSelect</code> command selects a member (based on index) on the <code>UniquePersonList</code>.</p>
+</div>
+<div class="paragraph">
+<p>Below is a step-by-step process on how the <code>memberSelect</code> command works on execution:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Step 1:</strong> The user executes the <code>memberSelect</code> command by specifying the index of the member that the user would like to select.</p>
+</li>
+<li>
+<p><strong>Step 2:</strong> The <code>memberSelect</code> command will call <code>model#getFilteredPersonList</code> to retrieve the member&#8217;s list.</p>
+</li>
+<li>
+<p><strong>Step 3:</strong> Next, the <code>memberSelect</code> command will call <code>model#setSelectedPerson</code> from which the given index will be used to pin point the specific
+member in the <code>filteredPersonList</code>.</p>
+</li>
+<li>
+<p><strong>Step 4:</strong> Finally, the <code>memberSelect</code> command will show a command success message to indicate the member at the specified index has been successfully selected.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>memberSelect</code> command is naturally tied with the User Interface.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/updatedUIcomponent.png" alt="updatedUIcomponent" width="50%">
+</div>
+<div class="title">Figure 3. Updated Ui Component Class Diagram</div>
+</div>
+<div class="paragraph">
+<p>When a member is selected, the <code>memberDetailPanel</code> will populate the information of the selected person. The <code>ActivitiesAttendedByMemberPanel</code> will also populate the activities that are attended by member.
+For the population of member statistics, it is less straightforward. The calling flow is UI to Logic to Model. This is illustrated in the diagram below.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/memberselect_sequence.png" alt="memberselect sequence" width="50%">
+</div>
+<div class="title">Figure 4. Sequence Diagram of MemberSelectCommand</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="design-considerations-2"><a class="link" href="#design-considerations-2">Design Considerations</a></h5>
+<div class="paragraph">
+<p><strong>Aspect:</strong> UI calling methods from the AddressBook class</p>
+</div>
+<div class="paragraph">
+<p>There are various ways to cal the statistics methods from UI. Below are some options:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Go through the calling flow of UI to logic to model.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Abstraction principle is observed.</p>
+</li>
+<li>
+<p>Cons: More tedious for the developer to implement methods that UI requires.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Aternative 2:</strong> Go through Model directly.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Abstraction principle is violated.</p>
+</li>
+<li>
+<p>Cons: Less tedious to implement.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
 <div class="sect2">
-<h3 id="undo-redo-feature"><a class="link" href="#undo-redo-feature">Undo/Redo feature</a></h3>
+<h3 id="membersort"><a class="link" href="#membersort">MemberSort</a></h3>
 <div class="sect3">
 <h4 id="current-implementation"><a class="link" href="#current-implementation">Current Implementation</a></h4>
 <div class="paragraph">
-<p>The undo/redo mechanism is facilitated by <code>VersionedAddressBook</code>.
-It extends <code>AddressBook</code> with an undo/redo history, stored internally as an <code>addressBookStateList</code> and <code>currentStatePointer</code>.
-Additionally, it implements the following operations:</p>
+<p>The <code>memberSort</code> command extends from <code>MemberCommand</code>, and modifies the <code>uniquePersonList</code> which is an observable list. The user will provide a sorting criteria,
+and the <code>memberSort</code> command will sort the members in the <code>uniquePersonList</code> based on the sorting criteria.</p>
+</div>
+<div class="paragraph">
+<p>If the sorting criteria is not name, the <code>memberSort</code> command will
+will conduct an additional sort (by name). For example, <code>memberSort yearOfStudy 2</code> will be sorted by member&#8217;s yearOfStudy, followed by member&#8217;s name.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/membersort_sequencediagram.png" alt="membersort sequencediagram" width="70%">
+</div>
+<div class="title">Figure 5. Sequence Diagram of MemberSortCommand</div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>VersionedAddressBook#commit()</code>&#8201;&#8212;&#8201;Saves the current address book state in its history.</p>
+<p><strong>Step 1:</strong> The user executes the <code>memberSort</code> command by specifying the sorting criteria in which the user would like to sort the list.</p>
 </li>
 <li>
-<p><code>VersionedAddressBook#undo()</code>&#8201;&#8212;&#8201;Restores the previous address book state from its history.</p>
+<p><strong>Step 2:</strong> The <code>memberSort</code> command will call <code>model#sortAddressBook</code> to retrieve the member&#8217;s list.</p>
 </li>
 <li>
-<p><code>VersionedAddressBook#redo()</code>&#8201;&#8212;&#8201;Restores a previously undone address book state from its history.</p>
+<p><strong>Step 3:</strong> Finally, the <code>memberSort</code> command will show a command success message to indicate that the member&#8217;s list has been successfully sorted.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="memberexport"><a class="link" href="#memberexport">MemberExport</a></h3>
+<div class="sect3">
+<h4 id="current-implementation-2"><a class="link" href="#current-implementation-2">Current Implementation</a></h4>
+<div class="imageblock">
+<div class="content">
+<img src="../images/MemberExportCommand_LogicComponentSequenceDiagram.png" alt="MemberExportCommand LogicComponentSequenceDiagram" width="800">
+</div>
+<div class="title">Figure 6. Sequence diagram for export function</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>memberExport</code> command extends from command and retrieves the Person object from the Model based on the specified index</p>
+</li>
+<li>
+<p>The <code>exportPerson</code> command is called with the Person object being pass into the function as a parameter. The function will get the formatting as defined in resources/exportutil personInfo.html</p>
+</li>
+<li>
+<p>The formatted string in html mark up is then passed to the <code>exportDataToFile</code> function which then creates the file and writes to it.</p>
+</li>
+<li>
+<p>If the index specified in invalid, an error message will be displayed</p>
+</li>
+<li>
+<p>Currently the exported file is in html format. The formatted document is responsive to the screen size giving 2 options.</p>
+</li>
+<li>
+<p>For large screens (diagram below)</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/MemberExportExample.png" alt="MemberExportExample" width="1000">
+</div>
+<div class="title">Figure 7. Exported file on large screens</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>For smaller mobile screens (diagram below)</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/MemberExportExampleMobile.png" alt="MemberExportExampleMobile" width="300">
+</div>
+<div class="title">Figure 8. Exported file on mobile screens</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="future-implementation-2"><a class="link" href="#future-implementation-2">Future Implementation</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>For future implementation, the <code>memberExport</code> would be able to take in an additional parameter for the selection of export format.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="activity-list-feature"><a class="link" href="#activity-list-feature">Activity List Feature</a></h3>
+<div class="paragraph">
+<p>One basic feature of <code>ClubManager</code> is to display and manage either a list of all the activities or some particular
+activities that the club has. <code>activityAdd</code> , <code>activityList</code> , <code>activityFilter</code> , <code>activityFind</code> and
+<code>activityDelete</code> commands contribute to this feature.</p>
+</div>
+<div class="sect3">
+<h4 id="current-implementation-3"><a class="link" href="#current-implementation-3">Current Implementation</a></h4>
+<h5 id="updated-model-component-to-store-activity-list" class="discrete">Updated Model Component to Store Activity List</h5>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ModelComponentWithActivityList.png" alt="ModelComponentWithActivityList" width="800">
+</div>
+<div class="title">Figure 9. Structure of the Activity Model Component</div>
+</div>
+<div class="paragraph">
+<p><strong>API</strong> : <a href="{repoURL}/src/main/java/seedu/address/model/Model.java"><code>Model.java</code></a></p>
+</div>
+<div class="paragraph">
+<p>The updated <code>Model</code>,</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>stores a <code>UserPref</code> object that represents the user&#8217;s preferences.</p>
+</li>
+<li>
+<p>stores the Address Book data.</p>
+</li>
+<li>
+<p>exposes an unmodifiable <code>ObservableList&lt;Person&gt;</code> that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.</p>
+</li>
+<li>
+<p>exposes an unmodifiable <code>ObservableList&lt;Activity&gt;</code> that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.</p>
+</li>
+<li>
+<p>Each activity can have a <code>List</code> of <code>MatricNumber</code> Object for attendance.</p>
+</li>
+</ul>
+</div>
+<h5 id="activity-add-command" class="discrete">Activity Add Command</h5>
+<div class="paragraph">
+<p>The <code>activityAdd</code> command enables users to create a new activity with name, datetime, location. User could
+also provide additional description.</p>
+</div>
+<div class="paragraph">
+<p>When user enters the command <code>activityAdd</code> in <code>Command Box</code>, the following sequence of events would occur:</p>
+</div>
+<div class="paragraph">
+<p>Step 1. An <code>ActivityAddCommandParser</code> would be generated based on user&#8217;s inputs.<br>
+The presence of required prefixes and whether any prefixes are duplicated would be checked.<br>
+Inputs would be checked in respective parser utils.<br>
+If all checks pass, an <code>ActivityAddCommand</code> would be generated with the specified <code>Activity</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. <code>ActivityAddCommand</code> would be executed by calling <code>ActivityAddCommand#execute</code> and it would attempt to
+add the new <code>Activity</code> to <code>Model</code> by calling <code>Model#addActivity</code><br>
+Whether the <code>Activity</code> can be added to <code>Model</code> would be checked in this step.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ActivityAddChecks.png" alt="ActivityAddChecks" width="600" height="300">
+</div>
+<div class="title">Figure 10. Sequence of Checks for Adding Activity</div>
+</div>
+<h5 id="activity-filter-command" class="discrete">Activity Filter Command</h5>
+<div class="paragraph">
+<p>The <code>activityFilter</code> command enables users to filter activities based on the time. Either past or
+future activities would be filtered based on the condition in the user input.</p>
+</div>
+<div class="paragraph">
+<p>The <code>activityFilter</code> mechanism is facilitated by <code>ActivityFilterCommand</code>, <code>ActivityFilterCommandParser</code>,
+<code>ActivityDateTimeAfterPredicate</code> and <code>ActivityDateTimeBeforePredicate</code>.</p>
+</div>
+<div class="paragraph">
+<p>Given below is an example usage scenario and how the <code>ActivityFilterCommand</code> is carried out at each step.</p>
+</div>
+<div class="paragraph">
+<p>Step 1. The users want to find all future <code>Activity</code> scheduled for the next seven days by inputting
+<code>activityFilter + 7</code> in the command box.</p>
+</div>
+<div class="paragraph">
+<p>Step 2. The <code>ActivityFilterCommandParser</code> will parse the input and generate an <code>ActivityDateTimeAfterPredicate</code>
+based on the <code>+</code> condition given. The predicate will be passed to <code>ActivityFilterCommand</code>.</p>
+</div>
+<div class="paragraph">
+<p>Step 3. The <code>ActivityFilterCommand</code> will call the <code>execute</code> function by executing <code>Model#updateFilteredActivityList</code></p>
+</div>
+<div class="paragraph">
+<p>Step 4. <code>AddressBook</code> will be committed due to potential update to <code>ActivityStatus</code> for each <code>Activity</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following diagram is a partial sequence diagram that summarises what happens when the user call
+<code>ActivityFilterCommand</code> starting from <code>ActivityFilterCommandParser</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ActivityFilterCommandSequenceDiagram.png" alt="ActivityFilterCommandSequenceDiagram" width="800">
+</div>
+<div class="title">Figure 11. Activity Filter Command Sequence Diagram</div>
+</div>
+<h4 id="activity-find-command" class="discrete">Activity Find Command</h4>
+<div class="paragraph">
+<p>The <code>activityFind</code> command enables users to search for activities with specific keywords in some attribute
+fields(i.e <code>ActivityName</code>, <code>ActivityDescription</code> and <code>ActivityLocation</code>).</p>
+</div>
+<div class="paragraph">
+<p>The structure and sequence of events after <code>activityFind</code> command is called is very similar to that of
+<code>activityFilter</code>. The one difference is, instead of generating a predicate based on conditions, the
+<code>ActivityFindCommandParser</code> would parse the input into a <code>Map</code> of <code>Prefix</code> mapped to a <code>List</code> of <code>String</code>(keywords)
+ and pass the map to generate an <code>ActivityContainsKeywordPredicate</code>.</p>
+</div>
+<div class="paragraph">
+<p>To avoid redundancy and repeating diagrams with minor details, the sequence of events could refer to the steps and
+sequence diagram for <code>ActivityFilterCommand</code> given above.</p>
+</div>
+<div class="paragraph">
+<p>The key component of <code>ActivityFindCommand</code> is the <code>ActivityContainsKeywordsPredicate#test</code> function. The snippet
+of code below is to show how it is implemented.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">boolean</span> test(Activity activity) {
+    <span class="comment">// all attribute fields are searched.</span>
+    <span class="keyword">if</span> (keywords.containsKey(PREFIX_ALL)) {
+        <span class="keyword">return</span> keywords.get(PREFIX_ALL).stream()
+            .anyMatch(keyword -&gt; StringUtil.containsWordIgnoreCase(activity.getName().fullActivityName, keyword)
+                || StringUtil.containsWordIgnoreCase(activity.getDescription().value, keyword)
+                || StringUtil.containsWordIgnoreCase(activity.getLocation().value, keyword));
+    }
+
+     <span class="comment">// OR search for a single boolean</span>
+   <span class="type">boolean</span> isNameMatched = keywords.get(PREFIX_ACTIVITYNAME) == <span class="predefined-constant">null</span>
+       || keywords.get(PREFIX_ACTIVITYNAME).stream()
+           .anyMatch(keyword -&gt; StringUtil.containsWordIgnoreCase(activity.getName().fullActivityName, keyword));
+
+   <span class="type">boolean</span> isDescriptionMatched = keywords.get(PREFIX_ADESCRIPTION) == <span class="predefined-constant">null</span>
+       || keywords.get(PREFIX_ADESCRIPTION).stream()
+           .anyMatch(keyword -&gt; StringUtil.containsWordIgnoreCase(activity.getDescription().value, keyword));
+
+   <span class="type">boolean</span> isLocationMatched = keywords.get(PREFIX_LOCATION) == <span class="predefined-constant">null</span>
+       || keywords.get(PREFIX_LOCATION).stream()
+           .anyMatch(keyword -&gt; StringUtil.containsWordIgnoreCase(activity.getLocation().value, keyword));
+
+   <span class="comment">// AND search between prefixes</span>
+        <span class="keyword">return</span> isNameMatched &amp;&amp; isDescriptionMatched &amp;&amp; isLocationMatched;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here is some usage scenarios to better elucidate the logic of the predicate use:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If a user want to find some <code>Activity</code> with name <code>Workshop</code> or <code>Outing</code>, it could be achieved by typing
+<code>activityFind n/Workshop Outing</code>.</p>
+</li>
+<li>
+<p>If a user want to find some <code>Activity</code> with name <code>Movie</code> or <code>Viewing</code> and the location is a <code>cinema</code>,
+<code>activityFind n/Movie Viewing l/cinema</code> could be used.<br>
+<code>Activity</code> with <code>Movie Panel Discussion</code> as <code>ActivityName</code>, <code>Club Room</code> as <code>ActivityLocation</code> would not be displayed
+by this command because it does not match the keyword provided by the location prefix.</p>
+</li>
+<li>
+<p>If no <code>Prexfix</code> is found, e.g. <code>activityFind Summer</code>, all <code>Activity</code> with <code>Summer</code> in any of the three
+fields would be listed.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="design-considerations-3"><a class="link" href="#design-considerations-3">Design Considerations</a></h4>
+<div class="paragraph">
+<p>This section describes the pros and cons of the current implementation of the activity list
+feature.</p>
+</div>
+<div class="sect4">
+<h5 id="aspect-updating-the-status-of-activities"><a class="link" href="#aspect-updating-the-status-of-activities">Aspect: Updating the status of activities</a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1(current choice):</strong> Loop through the entire <code>ActivityList</code> in <code>AddressBook</code> each time
+the predicate to <code>FilteredActivityList</code> is updated.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Ensures that all the status of <code>Activity</code> displayed by most command calls are accurate and every
+<code>Activity</code> is in the sorted position whenever the list is displayed. The given code snippet below demonstrates
+how this is achieved.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">    <span class="comment">//in ModelManager.java</span>
+    <span class="directive">public</span> <span class="type">void</span> updateFilteredActivityList(<span class="predefined-type">Predicate</span>&lt;Activity&gt; predicate) {
+        requireNonNull(predicate);
+        updateActivityList(); <span class="comment">//loop through activitylist to update any outdated status</span>
+        filteredActivities.setPredicate(predicate);
+    }</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Cons: The update function would be called for most activity commands, as it loops through the entire <code>ActivityList</code>,
+it would make the app slower in performance. There may be unnecessary loops as well.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Implement an <code>activityUpdate</code> command and <code>ActivityStatus</code> would only be updated when
+the command is called.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Faster in performance.</p>
+</li>
+<li>
+<p>Cons: <code>ActivityStatus</code> displayed in the List may be outdated and the <code>Activity</code> might not be in the correct
+sorted position.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="aspect-how-to-specify-search-field-for-code-activityfind-code"><a class="link" href="#aspect-how-to-specify-search-field-for-code-activityfind-code">Aspect: How to specify search field for <code>activityFind</code></a></h5>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Alternative 1 (current choice):</strong> Search conditions are specified by <code>Prefix</code> such as <code>n/</code> for <code>ActivityName</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: Similar to other activity commands such as <code>activityAdd</code> or <code>activityEdit</code>. More accurate results.</p>
+</li>
+<li>
+<p>Cons: May be hard for new users to remember and understand the logic.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Alternative 2:</strong> Use <code>name</code> etc. as search conditions.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pros: More intuitive for new users.</p>
+</li>
+<li>
+<p>Cons: Inconsistency with other activity commands. It may yield incorrect results as the app need to
+distinguish whether an input is a keyword or a search condition.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="activity-edit-features"><a class="link" href="#activity-edit-features">Activity Edit Features</a></h3>
+<h5 id="activity-edit-command" class="discrete">Activity Edit Command</h5>
+<div class="paragraph">
+<p><code>ClubManager</code> allows users to make changes to the information fields of activities that are currently in its activity list.</p>
+</div>
+<div class="paragraph">
+<p>The <code>activityEdit</code> command allows users to edit the name, datetime, location and description fields of existing activities in the activity list.
+At least one of the fields must be different from the existing record of the activity the user is trying to edit.</p>
+</div>
+<div class="paragraph">
+<p>When the command is entered, an <code>ActivityEditCommandParser</code> is created with the inputs provided by the user.<br>
+The ActivityEditCommandParser object would then validate the prefixes in the inputs and compare it with the current fields of the activity to check if there are any changes to be made.<br>
+After that, the individual inputs would be validated in the parser utils. Finally, if the checks pass, an <code>ActivityEditCommand</code> object would be returned.</p>
+</div>
+<div class="paragraph">
+<p>The execute command of the <code>ActivityEditCommand</code> object would then be called, and it will replace the existing Activity object (that the user wants to edit) with
+a new Activity object created with the updated fields, and any other previous information if certain fields are not edited.</p>
+</div>
+<h5 id="activity-add-member-command" class="discrete">Activity Add Member Command</h5>
+<div class="paragraph">
+<p>The <code>activityAddMember</code> command allows users to add members to the attendance list of an activity. The provided MatricNumber must be a valid MatricNumber and must belong to
+a member in the member list.</p>
+</div>
+<div class="paragraph">
+<p>When the <code>activityAddMember</code> command is executed from the UI, the inputs are parsed with the <code>ActivityAddMemberCommandParser</code> object which checks the validity of the MatricNumber.</p>
+</div>
+<div class="paragraph">
+<p>If the inputs are valid, the <code>ActivityAddMemberCommand</code> is returned from the Parser object and the execute function is called. The first check would be if the provided activity
+index number is valid, relative to the currently displayed activity list. Then, the Command object will check whether the MatricNumber belongs to a member in the member list. Finally,
+it will check that the MatricNumber provided does not belong to a member already in the activity&#8217;s attendance list.</p>
+</div>
+<div class="paragraph">
+<p>If all the checks pass, the MatricNumber object containing the member&#8217;s matric number will be stored in an ArrayList object(which represents the attendance list) belonging to the activity.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ActivityAddMember_SequenceDiagram.PNG" alt="ActivityAddMember SequenceDiagram" width="800">
+</div>
+<div class="title">Figure 12. Sequence Diagram for <code>activityAddMember</code> command</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/ActivityAddMember_ObjectDiagram.PNG" alt="ActivityAddMember ObjectDiagram" width="600" height="300">
+</div>
+<div class="title">Figure 13. Object Diagram displaying the relationship between Activity and Person when using <code>activityAddMember</code> command.</div>
+</div>
+<h5 id="activity-delete-member-command" class="discrete">Activity Delete Member Command</h5>
+<div class="paragraph">
+<p>The <code>activityDeleteMember</code> command allows users to remove members from the attendance list of an activity. The provided MatricNumber must be a valid MatricNumber and must belong to
+a member in the member list.</p>
+</div>
+<div class="paragraph">
+<p>When the <code>activityDeleteMember</code> command is executed from the UI, the inputs are parsed with the <code>ActivityDeleteMemberCommandParser</code> object which checks the validity of the MatricNumber.</p>
+</div>
+<div class="paragraph">
+<p>If the inputs are valid, the <code>ActivityDeleteMemberCommand</code> is returned from the Parser object and the execute function is called. The first check would be if the provided activity
+index number is valid, relative to the currently displayed activity list. Then, the Command object will check whether the MatricNumber belongs to a member in the member list. Finally,
+it will check that the MatricNumber provided belongs to a member already in the activity&#8217;s attendance list.</p>
+</div>
+<div class="paragraph">
+<p>If all the checks pass, the MatricNumber object containing the member&#8217;s matric number will be removed from the ArrayList object(which represents the attendance list) belonging to the activity.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="logging"><a class="link" href="#logging">Logging</a></h3>
+<div class="paragraph">
+<p>We are using <code>java.util.logging</code> package for logging. The <code>LogsCenter</code> class is used to manage the logging levels and logging destinations.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The logging level can be controlled using the <code>logLevel</code> setting in the configuration file (See <a href="#Implementation-Configuration">[Implementation-Configuration]</a>)</p>
+</li>
+<li>
+<p>The <code>Logger</code> for a class can be obtained using <code>LogsCenter.getLogger(Class)</code> which will log messages according to the specified logging level</p>
+</li>
+<li>
+<p>Currently log messages are output through: <code>Console</code> and to a <code>.log</code> file.</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>These operations are exposed in the <code>Model</code> interface as <code>Model#commitAddressBook()</code>, <code>Model#undoAddressBook()</code> and <code>Model#redoAddressBook()</code> respectively.</p>
+<p><strong>Logging Levels</strong></p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>SEVERE</code> : Critical problem detected which may possibly cause the termination of the application</p>
+</li>
+<li>
+<p><code>WARNING</code> : Can continue, but with caution</p>
+</li>
+<li>
+<p><code>INFO</code> : Information showing the noteworthy actions by the App</p>
+</li>
+<li>
+<p><code>FINE</code> : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="configuration"><a class="link" href="#configuration">Configuration</a></h3>
 <div class="paragraph">
-<p>Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.</p>
+<p>Certain properties of the application can be controlled (e.g user prefs file location, logging level) through the configuration file (default: <code>config.json</code>).</p>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="documentation"><a class="link" href="#documentation">Documentation</a></h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>Step 1. The user launches the application for the first time. The <code>VersionedAddressBook</code> will be initialized with the initial address book state, and the <code>currentStatePointer</code> pointing to that single address book state.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedoStartingStateListDiagram.png" alt="UndoRedoStartingStateListDiagram" width="800">
-</div>
-</div>
-<div class="paragraph">
-<p>Step 2. The user executes <code>delete 5</code> command to delete the 5th person in the address book. The <code>delete</code> command calls <code>Model#commitAddressBook()</code>, causing the modified state of the address book after the <code>delete 5</code> command executes to be saved in the <code>addressBookStateList</code>, and the <code>currentStatePointer</code> is shifted to the newly inserted address book state.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedoNewCommand1StateListDiagram.png" alt="UndoRedoNewCommand1StateListDiagram" width="800">
-</div>
-</div>
-<div class="paragraph">
-<p>Step 3. The user executes <code>add n/David &#8230;&#8203;</code> to add a new person. The <code>add</code> command also calls <code>Model#commitAddressBook()</code>, causing another modified address book state to be saved into the <code>addressBookStateList</code>.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedoNewCommand2StateListDiagram.png" alt="UndoRedoNewCommand2StateListDiagram" width="800">
-</div>
+<p>We use asciidoc for writing documentation.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -344,18 +1205,242 @@ Additionally, it implements the following operations:</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If a command fails its execution, it will not call <code>Model#commitAddressBook()</code>, so the address book state will not be saved into the <code>addressBookStateList</code>.
+We chose asciidoc over Markdown because asciidoc, although a bit more complex than Markdown, provides more flexibility in formatting.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="editing-documentation"><a class="link" href="#editing-documentation">Editing Documentation</a></h3>
+<div class="paragraph">
+<p>See <a href="UsingGradle.html#rendering-asciidoc-files">UsingGradle.adoc</a> to learn how to render <code>.adoc</code> files locally to preview the end result of your edits.
+Alternatively, you can download the AsciiDoc plugin for IntelliJ, which allows you to preview the changes you have made to your <code>.adoc</code> files in real-time.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="publishing-documentation"><a class="link" href="#publishing-documentation">Publishing Documentation</a></h3>
+<div class="paragraph">
+<p>See <a href="UsingTravis.html#deploying-github-pages">UsingTravis.adoc</a> to learn how to deploy GitHub Pages using Travis.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="converting-documentation-to-pdf-format"><a class="link" href="#converting-documentation-to-pdf-format">Converting Documentation to PDF format</a></h3>
+<div class="paragraph">
+<p>We use <a href="https://www.google.com/chrome/browser/desktop/">Google Chrome</a> for converting documentation to PDF format, as Chrome&#8217;s PDF engine preserves hyperlinks used in webpages.</p>
+</div>
+<div class="paragraph">
+<p>Here are the steps to convert the project documentation files to PDF format.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Follow the instructions in <a href="UsingGradle.html#rendering-asciidoc-files">UsingGradle.adoc</a> to convert the AsciiDoc files in the <code>docs/</code> directory to HTML format.</p>
+</li>
+<li>
+<p>Go to your generated HTML files in the <code>build/docs</code> folder, right click on them and select <code>Open with</code> &#8594; <code>Google Chrome</code>.</p>
+</li>
+<li>
+<p>Within Chrome, click on the <code>Print</code> option in Chrome&#8217;s menu.</p>
+</li>
+<li>
+<p>Set the destination to <code>Save as PDF</code>, then click <code>Save</code> to save a copy of the file in PDF format. For best results, use the settings indicated in the screenshot below.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/chrome_save_as_pdf.png" alt="chrome save as pdf" width="300">
+</div>
+<div class="title">Figure 14. Saving documentation as PDF files in Chrome</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="Docs-SiteWideDocSettings"><a class="link" href="#Docs-SiteWideDocSettings">Site-wide Documentation Settings</a></h3>
+<div class="paragraph">
+<p>The <a href="{repoURL}/build.gradle"><code>build.gradle</code></a> file specifies some project-specific <a href="https://asciidoctor.org/docs/user-manual/#attributes">asciidoc attributes</a> which affects how all documentation files within this project are rendered.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Attributes left unset in the <code>build.gradle</code> file will use their <strong>default value</strong>, if any.
+</td>
+</tr>
+</table>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. List of site-wide attributes</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 50%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>site-name</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The name of the website.
+If set, the name will be displayed near the top of the page.</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>not set</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>site-githuburl</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>URL to the site&#8217;s repository on <a href="https://github.com">GitHub</a>.
+Setting this will add a "View on GitHub" link in the navigation bar.</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>not set</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>site-seedu</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Define this attribute if the project is an official SE-EDU project.
+This will render the SE-EDU navigation bar at the top of the page, and add some SE-EDU-specific navigation items.</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>not set</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="Docs-PerFileDocSettings"><a class="link" href="#Docs-PerFileDocSettings">Per-file Documentation Settings</a></h3>
+<div class="paragraph">
+<p>Each <code>.adoc</code> file may also specify some file-specific <a href="https://asciidoctor.org/docs/user-manual/#attributes">asciidoc attributes</a> which affects how the file is rendered.</p>
+</div>
+<div class="paragraph">
+<p>Asciidoctor&#8217;s <a href="https://asciidoctor.org/docs/user-manual/#builtin-attributes">built-in attributes</a> may be specified and used as well.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Attributes left unset in <code>.adoc</code> files will use their <strong>default value</strong>, if any.
+</td>
+</tr>
+</table>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 2. List of per-file attributes, excluding Asciidoctor&#8217;s built-in attributes</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 50%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>site-section</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Site section that the document belongs to.
+This will cause the associated item in the navigation bar to be highlighted.
+One of: <code>UserGuide</code>, <code>DeveloperGuide</code>, <code>LearningOutcomes</code>*, <code>AboutUs</code>, <code>ContactUs</code></p>
+</div>
+<div class="paragraph">
+<p><em>* Official SE-EDU projects only</em></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>not set</em></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>no-site-header</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Set this attribute to remove the site navigation bar.</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>not set</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="site-template"><a class="link" href="#site-template">Site Template</a></h3>
+<div class="paragraph">
+<p>The files in <a href="{repoURL}/docs/stylesheets"><code>docs/stylesheets</code></a> are the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS">CSS stylesheets</a> of the site.
+You can modify them to change some properties of the site&#8217;s design.</p>
+</div>
+<div class="paragraph">
+<p>The files in <a href="{repoURL}/docs/templates"><code>docs/templates</code></a> controls the rendering of <code>.adoc</code> files into HTML5.
+These template files are written in a mixture of <a href="https://www.ruby-lang.org">Ruby</a> and <a href="http://slim-lang.com">Slim</a>.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Modifying the template files in <a href="{repoURL}/docs/templates"><code>docs/templates</code></a> requires some knowledge and experience with Ruby and Asciidoctor&#8217;s API.
+You should only modify them if you need greater control over the site&#8217;s layout than what stylesheets can provide.
+The SE-EDU team does not provide support for modified template files.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="Testing"><a class="link" href="#Testing">Testing</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="running-tests"><a class="link" href="#running-tests">Running Tests</a></h3>
+<div class="paragraph">
+<p>There are three ways to run tests.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The most reliable way to run tests is the 3rd one. The first two methods might fail some GUI tests due to platform/resolution-specific idiosyncrasies.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the <code>undo</code> command. The <code>undo</code> command will call <code>Model#undoAddressBook()</code>, which will shift the <code>currentStatePointer</code> once to the left, pointing it to the previous address book state, and restores the address book to that state.</p>
+<p><strong>Method 1: Using IntelliJ JUnit test runner</strong></p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedoExecuteUndoStateListDiagram.png" alt="UndoRedoExecuteUndoStateListDiagram" width="800">
+<div class="ulist">
+<ul>
+<li>
+<p>To run all tests, right-click on the <code>src/test/java</code> folder and choose <code>Run 'All Tests'</code></p>
+</li>
+<li>
+<p>To run a subset of tests, you can right-click on a test package, test class, or a test and choose <code>Run 'ABC'</code></p>
+</li>
+</ul>
 </div>
+<div class="paragraph">
+<p><strong>Method 2: Using Gradle</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Open a console and run the command <code>gradlew clean allTests</code> (Mac/Linux: <code>./gradlew clean allTests</code>)</p>
+</li>
+</ul>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -364,137 +1449,2552 @@ If a command fails its execution, it will not call <code>Model#commitAddressBook
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If the <code>currentStatePointer</code> is at index 0, pointing to the initial address book state, then there are no previous address book states to restore. The <code>undo</code> command uses <code>Model#canUndoAddressBook()</code> to check if this is the case. If so, it will return an error to the user rather than attempting to perform the undo.
+See <a href="UsingGradle.html">UsingGradle.adoc</a> for more info on how to run tests using Gradle.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>The following sequence diagram shows how the undo operation works:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="../images/UndoRedoSequenceDiagram.png" alt="UndoRedoSequenceDiagram" width="800">
-</div>
+<p><strong>Method 3: Using Gradle (headless)</strong></p>
 </div>
 <div class="paragraph">
-<p>The <code>redo</code> command does the opposite&#8201;&#8212;&#8201;it calls <code>Model#redoAddressBook()</code>, which shifts the <code>currentStatePointer</code> once to the right, pointing to the previously undone state, and restores the address book to that state.</p>
+<p>Thanks to the <a href="https://github.com/TestFX/TestFX">TestFX</a> library we use, our GUI tests can be run in the <em>headless</em> mode. In the headless mode, GUI tests do not show up on the screen. That means the developer can do other things on the Computer while the tests are running.</p>
 </div>
-<div class="admonitionblock note">
+<div class="paragraph">
+<p>To run tests in headless mode, open a console and run the command <code>gradlew clean headless allTests</code> (Mac/Linux: <code>./gradlew clean headless allTests</code>)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="types-of-tests"><a class="link" href="#types-of-tests">Types of tests</a></h3>
+<div class="paragraph">
+<p>We have two types of tests:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>GUI Tests</strong> - These are tests involving the GUI. They include,</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><em>System Tests</em> that test the entire App by simulating user actions on the GUI. These are in the <code>systemtests</code> package.</p>
+</li>
+<li>
+<p><em>Unit tests</em> that test the individual components. These are in <code>seedu.address.ui</code> package.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p><strong>Non-GUI Tests</strong> - These are tests not involving the GUI. They include,</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><em>Unit tests</em> targeting the lowest level methods/classes.<br>
+e.g. <code>seedu.address.commons.StringUtilTest</code></p>
+</li>
+<li>
+<p><em>Integration tests</em> that are checking the integration of multiple code units (those code units are assumed to be working).<br>
+e.g. <code>seedu.address.storage.StorageManagerTest</code></p>
+</li>
+<li>
+<p>Hybrids of unit and integration tests. These test are checking multiple code units as well as how the are connected together.<br>
+e.g. <code>seedu.address.logic.LogicManagerTest</code></p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="troubleshooting-testing"><a class="link" href="#troubleshooting-testing">Troubleshooting Testing</a></h3>
+<div class="paragraph">
+<p><strong>Problem: <code>HelpWindowTest</code> fails with a <code>NullPointerException</code>.</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Reason: One of its dependencies, <code>HelpWindow.html</code> in <code>src/main/resources/docs</code> is missing.</p>
+</li>
+<li>
+<p>Solution: Execute Gradle task <code>processResources</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="dev-ops"><a class="link" href="#dev-ops">Dev Ops</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="build-automation"><a class="link" href="#build-automation">Build Automation</a></h3>
+<div class="paragraph">
+<p>See <a href="UsingGradle.html">UsingGradle.adoc</a> to learn how to use Gradle for build automation.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="continuous-integration"><a class="link" href="#continuous-integration">Continuous Integration</a></h3>
+<div class="paragraph">
+<p>We use <a href="https://travis-ci.org/">Travis CI</a> and <a href="https://www.appveyor.com/">AppVeyor</a> to perform <em>Continuous Integration</em> on our projects. See <a href="UsingTravis.html">UsingTravis.adoc</a> and <a href="UsingAppVeyor.html">UsingAppVeyor.adoc</a> for more details.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="coverage-reporting"><a class="link" href="#coverage-reporting">Coverage Reporting</a></h3>
+<div class="paragraph">
+<p>We use <a href="https://coveralls.io/">Coveralls</a> to track the code coverage of our projects. See <a href="UsingCoveralls.html">UsingCoveralls.adoc</a> for more details.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="documentation-previews"><a class="link" href="#documentation-previews">Documentation Previews</a></h3>
+<div class="paragraph">
+<p>When a pull request has changes to asciidoc files, you can use <a href="https://www.netlify.com/">Netlify</a> to see a preview of how the HTML version of those asciidoc files will look like when the pull request is merged. See <a href="UsingNetlify.html">UsingNetlify.adoc</a> for more details.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="making-a-release"><a class="link" href="#making-a-release">Making a Release</a></h3>
+<div class="paragraph">
+<p>Here are the steps to create a new release.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Update the version number in <a href="{repoURL}/src/main/java/seedu/address/MainApp.java"><code>MainApp.java</code></a>.</p>
+</li>
+<li>
+<p>Generate a JAR file <a href="UsingGradle.html#creating-the-jar-file">using Gradle</a>.</p>
+</li>
+<li>
+<p>Tag the repo with the version number. e.g. <code>v0.1</code></p>
+</li>
+<li>
+<p><a href="https://help.github.com/articles/creating-releases/">Create a new release using GitHub</a> and upload the JAR file you created.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="managing-dependencies"><a class="link" href="#managing-dependencies">Managing Dependencies</a></h3>
+<div class="paragraph">
+<p>A project often depends on third-party libraries. For example, Address Book depends on the <a href="https://github.com/FasterXML/jackson">Jackson library</a> for JSON parsing. Managing these <em>dependencies</em> can be automated using Gradle. For example, Gradle can download the dependencies automatically, which is better than these alternatives:</p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Include those libraries in the repo (this bloats the repo size)</p>
+</li>
+<li>
+<p>Require developers to download those libraries manually (this creates extra work for developers)</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="GetStartedProgramming"><a class="link" href="#GetStartedProgramming">Appendix A: Suggested Programming Tasks to Get Started</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Suggested path for new programmers:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>First, add small local-impact (i.e. the impact of the change does not go beyond the component) enhancements to one component at a time. Some suggestions are given in <a href="#GetStartedProgramming-EachComponent">Improving each component</a>.</p>
+</li>
+<li>
+<p>Next, add a feature that touches multiple components to learn how to implement an end-to-end feature across all components. <a href="#GetStartedProgramming-RemarkCommand">Creating a new command: <code>remark</code></a> explains how to go about adding such a feature.</p>
+</li>
+</ol>
+</div>
+<div class="sect2">
+<h3 id="GetStartedProgramming-EachComponent"><a class="link" href="#GetStartedProgramming-EachComponent">Improving each component</a></h3>
+<div class="paragraph">
+<p>Each individual exercise in this section is component-based (i.e. you would not need to modify the other components to get it to work).</p>
+</div>
+<h4 id="code-logic-code-component" class="discrete"><code>Logic</code> component</h4>
+<div class="paragraph">
+<p><strong>Scenario:</strong> You are in charge of <code>logic</code>. During dog-fooding, your team realize that it is troublesome for the user to type the whole command in order to execute a command. Your team devise some strategies to help cut down the amount of typing necessary, and one of the suggestions was to implement aliases for the command words. Your job is to implement such aliases.</p>
+</div>
+<div class="admonitionblock tip">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-note" title="Note"></i>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-If the <code>currentStatePointer</code> is at index <code>addressBookStateList.size() - 1</code>, pointing to the latest address book state, then there are no undone address book states to restore. The <code>redo</code> command uses <code>Model#canRedoAddressBook()</code> to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
+Do take a look at <a href="#Design-Logic">[Design-Logic]</a> before attempting to modify the <code>Logic</code> component.
 </td>
 </tr>
 </table>
 </div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add a shorthand equivalent alias for each of the individual commands. For example, besides typing <code>clear</code>, the user can also type <code>c</code> to remove all persons in the list.</p>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Hints</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Just like we store each individual command word constant <code>COMMAND_WORD</code> inside <code>*Command.java</code> (e.g.  <a href="{repoURL}/src/main/java/seedu/address/logic/commands/MemberFindCommand.java"><code>MemberFindCommand#COMMAND_WORD</code></a>, <a href="{repoURL}/src/main/java/seedu/address/logic/commands/DeleteCommand.java"><code>DeleteCommand#COMMAND_WORD</code></a>), you need a new constant for aliases as well (e.g. <code>MemberFindCommand#COMMAND_ALIAS</code>).</p>
+</li>
+<li>
+<p><a href="{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java"><code>AddressBookParser</code></a> is responsible for analyzing command words.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Solution</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Modify the switch statement in <a href="{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java"><code>AddressBookParser#parseCommand(String)</code></a> such that both the proper command word and alias can be used to execute the same intended command.</p>
+</li>
+<li>
+<p>Add new tests for each of the aliases that you have added.</p>
+</li>
+<li>
+<p>Update the user guide to document the new aliases.</p>
+</li>
+<li>
+<p>See this <a href="https://github.com/se-edu/addressbook-level4/pull/785">PR</a> for the full solution.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<h4 id="code-model-code-component" class="discrete"><code>Model</code> component</h4>
 <div class="paragraph">
-<p>Step 5. The user then decides to execute the command <code>list</code>. Commands that do not modify the address book, such as <code>list</code>, will usually not call <code>Model#commitAddressBook()</code>, <code>Model#undoAddressBook()</code> or <code>Model#redoAddressBook()</code>. Thus, the <code>addressBookStateList</code> remains unchanged.</p>
+<p><strong>Scenario:</strong> You are in charge of <code>model</code>. One day, the <code>logic</code>-in-charge approaches you for help. He wants to implement a command such that the user is able to remove a particular tag from everyone in the address book, but the model API does not support such a functionality at the moment. Your job is to implement an API method, so that your teammate can use your API to implement his command.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Do take a look at <a href="#Design-Model">[Design-Model]</a> before attempting to modify the <code>Model</code> component.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add a <code>removeTag(Tag)</code> method. The specified tag will be removed from everyone in the address book.</p>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Hints</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The <a href="{repoURL}/src/main/java/seedu/address/model/Model.java"><code>Model</code></a> and the <a href="{repoURL}/src/main/java/seedu/address/model/AddressBook.java"><code>AddressBook</code></a> API need to be updated.</p>
+</li>
+<li>
+<p>Think about how you can use SLAP to design the method. Where should we place the main logic of deleting tags?</p>
+</li>
+<li>
+<p>Find out which of the existing API methods in  <a href="{repoURL}/src/main/java/seedu/address/model/AddressBook.java"><code>AddressBook</code></a> and <a href="{repoURL}/src/main/java/seedu/address/model/person/Person.java"><code>Person</code></a> classes can be used to implement the tag removal logic. <a href="{repoURL}/src/main/java/seedu/address/model/AddressBook.java"><code>AddressBook</code></a> allows you to update a person, and <a href="{repoURL}/src/main/java/seedu/address/model/person/Person.java"><code>Person</code></a> allows you to update the tags.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Solution</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Implement a <code>removeTag(Tag)</code> method in <a href="{repoURL}/src/main/java/seedu/address/model/AddressBook.java"><code>AddressBook</code></a>. Loop through each person, and remove the <code>tag</code> from each person.</p>
+</li>
+<li>
+<p>Add a new API method <code>deleteTag(Tag)</code> in <a href="{repoURL}/src/main/java/seedu/address/model/ModelManager.java"><code>ModelManager</code></a>. Your <a href="{repoURL}/src/main/java/seedu/address/model/ModelManager.java"><code>ModelManager</code></a> should call <code>AddressBook#removeTag(Tag)</code>.</p>
+</li>
+<li>
+<p>Add new tests for each of the new public methods that you have added.</p>
+</li>
+<li>
+<p>See this <a href="https://github.com/se-edu/addressbook-level4/pull/790">PR</a> for the full solution.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<h4 id="code-ui-code-component" class="discrete"><code>Ui</code> component</h4>
+<div class="paragraph">
+<p><strong>Scenario:</strong> You are in charge of <code>ui</code>. During a beta testing session, your team is observing how the users use your address book application. You realize that one of the users occasionally tries to delete non-existent tags from a contact, because the tags all look the same visually, and the user got confused. Another user made a typing mistake in his command, but did not realize he had done so because the error message wasn&#8217;t prominent enough. A third user keeps scrolling down the list, because he keeps forgetting the index of the last person in the list. Your job is to implement improvements to the UI to solve all these problems.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Do take a look at <a href="#Design-Ui">[Design-Ui]</a> before attempting to modify the <code>UI</code> component.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use different colors for different tags inside person cards. For example, <code>friends</code> tags can be all in brown, and <code>colleagues</code> tags can be all in yellow.</p>
+<div class="paragraph">
+<p><strong>Before</strong></p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/UndoRedoNewCommand3StateListDiagram.png" alt="UndoRedoNewCommand3StateListDiagram" width="800">
+<img src="../images/getting-started-ui-tag-before.png" alt="getting started ui tag before" width="300">
 </div>
 </div>
 <div class="paragraph">
-<p>Step 6. The user executes <code>clear</code>, which calls <code>Model#commitAddressBook()</code>. Since the <code>currentStatePointer</code> is not pointing at the end of the <code>addressBookStateList</code>, all address book states after the <code>currentStatePointer</code> will be purged. We designed it this way because it no longer makes sense to redo the <code>add n/David &#8230;&#8203;</code> command. This is the behavior that most modern desktop applications follow.</p>
+<p><strong>After</strong></p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/UndoRedoNewCommand4StateListDiagram.png" alt="UndoRedoNewCommand4StateListDiagram" width="800">
+<img src="../images/getting-started-ui-tag-after.png" alt="getting started ui tag after" width="300">
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Hints</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The tag labels are created inside <a href="{repoURL}/src/main/java/seedu/address/ui/PersonCard.java">the <code>PersonCard</code> constructor</a> (<code>new Label(tag.tagName)</code>). <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/Label.html">JavaFX&#8217;s <code>Label</code> class</a> allows you to modify the style of each Label, such as changing its color.</p>
+</li>
+<li>
+<p>Use the .css attribute <code>-fx-background-color</code> to add a color.</p>
+</li>
+<li>
+<p>You may wish to modify <a href="{repoURL}/src/main/resources/view/DarkTheme.css"><code>DarkTheme.css</code></a> to include some pre-defined colors using css, especially if you have experience with web-based css.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Solution</p>
+<div class="ulist">
+<ul>
+<li>
+<p>You can modify the existing test methods for <code>PersonCard</code> 's to include testing the tag&#8217;s color as well.</p>
+</li>
+<li>
+<p>See this <a href="https://github.com/se-edu/addressbook-level4/pull/798">PR</a> for the full solution.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The PR uses the hash code of the tag names to generate a color. This is deliberately designed to ensure consistent colors each time the application runs. You may wish to expand on this design to include additional features, such as allowing users to set their own tag colors, and directly saving the colors to storage, so that tags retain their colors even if the hash code algorithm changes.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Modify <a href="{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java"><code>NewResultAvailableEvent</code></a> such that <a href="{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java"><code>ResultDisplay</code></a> can show a different style on error (currently it shows the same regardless of errors).</p>
+<div class="paragraph">
+<p><strong>Before</strong></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/getting-started-ui-result-before.png" alt="getting started ui result before" width="200">
 </div>
 </div>
 <div class="paragraph">
-<p>The following activity diagram summarizes what happens when a user executes a new command:</p>
+<p><strong>After</strong></p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="../images/UndoRedoActivityDiagram.png" alt="UndoRedoActivityDiagram" width="650">
+<img src="../images/getting-started-ui-result-after.png" alt="getting started ui result after" width="200">
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Hints</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java"><code>NewResultAvailableEvent</code></a> is raised by <a href="{repoURL}/src/main/java/seedu/address/ui/CommandBox.java"><code>CommandBox</code></a> which also knows whether the result is a success or failure, and is caught by <a href="{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java"><code>ResultDisplay</code></a> which is where we want to change the style to.</p>
+</li>
+<li>
+<p>Refer to <a href="{repoURL}/src/main/java/seedu/address/ui/CommandBox.java"><code>CommandBox</code></a> for an example on how to display an error.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Solution</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Modify <a href="{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java"><code>NewResultAvailableEvent</code></a> 's constructor so that users of the event can indicate whether an error has occurred.</p>
+</li>
+<li>
+<p>Modify <a href="{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java"><code>ResultDisplay#handleNewResultAvailableEvent(NewResultAvailableEvent)</code></a> to react to this event appropriately.</p>
+</li>
+<li>
+<p>You can write two different kinds of tests to ensure that the functionality works:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The unit tests for <code>ResultDisplay</code> can be modified to include verification of the color.</p>
+</li>
+<li>
+<p>The system tests <a href="{repoURL}/src/test/java/systemtests/AddressBookSystemTest.java"><code>AddressBookSystemTest#assertCommandBoxShowsDefaultStyle() and AddressBookSystemTest#assertCommandBoxShowsErrorStyle()</code></a> to include verification for <code>ResultDisplay</code> as well.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>See this <a href="https://github.com/se-edu/addressbook-level4/pull/799">PR</a> for the full solution.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Do read the commits one at a time if you feel overwhelmed.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Modify the <a href="{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java"><code>StatusBarFooter</code></a> to show the total number of people in the address book.</p>
+<div class="paragraph">
+<p><strong>Before</strong></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/getting-started-ui-status-before.png" alt="getting started ui status before" width="500">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>After</strong></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/getting-started-ui-status-after.png" alt="getting started ui status after" width="500">
+</div>
+</div>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Hints</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="{repoURL}/src/main/resources/view/StatusBarFooter.fxml"><code>StatusBarFooter.fxml</code></a> will need a new <code>StatusBar</code>. Be sure to set the <code>GridPane.columnIndex</code> properly for each <code>StatusBar</code> to avoid misalignment!</p>
+</li>
+<li>
+<p><a href="{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java"><code>StatusBarFooter</code></a> needs to initialize the status bar on application start, and to update it accordingly whenever the address book is updated.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Solution</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Modify the constructor of <a href="{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java"><code>StatusBarFooter</code></a> to take in the number of persons when the application just started.</p>
+</li>
+<li>
+<p>Use <a href="{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java"><code>StatusBarFooter#handleAddressBookChangedEvent(AddressBookChangedEvent)</code></a> to update the number of persons whenever there are new changes to the addressbook.</p>
+</li>
+<li>
+<p>For tests, modify <a href="{repoURL}/src/test/java/guitests/guihandles/StatusBarFooterHandle.java"><code>StatusBarFooterHandle</code></a> by adding a state-saving functionality for the total number of people status, just like what we did for save location and sync status.</p>
+</li>
+<li>
+<p>For system tests, modify <a href="{repoURL}/src/test/java/systemtests/AddressBookSystemTest.java"><code>AddressBookSystemTest</code></a> to also verify the new total number of persons status bar.</p>
+</li>
+<li>
+<p>See this <a href="https://github.com/se-edu/addressbook-level4/pull/803">PR</a> for the full solution.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<h4 id="code-storage-code-component" class="discrete"><code>Storage</code> component</h4>
+<div class="paragraph">
+<p><strong>Scenario:</strong> You are in charge of <code>storage</code>. For your next project milestone, your team plans to implement a new feature of saving the address book to the cloud. However, the current implementation of the application constantly saves the address book after the execution of each command, which is not ideal if the user is working on limited internet connection. Your team decided that the application should instead save the changes to a temporary local backup file first, and only upload to the cloud after the user closes the application. Your job is to implement a backup API for the address book storage.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Do take a look at <a href="#Design-Storage">[Design-Storage]</a> before attempting to modify the <code>Storage</code> component.
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add a new method <code>backupAddressBook(ReadOnlyAddressBook)</code>, so that the address book can be saved in a fixed temporary location.</p>
+<div class="sidebarblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Hint</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Add the API method in <a href="{repoURL}/src/main/java/seedu/address/storage/AddressBookStorage.java"><code>AddressBookStorage</code></a> interface.</p>
+</li>
+<li>
+<p>Implement the logic in <a href="{repoURL}/src/main/java/seedu/address/storage/StorageManager.java"><code>StorageManager</code></a> and <a href="{repoURL}/src/main/java/seedu/address/storage/JsonAddressBookStorage.java"><code>JsonAddressBookStorage</code></a> class.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Solution</p>
+<div class="ulist">
+<ul>
+<li>
+<p>See this <a href="https://github.com/se-edu/addressbook-level4/pull/594">PR</a> for the full solution.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="GetStartedProgramming-RemarkCommand"><a class="link" href="#GetStartedProgramming-RemarkCommand">Creating a new command: <code>remark</code></a></h3>
+<div class="paragraph">
+<p>By creating this command, you will get a chance to learn how to implement a feature end-to-end, touching all major components of the app.</p>
+</div>
+<div class="paragraph">
+<p><strong>Scenario:</strong> You are a software maintainer for <code>addressbook</code>, as the former developer team has moved on to new projects. The current users of your application have a list of new feature requests that they hope the software will eventually have. The most popular request is to allow adding additional comments/notes about a particular contact, by providing a flexible <code>remark</code> field for each contact, rather than relying on tags alone. After designing the specification for the <code>remark</code> command, you are convinced that this feature is worth implementing. Your job is to implement the <code>remark</code> command.</p>
+</div>
+<div class="sect3">
+<h4 id="description"><a class="link" href="#description">Description</a></h4>
+<div class="paragraph">
+<p>Edits the remark for a person specified in the <code>INDEX</code>.<br>
+Format: <code>remark INDEX r/[REMARK]</code></p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>remark 1 r/Likes to drink coffee.</code><br>
+Edits the remark for the first person to <code>Likes to drink coffee.</code></p>
+</li>
+<li>
+<p><code>remark 1 r/</code><br>
+Removes the remark for the first person.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="step-by-step-instructions"><a class="link" href="#step-by-step-instructions">Step-by-step Instructions</a></h4>
+<div class="sect4">
+<h5 id="step-1-logic-teach-the-app-to-accept-remark-which-does-nothing"><a class="link" href="#step-1-logic-teach-the-app-to-accept-remark-which-does-nothing">[Step 1] Logic: Teach the app to accept 'remark' which does nothing</a></h5>
+<div class="paragraph">
+<p>Let&#8217;s start by teaching the application how to parse a <code>remark</code> command. We will add the logic of <code>remark</code> later.</p>
+</div>
+<div class="paragraph">
+<p><strong>Main:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add a <code>RemarkCommand</code> that extends <a href="{repoURL}/src/main/java/seedu/address/logic/commands/Command.java"><code>Command</code></a>. Upon execution, it should just throw an <code>Exception</code>.</p>
+</li>
+<li>
+<p>Modify <a href="{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java"><code>AddressBookParser</code></a> to accept a <code>RemarkCommand</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Tests:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add <code>RemarkCommandTest</code> that tests that <code>execute()</code> throws an Exception.</p>
+</li>
+<li>
+<p>Add new test method to <a href="{repoURL}/src/test/java/seedu/address/logic/parser/AddressBookParserTest.java"><code>AddressBookParserTest</code></a>, which tests that typing "remark" returns an instance of <code>RemarkCommand</code>.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="step-2-logic-teach-the-app-to-accept-remark-arguments"><a class="link" href="#step-2-logic-teach-the-app-to-accept-remark-arguments">[Step 2] Logic: Teach the app to accept 'remark' arguments</a></h5>
+<div class="paragraph">
+<p>Let&#8217;s teach the application to parse arguments that our <code>remark</code> command will accept. E.g. <code>1 r/Likes to drink coffee.</code></p>
+</div>
+<div class="paragraph">
+<p><strong>Main:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Modify <code>RemarkCommand</code> to take in an <code>Index</code> and <code>String</code> and print those two parameters as the error message.</p>
+</li>
+<li>
+<p>Add <code>RemarkCommandParser</code> that knows how to parse two arguments, one index and one with prefix 'r/'.</p>
+</li>
+<li>
+<p>Modify <a href="{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java"><code>AddressBookParser</code></a> to use the newly implemented <code>RemarkCommandParser</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Tests:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Modify <code>RemarkCommandTest</code> to test the <code>RemarkCommand#equals()</code> method.</p>
+</li>
+<li>
+<p>Add <code>RemarkCommandParserTest</code> that tests different boundary values
+for <code>RemarkCommandParser</code>.</p>
+</li>
+<li>
+<p>Modify <a href="{repoURL}/src/test/java/seedu/address/logic/parser/AddressBookParserTest.java"><code>AddressBookParserTest</code></a> to test that the correct command is generated according to the user input.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="step-3-ui-add-a-placeholder-for-remark-in-code-personcard-code"><a class="link" href="#step-3-ui-add-a-placeholder-for-remark-in-code-personcard-code">[Step 3] Ui: Add a placeholder for remark in <code>PersonCard</code></a></h5>
+<div class="paragraph">
+<p>Let&#8217;s add a placeholder on all our <a href="{repoURL}/src/main/java/seedu/address/ui/PersonCard.java"><code>PersonCard</code></a> s to display a remark for each person later.</p>
+</div>
+<div class="paragraph">
+<p><strong>Main:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add a <code>Label</code> with any random text inside <a href="{repoURL}/src/main/resources/view/PersonListCard.fxml"><code>PersonListCard.fxml</code></a>.</p>
+</li>
+<li>
+<p>Add FXML annotation in <a href="{repoURL}/src/main/java/seedu/address/ui/PersonCard.java"><code>PersonCard</code></a> to tie the variable to the actual label.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Tests:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Modify <a href="{repoURL}/src/test/java/guitests/guihandles/PersonCardHandle.java"><code>PersonCardHandle</code></a> so that future tests can read the contents of the remark label.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="step-4-model-add-code-remark-code-class"><a class="link" href="#step-4-model-add-code-remark-code-class">[Step 4] Model: Add <code>Remark</code> class</a></h5>
+<div class="paragraph">
+<p>We have to properly encapsulate the remark in our <a href="{repoURL}/src/main/java/seedu/address/model/person/Person.java"><code>Person</code></a> class. Instead of just using a <code>String</code>, let&#8217;s follow the conventional class structure that the codebase already uses by adding a <code>Remark</code> class.</p>
+</div>
+<div class="paragraph">
+<p><strong>Main:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add <code>Remark</code> to model component (you can copy from <a href="{repoURL}/src/main/java/seedu/address/model/person/Address.java"><code>Address</code></a>, remove the regex and change the names accordingly).</p>
+</li>
+<li>
+<p>Modify <code>RemarkCommand</code> to now take in a <code>Remark</code> instead of a <code>String</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Tests:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add test for <code>Remark</code>, to test the <code>Remark#equals()</code> method.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="step-5-model-modify-code-person-code-to-support-a-code-remark-code-field"><a class="link" href="#step-5-model-modify-code-person-code-to-support-a-code-remark-code-field">[Step 5] Model: Modify <code>Person</code> to support a <code>Remark</code> field</a></h5>
+<div class="paragraph">
+<p>Now we have the <code>Remark</code> class, we need to actually use it inside <a href="{repoURL}/src/main/java/seedu/address/model/person/Person.java"><code>Person</code></a>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Main:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add <code>getRemark()</code> in <a href="{repoURL}/src/main/java/seedu/address/model/person/Person.java"><code>Person</code></a>.</p>
+</li>
+<li>
+<p>You may assume that the user will not be able to use the <code>add</code> and <code>edit</code> commands to modify the remarks field (i.e. the person will be created without a remark).</p>
+</li>
+<li>
+<p>Modify <a href="{repoURL}/src/main/java/seedu/address/model/util/SampleDataUtil.java/"><code>SampleDataUtil</code></a> to add remarks for the sample data (delete your <code>data/addressbook.json</code> so that the application will load the sample data when you launch it.)</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="step-6-storage-add-code-remark-code-field-to-code-jsonadaptedperson-code-class"><a class="link" href="#step-6-storage-add-code-remark-code-field-to-code-jsonadaptedperson-code-class">[Step 6] Storage: Add <code>Remark</code> field to <code>JsonAdaptedPerson</code> class</a></h5>
+<div class="paragraph">
+<p>We now have <code>Remark</code> s for <code>Person</code> s, but they will be gone when we exit the application. Let&#8217;s modify <a href="{repoURL}/src/main/java/seedu/address/storage/JsonAdaptedPerson.java"><code>JsonAdaptedPerson</code></a> to include a <code>Remark</code> field so that it will be saved.</p>
+</div>
+<div class="paragraph">
+<p><strong>Main:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add a new JSON field for <code>Remark</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Tests:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Fix <code>invalidAndValidPersonAddressBook.json</code>, <code>typicalPersonsAddressBook.json</code>, <code>validAddressBook.json</code> etc., such that the JSON tests will not fail due to a missing <code>remark</code> field.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="step-6b-test-add-withremark-for-code-personbuilder-code"><a class="link" href="#step-6b-test-add-withremark-for-code-personbuilder-code">[Step 6b] Test: Add withRemark() for <code>PersonBuilder</code></a></h5>
+<div class="paragraph">
+<p>Since <code>Person</code> can now have a <code>Remark</code>, we should add a helper method to <a href="{repoURL}/src/test/java/seedu/address/testutil/PersonBuilder.java"><code>PersonBuilder</code></a>, so that users are able to create remarks when building a <a href="{repoURL}/src/main/java/seedu/address/model/person/Person.java"><code>Person</code></a>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Tests:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add a new method <code>withRemark()</code> for <a href="{repoURL}/src/test/java/seedu/address/testutil/PersonBuilder.java"><code>PersonBuilder</code></a>. This method will create a new <code>Remark</code> for the person that it is currently building.</p>
+</li>
+<li>
+<p>Try and use the method on any sample <code>Person</code> in <a href="{repoURL}/src/test/java/seedu/address/testutil/TypicalPersons.java"><code>TypicalPersons</code></a>.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="step-7-ui-connect-code-remark-code-field-to-code-personcard-code"><a class="link" href="#step-7-ui-connect-code-remark-code-field-to-code-personcard-code">[Step 7] Ui: Connect <code>Remark</code> field to <code>PersonCard</code></a></h5>
+<div class="paragraph">
+<p>Our remark label in <a href="{repoURL}/src/main/java/seedu/address/ui/PersonCard.java"><code>PersonCard</code></a> is still a placeholder. Let&#8217;s bring it to life by binding it with the actual <code>remark</code> field.</p>
+</div>
+<div class="paragraph">
+<p><strong>Main:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Modify <a href="{repoURL}/src/main/java/seedu/address/ui/PersonCard.java"><code>PersonCard</code></a>'s constructor to bind the <code>Remark</code> field to the <code>Person</code> 's remark.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Tests:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Modify <a href="{repoURL}/src/test/java/seedu/address/ui/testutil/GuiTestAssert.java"><code>GuiTestAssert#assertCardDisplaysPerson(&#8230;&#8203;)</code></a> so that it will compare the now-functioning remark label.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="step-8-logic-implement-code-remarkcommand-execute-code-logic"><a class="link" href="#step-8-logic-implement-code-remarkcommand-execute-code-logic">[Step 8] Logic: Implement <code>RemarkCommand#execute()</code> logic</a></h5>
+<div class="paragraph">
+<p>We now have everything set up&#8230;&#8203; but we still can&#8217;t modify the remarks. Let&#8217;s finish it up by adding in actual logic for our <code>remark</code> command.</p>
+</div>
+<div class="paragraph">
+<p><strong>Main:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Replace the logic in <code>RemarkCommand#execute()</code> (that currently just throws an <code>Exception</code>), with the actual logic to modify the remarks of a person.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Tests:</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Update <code>RemarkCommandTest</code> to test that the <code>execute()</code> logic works.</p>
+</li>
+</ol>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="design-considerations"><a class="link" href="#design-considerations">Design Considerations</a></h4>
-<div class="sect4">
-<h5 id="aspect-how-undo-redo-executes"><a class="link" href="#aspect-how-undo-redo-executes">Aspect: How undo &amp; redo executes</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1 (current choice):</strong> Saves the entire address book.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Easy to implement.</p>
-</li>
-<li>
-<p>Cons: May have performance issues in terms of memory usage.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Alternative 2:</strong> Individual command knows how to undo/redo by itself.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Will use less memory (e.g. for <code>delete</code>, just save the person being deleted).</p>
-</li>
-<li>
-<p>Cons: We must ensure that the implementation of each individual command are correct.</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect4">
-<h5 id="aspect-data-structure-to-support-the-undo-redo-commands"><a class="link" href="#aspect-data-structure-to-support-the-undo-redo-commands">Aspect: Data structure to support the undo/redo commands</a></h5>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Alternative 1 (current choice):</strong> Use a list to store the history of address book states.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.</p>
-</li>
-<li>
-<p>Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update both <code>HistoryManager</code> and <code>VersionedAddressBook</code>.</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><strong>Alternative 2:</strong> Use <code>HistoryManager</code> for undo/redo</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Pros: We do not need to maintain a separate list, and just reuse what is already in the codebase.</p>
-</li>
-<li>
-<p>Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as <code>HistoryManager</code> now needs to do two different things.</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
+<h4 id="full-solution"><a class="link" href="#full-solution">Full Solution</a></h4>
+<div class="paragraph">
+<p>See this <a href="https://github.com/se-edu/addressbook-level4/pull/599">PR</a> for the step-by-step solution.</p>
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="project-powerpointlabs"><a class="link" href="#project-powerpointlabs">PROJECT: PowerPointLabs</a></h2>
+<h2 id="product-scope"><a class="link" href="#product-scope">Appendix B: Product Scope</a></h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p><strong>Target user profile</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>has a need to manage a significant number of contacts</p>
+</li>
+<li>
+<p>prefer desktop apps over other types</p>
+</li>
+<li>
+<p>can type fast</p>
+</li>
+<li>
+<p>prefers typing over mouse input</p>
+</li>
+<li>
+<p>is reasonably comfortable using CLI apps</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Value proposition</strong>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Allow users to manage club members faster and more effectively than a typical mouse/ GUI-driven app.</p>
+</li>
+<li>
+<p>Allow users to plan activities better based on members’ interest.</p>
+</li>
+<li>
+<p>Avoid errors that stem from inaccurate members record (e.g. not keying in CCA points for the member due to inaccurate attendance data).</p>
+</li>
+<li>
+<p>Improve the data collection accuracy and efficiency in the member management process.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="user-stories"><a class="link" href="#user-stories">Appendix C: User Stories</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Priorities: High (must have) - <code>* * *</code>, Medium (nice to have) - <code>* *</code>, Low (unlikely to have) - <code>*</code></p>
+</div>
+<table class="tableblock frame-all grid-all" style="width: 59%;">
+<colgroup>
+<col style="width: 22%;">
+<col style="width: 23%;">
+<col style="width: 25%;">
+<col style="width: 30%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Priority</th>
+<th class="tableblock halign-left valign-top">As a &#8230;&#8203;</th>
+<th class="tableblock halign-left valign-top">I want to &#8230;&#8203;</th>
+<th class="tableblock halign-left valign-top">So that I can&#8230;&#8203;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">see who are the members in my CCA</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">track the CCA’s current membership level</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">see which members are attending an activity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">plan the activity according to the participation rate.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">view the activities that a member has participated.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">better select applicants for the main committee positions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">see the payments of each member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">track the payments of each member.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sort members into categories (e.g. race, nationality, religion, gender, year of study).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">target specific groups of members based on the type of activities offered by the CCA (e.g. interfaith CCA, Sports Club).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">add new members to the CCA</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">see the new members in the list</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">delete members from the CCA</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">see the new members in the list</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">see what are the ongoing and upcoming activities of the CCA</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sign up for activities I am interested in.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">view the list of people who have not made payment based on activity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">request payment from these members</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">conduct surveys</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">gather feedback from users</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Import and export members data</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">easily enter new members’ information from the annual CCA fair.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">to have a calendar that shows the activities</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">plan my schedule</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Record the attendance of members</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">see the new members in the list.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">send a quick SMS/email to members</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">inform them of any upcoming activities</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">track the attendance of members</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identify members who are inactive</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">add event tags to members</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">record which members are going for which events</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">remove tags from members</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">keep the address book neat after an event has concluded</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>* * *</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CCA main committee member</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">create an activity list</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">see the upcoming events</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="use-cases"><a class="link" href="#use-cases">Appendix D: Use Cases</a></h2>
+<div class="sectionbody">
+<h3 id="use-case-add-member" class="discrete">Use case: Add Member</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to add a specific member in the list</p>
+</li>
+<li>
+<p>Club Manager adds the member</p>
+</li>
+<li>
+<p>Use case ends.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The given index is invalid.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>2a1. Club Manager shows an error message.
+Use case resumes at step 1.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-delete-member" class="discrete">Use case: Delete Member</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Admin requests to list persons</p>
+</li>
+<li>
+<p>Club Manager shows a list of members</p>
+</li>
+<li>
+<p>User requests to delete a specific member in the list</p>
+</li>
+<li>
+<p>Club Manager deletes the member</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+<li>
+<p>3a. The given index is invalid.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>3a1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-sort-member-s-list" class="discrete">Use case: Sort Member&#8217;s List</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to sort the Club Manager by a sorting criteria (e.g. name, yearOfStudy).</p>
+</li>
+<li>
+<p>Club Manager sorts the members by given criteria. Thereafter, Club Manager sorts the members by name.</p>
+</li>
+<li>
+<p>Club Management System shows the sorted list.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+<li>
+<p>2a. The given index is invalid.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 1.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-edit-member" class="discrete">Use case: Edit Member</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to list persons</p>
+</li>
+<li>
+<p>Club Manager shows a list of members</p>
+</li>
+<li>
+<p>User requests to edit details of a member in the displayed list</p>
+</li>
+<li>
+<p>Club Manager edits the details of the specified member with given information.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+<li>
+<p>3a. The given index is invalid.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>3a1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-list-members" class="discrete">Use case: List Members</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to list persons</p>
+</li>
+<li>
+<p>Club Manager shows a list of members</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-select-member" class="discrete">Use case: Select Member</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to select a specific member in the list by the index number.</p>
+</li>
+<li>
+<p>Club Manager shows the details of the specific person in the list.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. List is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+<li>
+<p>2b. Member does not exist in the list.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>2b1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-find-member" class="discrete">Use case: Find Member</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to find a specific member.</p>
+</li>
+<li>
+<p>Club Manager shows the specific member.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. List is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+<li>
+<p>2b. Member does not exist in the list.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>2b1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>2c. The search index is not unique.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>2c1. Club Manager shows a list of all members who match the search index.</p>
+<div class="paragraph">
+<p>Use case resumes at step 1.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-add-activity" class="discrete">Use case: Add Activity</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to add a new activity in the list</p>
+</li>
+<li>
+<p>Club Manager adds the activity</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The given input is invalid.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>2a1. Club Manager shows an error message.
+Use case resumes at step 1.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-edit-activity" class="discrete">Use case: Edit Activity</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to list activities</p>
+</li>
+<li>
+<p>Club Manager shows a list of activities</p>
+</li>
+<li>
+<p>User requests to edit details of an activity in the displayed list</p>
+</li>
+<li>
+<p>Club Manager edits the details of the specified member with given information.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+<li>
+<p>3a. The given index or parameters is/are invalid.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>3a1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-add-member-to-activity" class="discrete">Use case: Add Member to Activity</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to list activities</p>
+</li>
+<li>
+<p>Club Manager shows a list of activities</p>
+</li>
+<li>
+<p>User requests to add a member to the attendance list of an activity</p>
+</li>
+<li>
+<p>Club Manager adds the member to the activity&#8217;s attendance list</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+<li>
+<p>3a. The given activity index is invalid</p>
+<div class="ulist">
+<ul>
+<li>
+<p>3a1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>3b. The specified member does not exist.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>3b1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>3c. The specified member is already in the attendance list.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>3c1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-remove-member-from-activity" class="discrete">Use case: Remove Member from Activity</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to list activities</p>
+</li>
+<li>
+<p>Club Manager shows a list of activities</p>
+</li>
+<li>
+<p>User requests to remove a member from the attendance list of an activity</p>
+</li>
+<li>
+<p>Club Manager removes the member to the activity&#8217;s attendance list</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+<li>
+<p>3a. The given activity index is invalid</p>
+<div class="ulist">
+<ul>
+<li>
+<p>3a1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>3b. The specified member does not exist.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>3b1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>3c. The specified member is not in the attendance list.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>3c1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-delete-activity" class="discrete">Use case: Delete Activity</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to list activities</p>
+</li>
+<li>
+<p>Club Manager shows a list of activities</p>
+</li>
+<li>
+<p>User requests to permanently delete an activity from the activity list</p>
+</li>
+<li>
+<p>Club Manager deletes the activity.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+<li>
+<p>3a. The given activity index is invalid</p>
+<div class="ulist">
+<ul>
+<li>
+<p>3a1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-list-activity" class="discrete">Use case: List Activity</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to list activities</p>
+</li>
+<li>
+<p>Club Manager shows a list of activities</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-select-activity" class="discrete">Use case: Select Activity</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to list activities</p>
+</li>
+<li>
+<p>Club Manager shows a list of activities</p>
+</li>
+<li>
+<p>User request to select an activity from the displayed list</p>
+</li>
+<li>
+<p>Club Manager shows the details of the selected activity</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>2a. The list is empty.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+<li>
+<p>3a. The given index is invalid.</p>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>3a1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case resumes at step 2.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<h3 id="use-case-find-activity" class="discrete">Use case: Find Activity</h3>
+<div class="paragraph">
+<p><strong>Main Success Scenario (MSS)</strong></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>User requests to find activities based on keywords</p>
+</li>
+<li>
+<p>Club Manager finds the activities with the given keywords</p>
+</li>
+<li>
+<p>Club Manager displays the list of activities that matches the keywords</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Extensions</strong></p>
+</div>
+<div class="ulist none">
+<ul class="none">
+<li>
+<p>1a. Keyword input is invalid
++[none]</p>
+<div class="ulist">
+<ul>
+<li>
+<p>1a1. Club Manager shows an error message.</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>3a. The list is empty</p>
+<div class="paragraph">
+<p>Use case ends.</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><em>{More to be added}</em></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="non-functional-requirements"><a class="link" href="#non-functional-requirements">Appendix E: Non Functional Requirements</a></h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Should work on any <a href="#mainstream-os">mainstream OS</a> as long as it has Java <code>9</code> or higher installed.</p>
+</li>
+<li>
+<p>Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.</p>
+</li>
+<li>
+<p>A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><em>{More to be added}</em></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="glossary"><a class="link" href="#glossary">Appendix F: Glossary</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section is designed to provide you with definitions for
+terms that are used in this document below.</p>
+</div>
+<div class="hdlist">
+<table>
+<tr>
+<td class="hdlist1">
+<a id="CLI"></a> CLI
+</td>
+<td class="hdlist2">
+<p>Command Line Interface</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="CCA"></a> CCA
+</td>
+<td class="hdlist2">
+<p>Co-Curricular Activities</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="crud"></a> Create, Read, Update and Delete (CRUD)
+</td>
+<td class="hdlist2">
+<p>Basic functions of a database</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="GUI"></a> GUI
+</td>
+<td class="hdlist2">
+<p>Graphical User Interface</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="Main-Committee-Member"></a> Main Committee Member
+</td>
+<td class="hdlist2">
+<p>A person who is in the core team of organisers for the CCA.</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="mainstream-os"></a> Mainstream OS
+</td>
+<td class="hdlist2">
+<p>Windows, Linux, Unix, OS-X</p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+<a id="Sub-Committee-Member"></a> Sub-Committee Member
+</td>
+<td class="hdlist2">
+<p>A person who is an active member of the CCA, but do not play any organiser role.</p>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="product-survey"><a class="link" href="#product-survey">Appendix G: Product Survey</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Product Name:</strong> EventBank</p>
+</div>
+<div class="paragraph">
+<p>Author: Joel Ng</p>
+</div>
+<div class="paragraph">
+<p>Pros:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Has necessary relevant features to a member management system</p>
+</li>
+<li>
+<p>Available in Desktop and Mobile Platforms.</p>
+</li>
+<li>
+<p>Easy to use and set up activities for members.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Cons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Does not clearly differentiate the Users application and the managers application well. This caused managers to download the users application.</p>
+</li>
+<li>
+<p>Interface could be more intuitive e.g. allowing preview of corporate members.</p>
+</li>
+<li>
+<p>No training document provided. Users have to contact the support manager for “how to” questions.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="instructions-for-manual-testing"><a class="link" href="#instructions-for-manual-testing">Appendix H: Instructions for Manual Testing</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Given below are instructions to test the app manually.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+These instructions only provide a starting point for testers to work on; testers are expected to do more <em>exploratory</em> testing.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="launch-and-shutdown"><a class="link" href="#launch-and-shutdown">Launch and Shutdown</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Initial launch</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Download the jar file and copy into an empty folder</p>
+</li>
+<li>
+<p>Double-click the jar file<br>
+Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Saving window preferences</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Resize the window to an optimum size. Move the window to a different location. Close the window.</p>
+</li>
+<li>
+<p>Re-launch the app by double-clicking the jar file.<br>
+Expected: The most recent window size and location is retained.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="adding-a-member"><a class="link" href="#adding-a-member">Adding a member</a></h3>
+<div class="paragraph">
+<p>You are adding a new member to Club Manager</p>
+</div>
+<div class="paragraph">
+<p>Instructions:</p>
+</div>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Test case:</strong> `memberAdd n/Lim Sun Yong mn/A0187456N p/87961012 e/johnd@example.com a/311, Tiong Bahru Ave 5, #12-03 g/Male y/2 m/Law t/Tennis
+`<br>
+   <strong>Expected:</strong> New member added: Lim Sun Yong Matric Number: A0187456N Phone: 87961012 Email: <a href="mailto:johnd@example.com">johnd@example.com</a> Address: 311, Tiong Bahru Ave 5, #12-03 Gender: Male Year of Study: Year 2 Major: Law Tags: [Tennis]</p>
+</li>
+<li>
+<p><strong>Test case:</strong> <code>memberAdd n/Tan Xun Song mn/A0192595N p/811619921 e/txs@example.com a/311, Jurong West Ave 3, #12-03 g/Female y/2 m/Medicine t/Archery</code><br>
+<strong>Expected:</strong> Phone numbers should only start with 6, 8 or 9, and it should be only be 8 digits long.</p>
+</li>
+<li>
+<p><strong>Test case:</strong> <code>memberAdd n/Tan Xun Song mn/A0187456N p/81161992 e/txs@example.com a/311, Jurong West Ave 3, #12-03 g/Female y/2 m/Medicine t/Archery</code><br>
+<strong>Expected:</strong> This matricNumber already exists in Club Manager.</p>
+</li>
+<li>
+<p><strong>Test case:</strong> <code>memberAdd n/Tan Xun Song mn/A0192595Z p/81161992 e/txs@example.com a/311, Jurong West Ave 3, #12-03 g/Female y/2 m/Medicine t/Archery</code><br>
+<strong>Expected:</strong> MatricNumber should only contain alphanumeric characters, starting with an A and ending with an uppercase alphabet, with 7 digits in between the first and last character. The last letter must be a valid checksum.</p>
+</li>
+<li>
+<p><strong>Test case:</strong> <code>memberAdd n/Tan Xun Song mn/A0192595N p/81161992 e/txs@example.com a/311, Jurong West Ave 3, #12-03 g/chicken y/2 m/Medicine t/Archery</code><br>
+<strong>Expected:</strong> Gender should be Male or Female, and it should not be blank</p>
+</li>
+<li>
+<p><strong>Test case:</strong> <code>memberAdd n/Tan Xun Song mn/A0192595N p/81161992 e/txs@example.com a/311, Jurong West Ave 3, #12-03 g/Female y/0 m/Medicine t/Archery</code><br>
+<strong>Expected:</strong> YearOfStudy should only contain a single digit between 1 to 6 and it should not be blank</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="filtering-member-s-list"><a class="link" href="#filtering-member-s-list">Filtering Member&#8217;s List</a></h3>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Test case:</strong> <code>memberFilter yearofstudy 2</code><br>
+<strong>Expected:</strong> _ member(s) listed!!</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="listing-all-members"><a class="link" href="#listing-all-members">Listing all Members</a></h3>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Test case:</strong> <code>memberList</code><br>
+<strong>Expected:</strong> Listed all persons</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="select-a-member"><a class="link" href="#select-a-member">Select a Member</a></h3>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Test case:</strong> <code>memberSelect 1</code><br>
+<strong>Expected:</strong> Selected Person: 1</p>
+</li>
+<li>
+<p><strong>Test case:</strong> <code>memberSelect 0</code><br>
+<strong>Expected:</strong> Invalid command format!
+            memberSelect: Selects the member identified by the index number used in the displayed member list.
+            Parameters: INDEX (must be a positive integer)</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="sorting-member-s-list"><a class="link" href="#sorting-member-s-list">Sorting Member&#8217;s List</a></h3>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Test case:</strong> <code>memberSort name</code><br>
+<strong>Expected:</strong> Members' list successfully sorted!</p>
+</li>
+<li>
+<p><strong>Test case:</strong> <code>memberSort names</code><br>
+<strong>Expected:</strong> Invalid command format!
+            memberSort: Sorts all members in the members' list based on the specified attribute (case-insensitive).
+            Parameters: KEYWORD&#8230;&#8203;</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="modes-of-operation-feature-for-code-mode-code"><a class="link" href="#modes-of-operation-feature-for-code-mode-code">Modes of Operation Feature for <code>mode</code></a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Initial launch mode</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>App should start in MEMBER mode, indicated by the label on the top right corner of app window.</p>
+</li>
+<li>
+<p>Test case: <code>mode</code><br>
+Expected: Returns 'Mode MEMBER' in the Result Display Panel.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Mode changes correctly from MEMBER</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: ClubManager is in MEMBER mode</p>
+</li>
+<li>
+<p>Test case: <code>mode MEMBER</code><br>
+Expected: Returns 'Mode is already: MEMBER'.</p>
+</li>
+<li>
+<p>Test case: <code>mode ACTIVITY</code><br>
+Expected: Returns 'Mode changed to ACTIVITY', and is indicated by the label on the top right corner of app window.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Mode changes correctly from ACTIVITY</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: ClubManager is in ACTIVITY mode.</p>
+</li>
+<li>
+<p>Test case: <code>mode ACTIVITY</code><br>
+Expected: Returns 'Mode is already: ACTIVITY'.</p>
+</li>
+<li>
+<p>Test case: <code>mode MEMBER</code><br>
+Expected: Returns 'Mode changed to MEMBER', and is indicated by the label on the top right corner of app window.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Only Member Commands and Generic Commands work in MEMBER mode</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: ClubManager is in MEMBER mode.</p>
+</li>
+<li>
+<p>Test case: <code>memberSelect 1</code><br>
+Expected: Person at index 1 of the list is selected. Member details panel shows details of person at index 1. Returns 'Selected Person: 1'.</p>
+</li>
+<li>
+<p>Test case: <code>activityList</code><br>
+Expected: Error message 'Invalid command mode! Allowed Mode : ACTIVITY' and prompt mode usage to change mode.</p>
+</li>
+<li>
+<p>Test case: <code>help</code><br>
+Expected: Help window opens.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Only Activity Commands and Generic Commands work in ACTIVITY mode</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: ClubManager is in ACTIVITY mode.</p>
+</li>
+<li>
+<p>Test case: <code>activitySelect 1</code><br>
+Expected: Activity at index 1 of the list is selected. Activity details panel shows details of activity at index 1. Returns 'Selected Activity: 1'.</p>
+</li>
+<li>
+<p>Test case: <code>memberList</code><br>
+Expected: Error message 'Invalid command mode! Allowed Mode : MEMBER' and prompt mode usage to change mode.</p>
+</li>
+<li>
+<p>Test case: <code>help</code><br>
+Expected: Help window opens.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>ClubManager mode resets in MEMBER mode after <code>clear</code> operation in MEMBER mode.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: ClubManager is in MEMBER mode.</p>
+</li>
+<li>
+<p>Test case: <code>clear</code><br>
+Expected: App in mode MEMBER indicated by the label on the top right corner of app window.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>ClubManager mode resets in MEMBER mode after <code>clear</code> operation in ACTIVITY mode.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: ClubManager is in ACTIVITY mode.</p>
+</li>
+<li>
+<p>Test case: <code>clear</code><br>
+Expected: App in mode MEMBER indicated by the label on the top right corner of app window.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="deleting-a-person"><a class="link" href="#deleting-a-person">Deleting a person</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Deleting a person while all persons are listed</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all persons using the <code>memberList</code> command. Multiple persons in the list.</p>
+</li>
+<li>
+<p>Test case: <code>memberDelete 1</code><br>
+Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.</p>
+</li>
+<li>
+<p>Test case: <code>memberDelete 0</code><br>
+Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.</p>
+</li>
+<li>
+<p>Other incorrect delete commands to try: <code>memberDelete</code>, <code>memberDelete x</code> (where x is larger than the list size) <em>{give more}</em><br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="editing-a-person"><a class="link" href="#editing-a-person">Editing a person</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Editing a person while all persons are listed</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all persons using the <code>memberList</code> command. Multiple persons in the list.</p>
+</li>
+<li>
+<p>Test case: <code>memberEdit 1 yos/4</code><br>
+Expected: First contact&#8217;s year of study is changed to Year 4. New details shown in status message. Timestamp in the status bar is updated.</p>
+</li>
+<li>
+<p>Test case: <code>memberEdit 1 mn/A0157138B</code><br>
+Expected: First contact matriculation number is not edited. Error on status message says that matriculation number cannot be edited. Status bar remains the same.</p>
+</li>
+<li>
+<p>Other incorrect edit commands to try: <code>memberEdit 0</code>, <code>memberEdit 1 n/</code>, <code>memberEdit 1 z/</code><br>
+Expected: No person is edited. Error details shown in the status message. Similar to previous.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="finding-a-person"><a class="link" href="#finding-a-person">Finding a person</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Finding a person while all persons are listed</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all persons using the <code>memberList</code> command. Multiple persons in the list.</p>
+</li>
+<li>
+<p>Test case: <code>memberFind name john</code><br>
+Expected: All members whose names contain fully or partially "john" will be displayed. Status message shows number of members found. Timestamp in the status bar is updated.</p>
+</li>
+<li>
+<p>Test case: <code>memberFind john</code><br>
+Expected: Display does not change. Error message shown on status message. Timstamp remains the same.</p>
+</li>
+<li>
+<p>Other incorrect find commands to try: <code>memberFind hello</code>, `memberFind `, any case which does not have the correct criteria ("name" or "matricnum" only)<br>
+Expected: Similar to previous.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><em>{ more test cases &#8230;&#8203; }</em></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="activity-list-feature-2"><a class="link" href="#activity-list-feature-2">Activity List Feature</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Adding an activity to the activity list - <code>activityAdd</code></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: The ClubManager in <code>mode activity</code>. The activity to add is not already in the list.
+No duplicated activities or time and location clash for the activity to add.</p>
+</li>
+<li>
+<p>Test case: <code>activityAdd n/Test activity d/25/06/2019 1900 l/NUS de/test activity</code><br>
+Expected: Activity added to the correct location in the list.</p>
+</li>
+<li>
+<p>Test case: <code>activityAdd n/Test activity d/25/06/2019 2500 l/NUS de/test activity</code><br>
+Expected: Error message with prompt for correct time input format.</p>
+</li>
+<li>
+<p>Other incorrect activity add commands to try: <code>activityAdd</code>, <code>activityAdd x/</code> (where x
+is an invalid prefix), <code>activityAdd n/Some activity d/20/03/2019 1000 d/30/03/2019 2039 l/here</code>
+(activity with duplicated prefix) &#8230;&#8203;<br>
+    Expected: Error message.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Finding activities based on keywords - <code>activityFind</code></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: The ClubManager in <code>mode activity</code>. Some activities matching the keywords are in
+the activity list.</p>
+</li>
+<li>
+<p>Test case: <code>activityFind CS2103</code><br>
+Expected: Activities with <code>CS2103</code> in <code>name</code> or <code>location</code> or <code>description</code> are listed</p>
+</li>
+<li>
+<p>Test case: <code>activityFind n/Movie Outing</code><br>
+Expected: Activities with name containing either <code>Movie</code> or <code>Outing</code> will be listed.</p>
+</li>
+<li>
+<p>Test case: <code>activityFind d/20/02/2019 0910</code><br>
+Expected: Error message.</p>
+</li>
+<li>
+<p>Other incorrect input for <code>activityFind</code> command: <code>activityFind</code>, <code>activityFind n/</code><br>
+Expected: Error message</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Filtering activities - <code>activityFilter</code></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: The ClubManager in <code>mode activity</code>. Some activities in the activity list.</p>
+</li>
+<li>
+<p>Test case: <code>activityFilter + 30</code><br>
+Expected: Upcoming activities in the next 30 days are listed.</p>
+</li>
+<li>
+<p>Test case: <code>activityFilter -3</code><br>
+Expected: Error message in result display about incorrect result format.</p>
+</li>
+<li>
+<p>Other incorrect input for <code>activityFilter</code> command: <code>activityFilter + 0</code>,
+<code>activityFilter + randomsomething</code><br>
+   Expected: Same as above.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="editing-an-activity"><a class="link" href="#editing-an-activity">Editing an activity</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Editing an activity while all activities are listed.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all activities using the <code>aList</code> command. Multiple persons in the list.</p>
+</li>
+<li>
+<p>Test case: <code>activityEdit 1 n/New Activity d/13/02/2019 1200 l/Com1 de/Bring calculator</code><br></p>
+</li>
+<li>
+<p>Expected: Edited Activity: New Activity Date Time: 13/02/2019 1200 Location: Com1 Description: Bring calculator Number Attending: "NUM_ATTENDING"</p>
+</li>
+<li>
+<p>Test case: <code>aEdit 0</code><br>
+Expected: Invalid command format!</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="deleting-an-activity"><a class="link" href="#deleting-an-activity">Deleting an activity</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Deleting an activity while all activities are listed.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all activities using the <code>aList</code> command. Multiple persons in the list.</p>
+</li>
+<li>
+<p>Test case: <code>activityDelete 1</code><br></p>
+</li>
+<li>
+<p>Expected: Deleted Activity: "ACTIVITY DETAILS"</p>
+</li>
+<li>
+<p>Test case: <code>activityDelete 99</code> (if there are only 10 activities in the list)<br>
+The activity index provided is invalid</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="adding-a-member-to-an-activity-s-attendance-list"><a class="link" href="#adding-a-member-to-an-activity-s-attendance-list">Adding a member to an activity&#8217;s attendance list</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Adding a member to an activity while all activities are listed.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all activities using the <code>aList</code> command. Multiple persons in the list.</p>
+</li>
+<li>
+<p>Test case: <code>aAddMember 1 A0111111M</code><br></p>
+</li>
+<li>
+<p>Expected: Successfully added to selected Activity: 1</p>
+</li>
+<li>
+<p>Test case: <code>aAddMember 1 A1234567N</code><br>
+Expected: MatricNumber should only contain alphanumeric characters, starting with an A and ending with an uppercase alphabet, with 7 digits in between the first and last character.
+The last letter must be a valid checksum.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="deleting-a-member-from-an-activity-s-attendance-list"><a class="link" href="#deleting-a-member-from-an-activity-s-attendance-list">Deleting a member from an activity&#8217;s attendance list</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Deleting a member from an activity while all activities are listed.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: List all activities using the <code>aList</code> command. Multiple persons in the list.</p>
+</li>
+<li>
+<p>Test case: <code>activityDeleteMember 1 A0111111M</code><br></p>
+</li>
+<li>
+<p>Expected: Successfully removed member from selected Activity: 1</p>
+</li>
+<li>
+<p>Test case: <code>activityDeleteMember 1 A0111111M</code><br>
+Expected: The person is not in the activity attendance list!</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="saving-data"><a class="link" href="#saving-data">Saving data</a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Dealing with missing/corrupted data files</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><em>{explain how to simulate a missing/corrupted file and the expected behavior}</em></p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><em>{ more test cases &#8230;&#8203; }</em></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="export-feature-for-member-code-memberexport-code-or-code-mexport-code"><a class="link" href="#export-feature-for-member-code-memberexport-code-or-code-mexport-code">Export Feature for MEMBER <code>memberExport</code> or <code>mExport</code></a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>App exports member data to file when index if member exists in list.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: ClubManager is in MEMBER mode. There is a member in the list at index 1 and none at index 999.</p>
+</li>
+<li>
+<p>Test case: <code>memberExport</code><br>
+Expected: Error message, shows command usage instructions.</p>
+</li>
+<li>
+<p>Test case: <code>mExport</code><br>
+Expected: Error message, shows command usage instructions.</p>
+</li>
+<li>
+<p>Test case: <code>memberExport 1</code><br>
+Expected: File created at root folder where the jar file is situated.</p>
+</li>
+<li>
+<p>Test case: <code>memberExport 999</code><br>
+Expected: Retuens 'The member index provided is invalid.'. No file is created.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="export-feature-for-activity-code-activityexport-code-or-code-aexport-code"><a class="link" href="#export-feature-for-activity-code-activityexport-code-or-code-aexport-code">Export Feature for ACTIVITY <code>activityExport</code> or <code>aExport</code></a></h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>App exports member data to file when index if member exists in list.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Prerequisites: ClubManager is in ACTIVITY mode. There is an activity in the list at index 1 and none at index 999.</p>
+</li>
+<li>
+<p>Test case: <code>activityExport</code><br>
+Expected: Error message, shows command usage instructions.</p>
+</li>
+<li>
+<p>Test case: <code>aExport</code><br>
+Expected: Error message, shows command usage instructions.</p>
+</li>
+<li>
+<p>Test case: <code>activityExport 1</code><br>
+Expected: File created at root folder where the jar file is situated.</p>
+</li>
+<li>
+<p>Test case: <code>activityExport 999</code><br>
+   Expected: Returns 'The activity index provided is invalid.'. No file is created.
+== PROJECT: PowerPointLabs</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
 <hr>
 <div class="paragraph">
 <p><em>{Optionally, you may include other projects in your portfolio.}</em></p>
 </div>
 </div>
-</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-15 15:35:55 UTC</div></div></div></body></html>
+</div>
+</div></div><div id="footer"><div class="container"><div id="footer-text">Last updated 2019-04-20 16:29:06 UTC</div></div></div></body></html>
