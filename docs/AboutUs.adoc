@@ -22,11 +22,19 @@ Responsibilities:
 
 '''
 
-=== Joel
-Role: Developer +
+=== Joel Ng Zhi Hao
+image::joel0111.png[width="150", align="left"]
+{empty}[http://github.com/joel0111[github]] [<<joel0111#, portfolio>>]
+
+Role: Developer (Documentation) +
 Responsibilities:
 
+* Responsible for the quality of the various project documents.
+
 Other Roles
+
+* In charge of UI.
+* Working on Member Management feature.
 
 
 '''
